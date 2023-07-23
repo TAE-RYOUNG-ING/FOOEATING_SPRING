@@ -1,0 +1,2 @@
+# FOOEATING_SPRING
+JSP로 개발한 FOOEATING 프로젝트 SPRING으로 리팩토링
