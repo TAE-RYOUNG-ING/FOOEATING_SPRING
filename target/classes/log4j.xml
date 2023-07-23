@@ -12,7 +12,15 @@
 	
 	<!-- Application Loggers -->
 	<logger name="com.foo.controller">
-		<level value="info" />
+		<level value="debug" />
+	</logger>
+	
+	<logger name="com.foo.service">
+		<level value="debug" />
+	</logger>
+	
+	<logger name="com.foo.persistence">
+		<level value="debug" />
 	</logger>
 	
 	<!-- 3rdparty Loggers -->

@@ -8,6 +8,7 @@
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
+	<!-- 프로젝트의 웹 관련 부분을 관리하는 파일 -->
 	
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
@@ -21,8 +22,20 @@
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
 	
-	<context:component-scan base-package="com.foo.controller" />
 	
+	
+	<!-- 파일업로드 설정 -->
+	<beans:bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<beans:property name="maxUploadSize" value="52428800"/>
+		<beans:property name="maxInMemorySize" value="1000000"/>
+		<beans:property name="defaultEncoding" value="UTF-8"/>
+	</beans:bean>
+	<!-- 파일업로드 설정 -->
+	
+	
+	<!-- 외부 객체 등록 -->
+	<context:component-scan base-package="com.foo.controller" />
+	<!-- 외부 객체 등록 -->
 	
 	
 </beans:beans>

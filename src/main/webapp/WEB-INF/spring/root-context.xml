@@ -1,8 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:mybatis-spring="http://mybatis.org/schema/mybatis-spring"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
+		http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
 	
 	<!-- Root Context: defines shared resources visible to all other web components -->
-		
+	<!-- 프로젝트 관련된 모든 정보(객체) 생성파일(웹 제외) -->
+	<!-- 주석문 사용 주의! (태그 사이의 주석문 생성 x) -->
+	
+	
+	
+	<!-- DataSource : DB연결정보 객체 -->
+	<bean id="dataSource"
+	      class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+<!-- 	    <property name="driverClassName"  -->
+<!-- 	              value="com.mysql.cj.jdbc.Driver"/> -->
+<!-- 	    <property name="url"  -->
+<!-- 	              value="jdbc:mysql://localhost:3306/springdb" /> -->
+	    <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"/>
+	    <property name="url" 
+	              value="jdbc:log4jdbc:mysql://itwillbs-rds-class7-team1.cwyqfeylunq5.ap-northeast-2.rds.amazonaws.com:3306/Alcoholic" />
+	    <property name="username" value="root" />
+	    <property name="password" value="class70118" />
+	</bean>
+	<!-- DataSource : DB연결정보 객체 -->
+	
+	
+	
+	<!-- SqlSessionFactory : DB연결 / MyBatis설정 / SQL실행 -->
+	<bean id="sqlSessionFactory"
+	      class="org.mybatis.spring.SqlSessionFactoryBean">
+		  <property name="dataSource" ref="dataSource" />   
+		  <property name="configLocation" 
+		            value="classpath:/mybatis-config.xml" />  
+		  <property name="mapperLocations" 
+		            value="classpath:mappers/**/*Mapper.xml" />
+	</bean>
+	<!-- SqlSessionFactory : DB연결 / MyBatis설정 / SQL실행 -->
+	
+	
+	
+	<!-- SqlSessionTemplate : DB연결 / MyBatis설정 / Mapper설정(SQL실행) / DB종료 -->
+	<bean id="sqlSession"
+	      class="org.mybatis.spring.SqlSessionTemplate" 
+	      destroy-method="clearCache">
+	      <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+	</bean>	
+	<!-- SqlSessionTemplate : DB연결 / MyBatis설정 / Mapper설정(SQL실행) / DB종료 -->
+	
+	
+	
+	<!-- 외부 객체 등록 -->
+	<context:component-scan base-package="com.foo.persistence"/>
+	<context:component-scan base-package="com.foo.service"/>
+	<!-- 외부 객체 등록 -->
+	
+	
+	
 </beans>
