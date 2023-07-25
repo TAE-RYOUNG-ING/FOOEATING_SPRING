@@ -20,7 +20,7 @@
 	    <property name="url" 
 	              value="jdbc:log4jdbc:mysql://localhost:3306/fooeating" />
 	    <property name="username" value="root" />
-	    <property name="password" value="class70118" />
+	    <property name="password" value="1234" />
 	</bean>
 	<!-- DataSource : DB연결정보 객체 -->
 	
