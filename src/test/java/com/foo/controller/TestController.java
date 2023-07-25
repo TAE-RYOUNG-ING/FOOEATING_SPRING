@@ -23,9 +23,10 @@ public class TestController {
 	private SqlSession sqlSession;
 	
 	
-	@Test
+//	@Test
 	public void dsconnectTest() {
 		logger.debug("ds : " + ds);
+		logger.debug("sqlSession : " + sqlSession);
 	}
 	
 }
