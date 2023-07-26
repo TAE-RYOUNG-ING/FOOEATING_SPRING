@@ -19,7 +19,7 @@ public class BusinessUsersFrontController {
 	// 사업자 회원가입
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public String businessUsersJoin(Model model) {
-		logger.debug("사업자 회원가입 - businessUsersJoin() 실행");
+		logger.debug("@@@@@@@@@@@@@@@@사업자 회원가입 - businessUsersJoin() 실행");
 		
 		return "/business/join";
 	}
