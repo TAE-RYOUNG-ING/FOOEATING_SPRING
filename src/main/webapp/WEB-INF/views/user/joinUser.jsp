@@ -20,7 +20,7 @@
 	전화번호 : <input type="text" name="userTel"> <br><br>
 	
 	FOOEATING 사이트 회원가입 약관에 동의하십니까? <input type="checkbox"> 
-	<a href="#">[약관보기]</a> <!-- 팝업창 -->
+	<a href="#">[약관보기]</a> <!-- 팝업창 띄우기 -->
 	<hr>
 	
 	<input type="submit" value="회원가입">
