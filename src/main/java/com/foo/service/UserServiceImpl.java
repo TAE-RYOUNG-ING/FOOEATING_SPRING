@@ -4,6 +4,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.foo.domain.UserVO;
 import com.foo.persistence.UserDAO;
 
 
@@ -17,15 +18,18 @@ public class UserServiceImpl implements UserService {
 	// 객체 주입 (DI)
 	@Autowired
 	private UserDAO udao;
-	
-	
+
+
 	
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ메서드 정의ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	
 	
 	
-	// 1. 회원 로그인
-	
+	// 1. 회원 가입
+	@Override
+	public void joinUser(UserVO vo) {
+		udao.insertUser(vo);
+	}
 
 
 

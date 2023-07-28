@@ -14,11 +14,11 @@
 
 <form action="/login" method="post">
 
-아이디 <input type="text" placeholder="아이디를 입력해주세요 :)"> <br>
-비밀번호 <input type="password" placeholder="비밀번호를 입력해주세요 :)"> <hr>
+아이디 <input type="text" name="id" id="id" placeholder="아이디를 입력해주세요 :)"> <br>
+비밀번호 <input type="password" name="pw" id="pw" placeholder="비밀번호를 입력해주세요 :)"> <hr>
 
 <input type="submit" value="로그인">
-<input type="button" value="회원가입">
+<input type="button" value="회원가입" onclick="location.href='/user/join';">
 
 </form>
 

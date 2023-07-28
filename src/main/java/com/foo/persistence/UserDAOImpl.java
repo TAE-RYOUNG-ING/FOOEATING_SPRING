@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.foo.domain.UserVO;
+
 
 
 @Repository
@@ -19,14 +21,19 @@ public class UserDAOImpl implements UserDAO {
 	
 	// Mapper 식별 NAMESPACE
 	private static final String NAMESPACE = "com.foo.mappers.userMapper";
-	
+
 
 	
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ메서드 정의ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	
 	
 	
-	// 1. 회원 로그인
-
+	// 1. 회원 가입
+	@Override
+	public void insertUser(UserVO vo) {
+		logger.debug("############### insertUser_호출");
+		sqlSession.insert(NAMESPACE + ".insertUser", vo);
+		logger.debug("############### 회원가입 완료");
+	}
 
 }

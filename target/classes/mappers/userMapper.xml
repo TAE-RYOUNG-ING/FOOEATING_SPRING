@@ -5,9 +5,12 @@
 
 
 
-<!-- 회원 로그인 -->
-
-<!-- 회원 로그인 -->
+<!-- 회원 가입 -->
+<insert id="insertUser">
+	insert into users (userId, userPw, userName, userEmail, userTel, regdate) 
+	values (#{userId}, #{userPw}, #{userName}, #{userEmail}, #{userTel}, now())
+</insert>
+<!-- 회원 가입 -->
 
 
 
