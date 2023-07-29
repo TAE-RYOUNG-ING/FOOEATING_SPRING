@@ -5,6 +5,35 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script type="text/javascript">
+
+$(document).ready(function() {
+	
+	$("#step1").show();
+	$("#step2").hide();
+	$("#step3").hide();
+	$("#step4").hide();
+	
+});
+	
+function showStep(stepId) {
+	var stepNum = Number.parseInt(stepId.substring(5));
+	var stepNext = "#step" + (stepNum + 1);
+	var stepPrev = "#step" + (stepNum - 1);
+	
+	console.log(stepId + ", " + stepNum + ", " + stepNext + ", " + stepPrev);
+	
+	if (stepNum !== 4 || stepNum !== 1) {
+		$(stepPrev).hide();
+		$(stepId).show();
+		$(stepNext).hide();
+	}
+}
+
+</script>
+
 </head>
 <body>
 	
@@ -24,7 +53,7 @@
 			<input type="checkbox" id="chk3"> [선택] 이벤트·혜택 정보 수신 <br>
 		</fieldset>
 		
-		<input type="button" id="btn-next1" value="다음">
+		<input type="button" id="btn-next1" value="다음" onclick="showStep('#step2');">
 	</div>
 	
 	<div id="step2">
@@ -83,8 +112,8 @@
 			<input type="checkbox" id="chkConPackup"> 포장
 		</fieldset>
 		
-		<input type="button" id="btn-prev1" value="이전">
-		<input type="button" id="btn-next2" value="다음">
+		<input type="button" id="btn-prev1" value="이전" onclick="showStep('#step1');">
+		<input type="button" id="btn-next2" value="다음" onclick="showStep('#step3');">
 	</div>
 	
 	<div id="step3">
@@ -102,8 +131,8 @@
 			기타 <input type="file" id="restInterior"> <br>
 		</fieldset>
 		
-		<input type="button" id="btn-prev2" value="이전">
-		<input type="button" id="btn-next3" value="다음">
+		<input type="button" id="btn-prev2" value="이전" onclick="showStep('#step2');">
+		<input type="button" id="btn-next3" value="다음" onclick="showStep('#step4');">
 	</div>
 	
 	<div id="step4">
@@ -139,8 +168,8 @@
 			<input type="file" id="menuFile3"> <br>
 		</fieldset>
 		
-		<input type="button" id="btn-prev3" value="이전">
-		<input type="button" id="btn-next4" value="신청">
+		<input type="button" id="btn-prev3" value="이전" onclick="showStep('#step3');">
+		<input type="button" id="btn-next4" value="신청" onclick="">
 	</div>
 	
 </body>
