@@ -30,7 +30,14 @@ public class UserFrontController {
 	
 	
 	
-	// 1-1. 회원 가입
+	// 1-1. 약관 동의
+	@RequestMapping(value = "/agreeTerms", method = RequestMethod.GET)
+	public void agreeTerms() {
+		
+		logger.debug("@@@@@@@@@@@@@@@ agreeTerms_호출");
+	}
+	
+	// 1-2. 회원 가입
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public String joinUserGET() {
 		
@@ -39,7 +46,7 @@ public class UserFrontController {
 		return "/user/joinUser";
 	}
 	
-	// 1-2. 회원 가입 - 데이터 처리
+	// 1-3. 회원 가입 - 데이터 처리
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String joinUserPOST(UserVO vo) {
 		
@@ -49,6 +56,8 @@ public class UserFrontController {
 		
 		return "redirect:/user/login";
 	}
+	
+	
 	
 	
 	

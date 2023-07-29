@@ -21,7 +21,7 @@
 <!-- 체크하고 로그인 할 경우 쿠키에 7일동안 아이디 저장 BURADER_MAIN 참고 -->
 
 <input type="submit" value="로그인">
-<input type="button" value="회원가입" onclick="location.href='/user/join';">
+<input type="button" value="회원가입" onclick="location.href='/user/agreeTerms';">
 
 </form>
 
