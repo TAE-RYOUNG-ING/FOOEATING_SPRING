@@ -8,17 +8,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping(value = "/business")
-public class BusinessUsersRestController {
+public class BusinessRestController {
 	
-	private static final Logger logger = LoggerFactory.getLogger(BusinessUsersRestController.class);
+	private static final Logger logger = LoggerFactory.getLogger(BusinessRestController.class);
 	
 	
 	
 	// http://localhost:8088/business/join
-	// 사업자 회원가입
-	@RequestMapping(value = "", method = RequestMethod.GET)
-	public String join() {
-		return "사업자 회원가입";
-	}
+	// 1. 사업자 회원가입
+//	@RequestMapping(value = "", method = RequestMethod.GET)
+//	public String join() {
+//		logger.debug("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+//		return "사업자 회원가입";
+//	}
 	
 }
