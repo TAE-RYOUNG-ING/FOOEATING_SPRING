@@ -31,7 +31,7 @@
 		<h1>step 2</h1>
 			
 		<fieldset>
-			<legend>사업장 정보 [필수]</legend>
+			<legend>사업장 정보</legend>
 			상호명 <br>
 			<input type="text" id="restName"> <br>
 			
@@ -91,7 +91,7 @@
 		<h1>step 3</h1>
 	
 		<fieldset>
-			<legend>사업장 정보 [필수]</legend>
+			<legend>사업장 정보</legend>
 			가게 소개 <br>
 			<textarea rows="7" cols="50" id="restDescription">가게 소개글을 입력하세요.</textarea> 0/300 <br>
 			
@@ -110,32 +110,32 @@
 		<h1>step 4</h1>
 	
 		<fieldset>
-			<legend>사업장 정보 [선택]</legend>
-			메뉴 이름 <br>
+			<legend>메뉴 등록 [선택]</legend>
+			이름 <br>
 			<input type="text" id="menuName1"> <br>
-			메뉴 설명 <br>
+			설명 <br>
 			<input type="text" id="menuDescription1"> <br>
-			메뉴 가격 <br>
+			가격 <br>
 			<input type="number" id="menuPrice1" min="0">원 <br>
-			메뉴 사진 <br>
+			사진 <br>
 			<input type="file" id="menuFile1"> <br>
 			
-			메뉴 이름 <br>
+			이름 <br>
 			<input type="text" id="menuName2"> <br>
-			메뉴 설명 <br>
+			설명 <br>
 			<input type="text" id="menuDescription2"> <br>
-			메뉴 가격 <br>
+			가격 <br>
 			<input type="number" id="menuPrice2" min="0">원 <br>
-			메뉴 사진 <br>
+			사진 <br>
 			<input type="file" id="menuFile2"> <br>
 			
-			메뉴 이름 <br>
+			이름 <br>
 			<input type="text" id="menuName3"> <br>
-			메뉴 설명 <br>
+			설명 <br>
 			<input type="text" id="menuDescription3"> <br>
-			메뉴 가격 <br>
+			가격 <br>
 			<input type="number" id="menuPrice3" min="0">원 <br>
-			메뉴 사진 <br>
+			사진 <br>
 			<input type="file" id="menuFile3"> <br>
 		</fieldset>
 		
