@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.foo.mappers.BusinessMapper">
+
+
+
+<!-- 사업자 회원가입 -->
+<insert id="insertBusinessuser">
+	insert into businessusers (buId, buPw, buNum, buName, buEmail, buTel) 
+	values (#{buId}, #{buPw}, #{buNum}, #{buName}, #{buEmail}, #{buTel})
+</insert>
+<!-- 사업자 회원가입 -->
+
+
+
+<!-- 사업자 등록 -->
+<insert id="insertRestaurant">
+	insert into restaurants (restId, restName, restTel, restAddr, restDiscription, restRuntime, restCategory, restConvenience, restExterior, restInterior) 
+	values (#{restId}, #{restName}, #{restTel}, #{restAddr}, #{restDiscription}, #{restRuntime}, #{restCategory}, #{restConvenience}, #{restExterior}, #{restInterior})
+</insert>
+<!-- 사업자 등록 -->
+
+
+
+</mapper>
