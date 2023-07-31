@@ -30,10 +30,20 @@ public class UserDAOImpl implements UserDAO {
 	
 	// 1. 회원 가입
 	@Override
-	public void insertUser(UserVO vo) {
+	public void insertUser(UserVO vo) throws Exception {
 		logger.debug("############### insertUser_호출");
 		sqlSession.insert(NAMESPACE + ".insertUser", vo);
-		logger.debug("############### 회원가입 완료");
 	}
+
+
+
+	// 2. 로그인
+	@Override
+	public UserVO loginUser(UserVO vo) throws Exception {
+		logger.debug("############### loginUser_호출");
+		return sqlSession.selectOne(NAMESPACE + ".loginUser", vo);
+	}
+	
+	
 
 }
