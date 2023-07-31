@@ -49,8 +49,11 @@ $(document).ready(function() {
 	$("#step2").hide();
 	$("#step3").hide();
 	
-	// 작성 정보를 저장할 객체
+	// 사용자가 입력한 사업장 정보를 저장할 객체
 	var registInfo = {};
+	
+	// 사용자가 입력한 메뉴 정보를 저장할 객체 (없을 수도 있음)
+	var registMenu = {};
 	
 	
 	
@@ -78,12 +81,14 @@ $(document).ready(function() {
 	$("#btn-next1").click(function() {
 		registInfo.restName = $("#restName").val();		// 상호명
 		registInfo.restCategory = $("#restCategory").val();		// 업종
-		registInfo.restAddr = $("#restAddrPostcode").val() + " " + $("#restAddr1").val() + " " + $("#restAddr2").val();	// 주소
+		registInfo.restAddr = $("#restAddrPostcode").val() + "/" + $("#restAddr1").val();	// 주소
+		if ($("#restAddr2").val()) { registInfo.restAddr +=  "/" + $("#restAddr2").val(); }
+		
 		registInfo.restTel = $("#restTel").val();	// 전화번호
 		registInfo.restRuntime = "";	// 영업시간
 		
 		var runtime = [ "일요일 휴무", "월요일 휴무", "화요일 휴무", "수요일 휴무", "목요일 휴무", "금요일 휴무", "토요일 휴무" ];
-		if ($("#time8기타").val() !== false) { runtime.push($("#time8기타").val()); }
+		if ($("#time8기타").val()) { runtime.push($("#time8기타").val()); }
 		$.each(runtime, function(idx, el) {
 			$("input[name='restRuntime']:checked").each(function() {
 				dayValue = $(this).val();
@@ -92,18 +97,14 @@ $(document).ready(function() {
 					runtime[idx] = dayValue + " " + document.getElementById("time1" + dayValue).value + " ~ " + document.getElementById("time2" + dayValue).value;
 				}
 			});
-			registInfo.restRuntime += (idx !== runtime.length - 1 ? runtime[idx] + ", " : runtime[idx]);		// 영업시간 상세
+			registInfo.restRuntime += (idx !== runtime.length - 1 ? runtime[idx] + "/" : runtime[idx]);		// 영업시간 상세
 		});
-		console.log($("#time8" + dayValue).val());
-		console.log(runtime);
 		
 		var conv = "";
 		$('input[name="restConv"]:checked').each(function() {
-			conv += this.value + " ";
+			conv += this.value + "/";
 		});
-		registInfo.restConvenience = conv;		// 편의시설
-		
-		console.log(registInfo);
+		registInfo.restConvenience = conv.slice(0, -1);		// 편의시설
 	});
 	
 	
@@ -112,12 +113,63 @@ $(document).ready(function() {
 	
 	// next 클릭 시 객체 정보 저장
 	$("#btn-next2").click(function() {
+		registInfo.restDescription = $("#restDescription").val();		// 가게 소개
+		registInfo.restExterior = $("#restExterior").val();				// 외관 사진
+		registInfo.restInterior = $("#restInterior").val();				// 내부 사진
 		
+// 		var filePathSplit1 = $("#restExterior").val().split("\\");
+// 		var filePathSplit2 = $("#restInterior").val().split("\\");
+// 		registInfo.restExterior = filePathSplit1[filePathSplit1.length - 1];
+// 		registInfo.restInterior = filePathSplit2[filePathSplit2.length - 1];
 	});
 	
 	
 	
-	// --------------------- step3 ----------------------------addMenu
+	// --------------------- step3 ----------------------------
+	
+	// 메뉴추가 버튼 클릭
+	var cnt = 2;
+	$("#btnAddMenu").click(function(event) {
+		if (cnt <= 3) {
+			$("#divAddMenu").append("<b>메뉴 " + cnt + "</b> <br>");
+			$("#divAddMenu").append("이름 <input type='text' id='menuName" + cnt + "' placeholder='메뉴 이름'> <br>");
+			$("#divAddMenu").append("설명 <input type='text' id='menuDescription" + cnt + "' placeholder='메뉴 설명'> <br>");
+			$("#divAddMenu").append("가격 <input type='number' id='menuPrice" + cnt + "' min='0' placeholder='메뉴 가격'>원 <br>");
+			$("#divAddMenu").append("사진 <input type='file' id='menuFile" + cnt + "'> <br>");
+		}
+		
+		if (cnt > 3) {
+			alert("메뉴는 최대 3개까지 입력 가능합니다.");
+			return false;
+		}
+		
+		cnt++;
+	});
+	
+	
+	
+	// --------------------- 신청 버튼 ----------------------------
+	
+	$("#btn-submit").click(function() {
+		console.log(registInfo);
+		
+		// restaurant 관련 정보
+		$.ajax({
+			url : "${contextPath}/business/registration",
+			type : "POST",
+			contentType : "application/json",
+			data : JSON.stringify(registInfo),
+			success : function(msg) {
+				alert("전송 성공 : " + msg);
+			},
+			error : function() {
+				alert("실패 ㅜㅜ");
+			}
+		});
+		
+		// menu 관련 정보가 있다면 전송
+		// push안됨 ㅜㅜ
+	});
 	
 });
 
@@ -131,6 +183,77 @@ function showStep(stepId) {
 		$(stepPrev).hide();
 		$(stepId).show();
 		$(stepNext).hide();
+	}
+	
+	// step1 유효성 검사
+	if (stepNum === 2) {
+		var runtimeCheckbox = [];
+		var convCheckbox = $("input[name='restConv']:checked");
+		$("input[name='restRuntime']:checked").each(function() {
+			runtimeCheckbox.push($(this).val());
+		});
+		
+		if ($("#restName").val() === "") {
+			alert("상호명을 입력해주세요.");
+			$("#restName").focus();
+			$("#step1").show();
+			$("#step2").hide();
+			return false;
+		} else if ($("#restCategory").val() === "none") {
+			alert("업종을 선택해주세요.");
+			$("#restCategory").focus();
+			$("#step1").show();
+			$("#step2").hide();
+			return false;
+		} else if ($("#restAddrPostcode").val() === "") {
+			alert("주소를 입력해주세요.");
+			$("#restAddrPostcode").focus();
+			$("#step1").show();
+			$("#step2").hide();
+			return false;
+		} else if ($("#restAddr1").val() === "") {
+			alert("주소를 입력해주세요.");
+			$("#restAddr1").focus();
+			$("#step1").show();
+			$("#step2").hide();
+			return false;
+		} else if ($("#restTel").val() === "") {
+			alert("전화번호를 입력해주세요.");
+			$("#restTel").focus();
+			$("#step1").show();
+			$("#step2").hide();
+			return false;
+		} else if (runtimeCheckbox.length === 0) {
+			alert("영업일을 선택해주세요.");
+			$("#step1").show();
+			$("#step2").hide();
+			return false;
+		} else if (convCheckbox.length === 0) {
+			alert("편의시설을 하나 이상 선택해주세요.");
+			$("#step1").show();
+			$("#step2").hide();
+			return false;
+		}
+		
+		$.each(runtimeCheckbox, function(idx, el) {
+			if ($("#time1" + el).val() === "" || $("#time2" + el).val() === "") {
+				alert("영업시간을 선택해주세요.");
+				$("#step1").show();
+				$("#step2").hide();
+				return false;
+			}
+		});
+	}
+	
+	// step2 유효성 검사
+	if (stepNum === 3) {
+		if ($("#restDescription").val() === "" || $("#restExterior").val() === "" || $("#restInterior").val() === "") {
+			if (!confirm("미작성 시, 입점 승인이 어려울 수 있습니다. 넘어가시겠습니까?")) {
+				$("#step2").show();
+				$("#step3").hide();
+				return false;
+			}
+		}
 	}
 }
 
@@ -252,7 +375,6 @@ function kakaoPostcodeAPI() {
 	
 	외관 <input type="file" id="restExterior"> <br>
 	내부 <input type="file" id="restInterior"> <br>
-	기타 <input type="file" id="restInterior"> <br>
 </div>
 
 <input type="button" id="btn-prev1" class="btn" value="이전" onclick="showStep('#step1');">
@@ -260,24 +382,31 @@ function kakaoPostcodeAPI() {
 
 </div>		<!-- step2 끝 -->
 
+
+
 <div id="step3">
 
 <h1>메뉴 등록 [선택]</h1>
-<h6>※ 최대 3개 입력 가능합니다.</h6> <br>
+<h6>※ 추후 [마이페이지] - [내 가게 정보] 에서도 추가 가능합니다.</h6> <br>
 
 <div>
-	이름 <input type="text" id="menuName1"> <br>
-	설명 <input type="text" id="menuDescription1"> <br>
-	가격 <input type="number" id="menuPrice1" min="0">원 <br>
+	<button type="button" id="btnAddMenu">메뉴 추가</button> <br>
+	
+	<b>메뉴 1</b> <br>
+	이름 <input type="text" id="menuName1" placeholder="메뉴 이름"> <br>
+	설명 <input type="text" id="menuDescription1" placeholder="메뉴 설명"> <br>
+	가격 <input type="number" id="menuPrice1" min="0" placeholder="메뉴 가격">원 <br>
 	사진 <input type="file" id="menuFile1"> <br>
 	
-	<button type="button" id="addMenu">추가</button>
+	<div id="divAddMenu"></div>
 </div>
 
 <input type="button" id="btn-prev2" class="btn" value="이전" onclick="showStep('#step2');">
-<input type="button" id="btn-next3" class="btn" value="신청">
+<input type="button" id="btn-submit" class="btn" value="신청">
 
 </div>		<!-- step2 끝 -->
+
+
 
 <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>				<!-- kakao 우편번호 api -->
 	

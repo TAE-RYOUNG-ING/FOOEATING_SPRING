@@ -7,7 +7,7 @@ public class RestaurantsVO {
 	private String restTel;
 	private String restAddr;
 	private String regdate;
-	private String restDiscription;
+	private String restDescription;
 	private String restRuntime;
 	private String restCategory;
 	private String restConvenience;
@@ -37,8 +37,8 @@ public class RestaurantsVO {
 	public String getRegdate() {
 		return regdate;
 	}
-	public String getRestDiscription() {
-		return restDiscription;
+	public String getRestDescription() {
+		return restDescription;
 	}
 	public String getRestRuntime() {
 		return restRuntime;
@@ -76,8 +76,8 @@ public class RestaurantsVO {
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
 	}
-	public void setRestDiscription(String restDiscription) {
-		this.restDiscription = restDiscription;
+	public void setRestDescription(String restDescription) {
+		this.restDescription = restDescription;
 	}
 	public void setRestRuntime(String restRuntime) {
 		this.restRuntime = restRuntime;
@@ -110,7 +110,7 @@ public class RestaurantsVO {
 	@Override
 	public String toString() {
 		return "RestaurantsVO [resId=" + resId + ", restName=" + restName + ", restTel=" + restTel + ", restAddr="
-				+ restAddr + ", regdate=" + regdate + ", restDiscription=" + restDiscription + ", restRuntime="
+				+ restAddr + ", regdate=" + regdate + ", restDescription=" + restDescription + ", restRuntime="
 				+ restRuntime + ", restCategory=" + restCategory + ", restConvenience=" + restConvenience
 				+ ", restExterior=" + restExterior + ", restInterior=" + restInterior + ", restStatus=" + restStatus
 				+ ", restOnoff=" + restOnoff + "]";
