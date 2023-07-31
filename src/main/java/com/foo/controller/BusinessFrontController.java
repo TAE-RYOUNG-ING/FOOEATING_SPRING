@@ -13,16 +13,20 @@ public class BusinessFrontController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BusinessFrontController.class);
 	
+
+	
+	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ메서드 정의ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	
 	
 	
 	// http://localhost:8088/business/join
 	// 1. 사업자 회원가입
-//	@RequestMapping(value = "/join", method = RequestMethod.GET)
-//	public String businessUsersJoin(Model model) {
-//		logger.debug("@@@@@@@@@@@@@@@@사업자 회원가입 - businessUsersJoin() 실행");
-//		
-//		return "/business/join";
-//	}
+	@RequestMapping(value = "/join", method = RequestMethod.GET)
+	public String businessUsersJoin(Model model) {
+		logger.debug("@@@@@@@@@@@@@@@@사업자 회원가입 - businessUsersJoin() 실행");
+		
+		return "/business/join";
+	}
 	
 	
 	

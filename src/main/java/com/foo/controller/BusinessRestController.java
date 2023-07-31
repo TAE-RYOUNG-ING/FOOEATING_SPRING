@@ -12,6 +12,10 @@ public class BusinessRestController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(BusinessRestController.class);
 	
+
+	
+	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ메서드 정의ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	
 	
 	
 	// http://localhost:8088/business/join
