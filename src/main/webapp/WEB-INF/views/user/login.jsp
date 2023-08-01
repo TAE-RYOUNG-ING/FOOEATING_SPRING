@@ -16,21 +16,30 @@ h1{
 	text-align: center;
 }
 
-img{
-	margin: auto;
-	display: block;
-}
-
 #center{
+/* 	text-align: center; */
+	position: absolute;
+	width: 400px;
+	height: 400px;
 	text-align: center;
+	margin-left: -200px;
+	margin-top: -250px;
+	left: 50%;
+	top: 50%;
 }
 
-.btn{
-	width: 250px;
-	height: 25px;
+.btn {
+	width: 270px;
+	height: 30px;
 	margin: auto;
 	margin-bottom: 10px;
 	display: block;
+}
+
+.width {
+	width: 200px;
+	height: 25px;
+	margin-bottom: 10px;
 }
 
 </style>
@@ -122,9 +131,9 @@ function getCookie(cookieName) {
 	<img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200px" height="200px"> <br>
 	
 	<form action="/user/login" method="post" id="fr" onsubmit="saveId()">
-	아이디 &nbsp;&nbsp;&nbsp;<input type="text" name="userId" id="userId"> <br>
+	아이디 &nbsp;&nbsp;&nbsp;<input type="text" name="userId" id="userId" class="width"> <br>
 	<div id="divId" class="info"></div>
-	비밀번호 <input type="password" name="userPw">
+	비밀번호 <input type="password" name="userPw" class="width">
 	<div id="divPw" class="info"></div>
 	<br>
 	

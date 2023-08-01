@@ -15,7 +15,14 @@
 }
 
 .center {
+	position: absolute;
+	width: 400px;
+	height: 400px;
 	text-align: center;
+	margin-left: -200px;
+	margin-top: -300px;
+	left: 50%;
+	top: 50%;
 }
 
 .btn {
@@ -27,16 +34,10 @@
 
 .space {
 	margin-bottom: 10px;
-	margin-left: 190px;
+	margin-left: 185px;
 }
 
-img{
-	margin: auto;
-	display: block;
-	margin-bottom: 20px;
-}
-
-.info {
+#confirmMsg {
 	font-size: 0.7em;
 	color: red;
 }
@@ -47,15 +48,18 @@ img{
 
 $(function(){
 	
-	// 비밀번호 확인 일치 여부
-// 	$('#fr').on('submit', function(e) {
-// 	    if(fr.userPw.value != fr.userPwChk.value){
-// 	        e.preventDefault();
-// 	        $('.info').html("비밀번호가 일치하지 않습니다.");
-// 	    } else{
-// 	        $('.info').html("");
-// 	    }
-
+	// 비밀번호 크로스 체크
+	$('#fr').on('submit', function(e) {
+        
+        if(fr.userPw.value !== fr.userPwChk.value){
+            e.preventDefault();
+            $('#confirmMsg').html("비밀번호가 일치하지 않습니다.");
+        }else{
+            $('#confirmMsg').html("");
+        }
+        
+    });
+	
 });
 
 
@@ -83,8 +87,6 @@ function checkForm(){
 		fr.userTel.focus();
 		alert("전화번호를 입력해주세요.");
 		return false;
-	}else{
-		alert("회원가입이 완료되었습니다!");
 	}
 	
 }
@@ -93,9 +95,10 @@ function checkForm(){
 </head>
 <body>
 
-<img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200px" height="200px">
-
 <div class="center">
+
+	<img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200px" height="200px">
+
 	<form action="/user/join" method="post" name="fr" id="fr" onSubmit="return checkForm();">
 		아이디 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="text" name="userId" id="userId" class="inputStyle" placeholder="영문과 숫자 조합하여 8~16자"> <br>
@@ -103,7 +106,7 @@ function checkForm(){
 		<input type="password" name="userPw" id="userPw" class="inputStyle" placeholder="영문, 숫자, 특수문자 조합하여 8~16자"> <br>
 		비밀번호 확인 
 		<input type="password" name="userPwChk" id="userPwChk" class="inputStyle"> <br>
-		<div class="info"></div>
+		&nbsp;&nbsp;&nbsp; <span id="confirmMsg"></span> <br>
 		이름 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="text" name="userName" id="userName" class="inputStyle"> <br>
 		
