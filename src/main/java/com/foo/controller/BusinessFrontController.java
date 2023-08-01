@@ -20,7 +20,7 @@ public class BusinessFrontController {
 	
 	
 	// http://localhost:8088/business/join
-	// 1. 사업자 회원가입
+	// 1. 사업자 회원 가입
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public String businessUsersJoin(Model model) {
 		logger.debug("@@@@@@@@@@@@@@@@사업자 회원가입 - businessUsersJoin() 실행");
@@ -31,7 +31,7 @@ public class BusinessFrontController {
 	
 	
 	// http://localhost:8088/business/registration
-	// 2. 사업자 입점 신청
+	// 2. 입점 신청
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
 	public String businessUsersRegistration(Model model) {
 		logger.debug("@@@@@@@@@@@@@@@@사업자 입점 신청 - businessUsersRegistration() 실행");

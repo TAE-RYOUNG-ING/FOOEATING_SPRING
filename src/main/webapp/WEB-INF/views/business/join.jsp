@@ -70,6 +70,24 @@ $(document).ready(function() {
 	
 	// --------------------- step2 ----------------------------
 	
+	// 인증번호 발송 버튼 클릭 시
+	$("#btnEmailSend").click(function() {
+		var email = $("#buEmail").val();		// 사용자가 입력한 이메일
+		
+		// 인증번호 발송 ajax
+		$.ajax({
+			url : "${contextPath}/business/emailCheck/" + email,
+			type : 'GET',
+			success : function(msg) {
+				$("#checkNum").attr("disabled", false);		// 인증번호 전송 후 입력창 활성화
+				alert("인증번호가 전송되었습니다.");
+			},
+			error : function() {
+				alert("실패 ㅜㅜ");
+			}
+		});
+	});
+	
 	// 회원가입 버튼 클릭 시
 	$("#btn-submit").click(function() {
 		// 사용자 정보 저장
@@ -319,12 +337,13 @@ function showStep() {
 <div id="step2">
 <h1>FOOEATING 사업자 회원가입</h1> <br>
 
-아이디 : <input type="text" id="buId" placeholder="아이디"> <br>
-비밀번호 : <input type="password" id="buPw" placeholder="비밀번호"> <br>
-사업자번호 : <input type="text" id="buNum" placeholder="사업자번호"> <br>
-이름 : <input type="text" id="buName" placeholder="이름"> <br>
-이메일 : <input type="text" id="buEmail" placeholder="이메일"> <br>
-전화번호 : <input type="text" id="buTel" placeholder="전화번호"> <br>
+<input type="text" id="buId" placeholder="아이디"> <br>
+<input type="password" id="buPw" placeholder="비밀번호"> <br>
+<input type="text" id="buNum" placeholder="사업자번호"> <br>
+<input type="text" id="buName" placeholder="이름"> <br>
+<input type="text" id="buEmail" placeholder="이메일"> <button type="button" id="btnEmailSend">인증번호 발송</button> <br>
+<input type="text" id="checkNum" maxlength="10" placeholder="인증번호 입력" disabled> <button type="button" id="btnEmailCheck">인증 확인</button> <br>
+<input type="text" id="buTel" placeholder="전화번호"> <br>
 
 <input type="button" id="btn-submit" class="btn" value="회원가입">
 
