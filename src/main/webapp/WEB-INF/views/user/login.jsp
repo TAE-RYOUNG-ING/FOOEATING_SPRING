@@ -7,9 +7,28 @@
 <title>Insert title here</title>
 <style>
 
-div {
+.info {
 	font-size: 0.7em;
 	color: red;
+}
+
+h1{
+	text-align: center;
+}
+
+img{
+	margin: auto;
+	display: block;
+}
+
+#center{
+	text-align: center;
+}
+
+.btn{
+	width: 250px;
+	margin: auto;
+	display: block;
 }
 
 </style>
@@ -22,14 +41,14 @@ $(function(){
     $('#fr').on('submit', function(e) {
         if(fr.userId.value === ""){
             e.preventDefault();
-            $('#divId').html("아이디를 입력하세요.");
+            $('#divId').html("　아이디를 입력하세요.");
         } else{
             $('#divId').html("");
         }
         
         if(fr.userPw.value === ""){
             e.preventDefault();
-            $('#divPw').html("비밀번호를 입력하세요.");
+            $('#divPw').html("　　비밀번호를 입력하세요.");
         } else{
             $('#divPw').html("");
         }
@@ -42,27 +61,37 @@ $(function(){
 </head>
 <body>
 
-<h1>FOOEATING_Login</h1>
-
-
-
-<form action="/user/login" method="post" id="fr">
-
-아이디 &nbsp;&nbsp;&nbsp;<input type="text" name="userId" placeholder="아이디를 입력해주세요 :)"> <br>
-<div id="divId"></div>
-비밀번호 <input type="password" name="userPw" placeholder="비밀번호를 입력해주세요 :)"> 
-<div id="divPw"></div>
-<hr>
-
-<!-- 체크하고 로그인 할 경우 쿠키에 7일동안 아이디 저장 -->
-<input type="checkbox" id="cookie"> <label for="cookie">아이디 기억하기</label> <br>
-<a href="#">아이디 찾기</a>
-<a href="#">비밀번호 찾기</a> <br><br>
-
-<input type="submit" value="로그인" >
-<input type="button" value="회원가입" onclick="location.href='/user/agreeTerms';">
-
-</form>
+<div id="center">
+	<img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200px" height="200px"> <br>
+	
+	<form action="/user/login" method="post" id="fr">
+	아이디 &nbsp;&nbsp;&nbsp;<input type="text" name="userId" > <br>
+	<div id="divId" class="info"></div>
+	비밀번호 <input type="password" name="userPw" > 
+	<div id="divPw" class="info"></div>
+	<br>
+	
+	
+	
+	<!-- 쿠키에 7일동안 아이디 저장 -->
+	<div class="form-check-label">
+		<label class="form-check-label text-muted">
+			<input type="checkbox" class="form-check-input" id="rememberId" onclick="toggleRememberId()">
+			아이디 기억하기
+		</label>
+	 </div>
+	
+	
+	
+	<!-- 아이디 / 비밀번호 찾기 -->
+	<a href="#">아이디 / 비밀번호 찾기</a> <br><br>
+	
+	
+	
+	<input type="submit" class="btn" value="로그인" >
+	<input type="button" class="btn" value="회원가입" onclick="location.href='/user/agreeTerms';">
+	</form>
+</div>
 
 
 
