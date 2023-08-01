@@ -1,4 +1,6 @@
 package com.foo.service;
+import javax.servlet.http.HttpServletResponse;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,19 +26,36 @@ public class UserServiceImpl implements UserService {
 	
 	
 	
-	// 1. 회원 가입
+	// 1-1. 회원 가입
 	@Override
 	public void joinUser(UserVO vo) throws Exception {
 		udao.insertUser(vo);
 	}
 
+	// 1-2. 아이디 중복 체크
+	@Override
+	public void idOverlap(String userId, HttpServletResponse response) throws Exception {
+		UserVO resultVO = new UserVO();
+		resultVO = udao.idOverlap(userId);
+		
+		if(resultVO == null) {
+			response.getWriter().print("1");
+		}else {
+			response.getWriter().print("0");
+		}
+	}
 	
 
+	
 	// 2. 로그인
 	@Override
 	public UserVO loginUser(UserVO vo) throws Exception {
 		return udao.loginUser(vo);
 	}
+
+
+
+
 	
 	
 
