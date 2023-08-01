@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.foo.domain.BusinessusersVO;
 import com.foo.domain.RestaurantsVO;
 
 @RestController
@@ -23,11 +24,15 @@ public class BusinessRestController {
 	
 	// http://localhost:8088/business/join
 	// 1. 사업자 회원가입
-//	@RequestMapping(value = "/join", method = RequestMethod.GET)
-//	public String join() {
-//		logger.debug("@@@@@@@@@@@@@@@@@@@@@");
-//		return "사업자 회원가입";
-//	}
+	@RequestMapping(value = "/join", method = RequestMethod.POST)
+	public String joinBusinessuser(@RequestBody BusinessusersVO buvo) throws Exception {
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@ joinBusinessuser() 호출");
+		logger.debug("buvo : {}", buvo);
+		
+		// service 추가 해야함!
+		
+		return "ok";
+	}
 	
 	
 	
