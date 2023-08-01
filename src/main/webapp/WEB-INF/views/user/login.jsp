@@ -53,9 +53,64 @@ $(function(){
             $('#divPw').html("");
         }
         
-    }); 
+    }); // fr.on
+    
+    
+    
+    // 쿠키에 ID값 저장
+    let key = getCookie('key');
+    $('#userId').val(key); 
+      
+    if($('#userId').val() != ""){
+        $('#idSaveCheck').attr('checked', true); 
+    }
+      
+    $('#idSaveCheck').change(function(){ 
+        if($('#idSaveCheck').is(':checked')){ 
+            setCookie('key', $('#userId').val(), 7); 
+        }else{ 
+            deleteCookie('key');
+        }
+    });
+      
+    $('#userId').keyup(function(){ 
+        if($('#idSaveCheck').is(':checked')){ 
+            setCookie('key', $('#userId').val(), 7); 
+        }
+    });
 	
-});
+}); // JQuery
+
+
+
+// 쿠키에 ID값 저장
+function setCookie(cookieName, value, exdays){
+	let exdate = new Date();
+	exdate.setDate(exdate.getDate() + exdays);
+	let cookieValue = escape(value) + ((exdays==null) ? "" : "; expires=" + exdate.toGMTString());
+	document.cookie = cookieName + "=" + cookieValue;
+}
+
+function deleteCookie(cookieName){
+	let expireDate = new Date();
+	expireDate.setDate(expireDate.getDate() - 1);
+	document.cookie = cookieName + "= " + "; expires=" + expireDate.toGMTString();
+}
+  
+function getCookie(cookieName) {
+    cookieName = cookieName + '=';
+    let cookieData = document.cookie;
+    let start = cookieData.indexOf(cookieName);
+    let cookieValue = '';
+    
+    if(start != -1){
+		start += cookieName.length;
+		let end = cookieData.indexOf(';', start);
+        if(end == -1)end = cookieData.length;
+		cookieValue = cookieData.substring(start, end);
+    }
+	return unescape(cookieValue);
+}
 
 </script>
 </head>
@@ -64,22 +119,19 @@ $(function(){
 <div id="center">
 	<img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200px" height="200px"> <br>
 	
-	<form action="/user/login" method="post" id="fr">
-	아이디 &nbsp;&nbsp;&nbsp;<input type="text" name="userId" > <br>
+	<form action="/user/login" method="post" id="fr" onsubmit="saveId()">
+	아이디 &nbsp;&nbsp;&nbsp;<input type="text" name="userId" id="userId"> <br>
 	<div id="divId" class="info"></div>
-	비밀번호 <input type="password" name="userPw" > 
+	비밀번호 <input type="password" name="userPw">
 	<div id="divPw" class="info"></div>
 	<br>
 	
 	
 	
 	<!-- 쿠키에 7일동안 아이디 저장 -->
-	<div class="form-check-label">
-		<label class="form-check-label text-muted">
-			<input type="checkbox" class="form-check-input" id="rememberId" onclick="toggleRememberId()">
-			아이디 기억하기
-		</label>
-	 </div>
+	<input type="checkbox" id="idSaveCheck" >
+	<label for="idSaveCheck">아이디 기억하기</label><br>
+	
 	
 	
 	

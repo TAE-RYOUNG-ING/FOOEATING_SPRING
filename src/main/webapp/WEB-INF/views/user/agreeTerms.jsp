@@ -83,7 +83,7 @@ $(function(){
 	
 	
 	
-	<input type="checkbox" name="chk" onclick="selectAll(this)">
+	<input type="checkbox" name="chk" id="all" onclick="selectAll(this)">
 	<label for="all"><b>전체 동의하기</b></label> <br>
 	위치기반서비스 이용약관(선택), 이벤트・혜택 정보 수신(선택) 동의를 포함합니다. <br><br><br>
 	

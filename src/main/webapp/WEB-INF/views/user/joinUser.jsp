@@ -46,7 +46,7 @@ function checkForm(){
 
 
 
-<form action="/join" method="post" name="fr" onSubmit="return checkForm();">
+<form action="/user/join" method="post" name="fr" onSubmit="return checkForm();">
 	아이디 : <input type="text" name="userId" id="userId"> <br>
 	비밀번호 : <input type="password" name="userPw" id="userPw"> <br>
 	이름 : <input type="text" name="userName" id="userName"> <br>
