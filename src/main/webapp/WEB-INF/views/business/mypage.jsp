@@ -8,5 +8,7 @@
 </head>
 <body>
 
+<h1>/business/mypage</h1>
+
 </body>
 </html>

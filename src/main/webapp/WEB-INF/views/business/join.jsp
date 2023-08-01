@@ -47,6 +47,9 @@ $(document).ready(function() {
 	$("#step1").show();
 	$("#step2").hide();
 	
+	// 사용자가 입력한 회원 정보를 저장할 객체
+	var buserInfo = {};
+	
 	
 	
 	// --------------------- step1 ----------------------------
@@ -62,22 +65,97 @@ $(document).ready(function() {
 		var allChecked = $(".chkTerms").length === $(".chkTerms:checked").length;
 		$("#chkTermsAll").prop('checked', allChecked);
 	});
-
+	
+	
+	
+	// --------------------- step2 ----------------------------
+	
+	// 인증번호 발송 버튼 클릭 시
+	$("#btnEmailSend").click(function() {
+		var email = $("#buEmail").val();		// 사용자가 입력한 이메일
+		
+		// 인증번호 발송 ajax
+		$.ajax({
+			url : "${contextPath}/business/emailCheck/" + email,
+			type : 'GET',
+			success : function(msg) {
+				$("#checkNum").attr("disabled", false);		// 인증번호 전송 후 입력창 활성화
+				alert("인증번호가 전송되었습니다.");
+			},
+			error : function() {
+				alert("실패 ㅜㅜ");
+			}
+		});
+	});
+	
+	// 회원가입 버튼 클릭 시
+	$("#btn-submit").click(function() {
+		// 사용자 정보 저장
+		buserInfo.buId = $("#buId").val();			// 아이디 저장
+		buserInfo.buPw = $("#buPw").val();			// 비밀번호 저장
+		buserInfo.buNum = $("#buNum").val();		// 사업자번호 저장
+		buserInfo.buName = $("#buName").val();		// 이름 저장
+		buserInfo.buEmail = $("#buEmail").val();	// 이메일 저장
+		buserInfo.buTel = $("#buTel").val();		// 전화번호 저장
+		
+		// step2 유효성 검사
+		if ($("#buId").val() === "") {
+			alert("아이디를 입력해주세요.");
+			$("#buId").focus();
+			return false;
+		} else if ($("#buPw").val() === "") {
+			alert("비밀번호를 입력해주세요.");
+			$("#buPw").focus();
+			return false;
+		} else if ($("#buNum").val() === "") {
+			alert("사업자번호를 입력해주세요.");
+			$("#buNum").focus();
+			return false;
+		} else if ($("#buName").val() === "") {
+			alert("이름을 입력해주세요.");
+			$("#buName").focus();
+			return false;
+		} else if ($("#buEmail").val() === "") {
+			alert("이메일을 입력해주세요.");
+			$("#buEmail").focus();
+			return false;
+		} else if ($("#buTel").val() === "") {
+			alert("전화번호를 입력해주세요.");
+			$("#buTel").focus();
+			return false;
+		} else {
+			console.log(buserInfo);
+			
+			// businessuser 정보
+			$.ajax({
+				url : "${contextPath}/business/join",
+				type : "POST",
+				contentType : "application/json",
+				data : JSON.stringify(buserInfo),
+				success : function(msg) {
+					alert("회원가입이 완료되었습니다!");
+					if(confirm("입점 신청 페이지로 바로 이동하시겠습니까?\n취소 시, 추후 [마이페이지]에서 신청하실 수 있습니다.")) {
+						location.href = "${contextPath}/business/registration";
+					} else {
+						location.href = "${contextPath}/business/mypage";
+					}
+				},
+				error : function() {
+					alert("실패 ㅜㅜ");
+				}
+			});
+		}
+	});
+	
 });
 
-//next 클릭 시, step 활성화&비활성화 및 유효성 검사
-function showStep(stepId) {
-	var stepNum = Number.parseInt(stepId.substring(5));
-	var stepNext = "#step" + (stepNum + 1);
-	var stepPrev = "#step" + (stepNum - 1);
+// next 클릭 시
+function showStep() {
+	// step1 비활성화 & step2 활성화
+	$("#step1").hide();
+	$("#step2").show();
 	
-	if (stepNum !== 3 || stepNum !== 1) {
-		$(stepPrev).hide();
-		$(stepId).show();
-		$(stepNext).hide();
-	}
-	
-	// step1의 필수 약관 동의하지 않을 경우 alert창
+	// 필수 약관 동의하지 않을 경우 alert창
 	if (!$("#chkTerms1").prop('checked')) {
 		alert("[필수] FOOEATING 이용약관에 동의해 주세요.");
 		$("#step1").show();
@@ -97,8 +175,13 @@ function showStep(stepId) {
 </head>
 <body>
 	
-<div id="step1">
+<div id="div">
 
+
+
+<img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200px" height="200px">
+
+<div id="step1">
 <h1>FOOEATING 회원약관 동의</h1> <br>
 
 <label><input type="checkbox" name="terms" id="chkTermsAll"> <b>전체 동의하기</b></label> <br>
@@ -149,7 +232,7 @@ function showStep(stepId) {
 	</fieldset>
 
 	<br><br>
-	<label><input type="checkbox" name="terms" id="chkTerms2" class="chkTerms"><b><font color="red">[필수]</font> 개인정보 수집 및 이용약관</b></label> 
+	<label><input type="checkbox" name="terms" id="chkTerms2" class="chkTerms"> <b><font color="red">[필수]</font> 개인정보 수집 및 이용약관</b></label> 
 	<fieldset>
 		1. 수집하는 개인정보 항목 <br>
 		&nbsp; - 회원가입 시: 이름, 연락처(휴대전화번호), 이메일 주소 <br>
@@ -182,7 +265,7 @@ function showStep(stepId) {
 	</fieldset>
 	
 	<br><br>
-	<label><input type="checkbox" name="terms" class="chkTerms"><b><font color="blue">[선택]</font> 위치기반서비스 이용약관</b></label>
+	<label><input type="checkbox" name="terms" class="chkTerms"> <b><font color="blue">[선택]</font> 위치기반서비스 이용약관</b></label>
 	<fieldset>
 		제1조 (목적) <br>
 		1. 본 약관은 FOOEATING(이하 "회사"라 함)이 제공하는 위치기반서비스(이하 "서비스"라 함)와 관련하여 회사와 이용자 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다. <br>
@@ -214,7 +297,7 @@ function showStep(stepId) {
 	</fieldset>
 	
 	<br><br>
-	<label><input type="checkbox" name="terms" class="chkTerms"><b><font color="blue">[선택]</font> 이벤트・혜택 정보 수신</b></label>
+	<label><input type="checkbox" name="terms" class="chkTerms"> <b><font color="blue">[선택]</font> 이벤트・혜택 정보 수신</b></label>
 	<fieldset>
 		제1조 (목적) <br>
 		1. 본 약관은 FOOEATING(이하 "회사"라 함)이 제공하는 이벤트 및 혜택 정보 수신 서비스(이하 "서비스"라 함)와 관련하여 회사와 이용자 간의 권리, 의무 및 책임사항을 규정함을 목적으로 합니다. <br>
@@ -245,9 +328,30 @@ function showStep(stepId) {
 		위 이벤트 및 혜택 정보 수신 약관은 FOOEATING의 이벤트 및 혜택 정보를 수신하는 이용자와 회사 간의 권리와 의무를 명확히 규정하기 위해 작성되었습니다. 이용자는 본 약관을 준수하며 이벤트 및 혜택 정보를 편리하게 수신하실 수 있습니다. <br>
 	</fieldset>
 	
-<input type="button" id="btn-next1" class="btn" value="다음" onclick="showStep('#step2');">
+<input type="button" id="btn-next1" class="btn" value="다음" onclick="showStep();">
 
 </div>		<!-- step1 끝 -->
+
+
+
+<div id="step2">
+<h1>FOOEATING 사업자 회원가입</h1> <br>
+
+<input type="text" id="buId" placeholder="아이디"> <br>
+<input type="password" id="buPw" placeholder="비밀번호"> <br>
+<input type="text" id="buNum" placeholder="사업자번호"> <br>
+<input type="text" id="buName" placeholder="이름"> <br>
+<input type="text" id="buEmail" placeholder="이메일"> <button type="button" id="btnEmailSend">인증번호 발송</button> <br>
+<input type="text" id="checkNum" maxlength="10" placeholder="인증번호 입력" disabled> <button type="button" id="btnEmailCheck">인증 확인</button> <br>
+<input type="text" id="buTel" placeholder="전화번호"> <br>
+
+<input type="button" id="btn-submit" class="btn" value="회원가입">
+
+</div>		<!-- step2 끝 -->
+
+
+
+</div>		<!-- 전체 div -->
 	
 </body>
 </html>

@@ -160,7 +160,7 @@ $(document).ready(function() {
 			contentType : "application/json",
 			data : JSON.stringify(registInfo),
 			success : function(msg) {
-				alert("전송 성공 : " + msg);
+				alert("입점 신청이 완료되었습니다!");
 			},
 			error : function() {
 				alert("실패 ㅜㅜ");
@@ -245,14 +245,10 @@ function showStep(stepId) {
 		});
 	}
 	
-	// step2 유효성 검사
+	// step2 경고창
 	if (stepNum === 3) {
 		if ($("#restDescription").val() === "" || $("#restExterior").val() === "" || $("#restInterior").val() === "") {
-			if (!confirm("미작성 시, 입점 승인이 어려울 수 있습니다. 넘어가시겠습니까?")) {
-				$("#step2").show();
-				$("#step3").hide();
-				return false;
-			}
+			alert("미작성 시 입점 승인이 어려울 수 있으므로, [마이페이지]에서 추가로 수정해주세요.");
 		}
 	}
 }
@@ -367,7 +363,7 @@ function kakaoPostcodeAPI() {
 <div id="step2">
 
 <h1>사업장 정보 (선택)</h1>
-<h6>※ 미작성 시, 입점 승인이 어려울 수 있습니다.</h6> <br>
+<h6>※ 추후 [마이페이지] - [내 가게 정보] 에서 추가 가능합니다.</h6> <br>
 
 <div>
 	가게 소개 <br>
@@ -387,7 +383,7 @@ function kakaoPostcodeAPI() {
 <div id="step3">
 
 <h1>메뉴 등록 [선택]</h1>
-<h6>※ 추후 [마이페이지] - [내 가게 정보] 에서도 추가 가능합니다.</h6> <br>
+<h6>※ 추후 [마이페이지] - [내 가게 정보] 에서 추가 가능합니다.</h6> <br>
 
 <div>
 	<button type="button" id="btnAddMenu">메뉴 추가</button> <br>
