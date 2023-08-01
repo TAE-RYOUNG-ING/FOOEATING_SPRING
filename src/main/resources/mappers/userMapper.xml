@@ -14,6 +14,15 @@
 
 
 
+<!-- 아이디 중복 체크 -->
+<select id="idOverlap" resultType="com.foo.domain.UserVO">
+	SELECT userId FROM users 
+	WHERE userId = #{userId}
+</select>
+<!-- 아이디 중복 체크 -->
+
+
+
 <!-- 로그인 -->
 <select id="loginUser" resultType="com.foo.domain.UserVO">
 	SELECT * FROM users 

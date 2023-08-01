@@ -37,6 +37,11 @@
 	margin-left: 185px;
 }
 
+.space2 {
+	margin-bottom: 10px;
+	margin-left: 270px;
+}
+
 #confirmMsg {
 	font-size: 0.7em;
 	color: red;
@@ -65,7 +70,7 @@ $(function(){
 
 
 // 회원가입란 유효성 검사
-function checkForm(){
+function checkForm() {
 	
 	if(fr.userId.value === ""){
 		fr.userId.focus();
@@ -91,6 +96,32 @@ function checkForm(){
 	
 }
 
+
+
+// 아이디 중복 체크
+function idOverlap() {
+	alert("아이디 입력 값 : " + fr.userId.value);
+	
+	$.ajax({
+		url :'/idOverlap',
+		type : 'post',
+		data : {"userId" : fr.userId.value},
+		dataType : "text",
+		success : function(data){	
+			if(data === "1"){
+				alert("이 아이디는 사용 가능합니다.");
+			}else{
+				alert("이 아이디는 사용 불가능합니다.");
+			}
+		},
+		error : function(){
+			alert("ajax Error");
+		}
+		
+	}); // ajax
+		
+}
+
 </script>
 </head>
 <body>
@@ -102,6 +133,8 @@ function checkForm(){
 	<form action="/user/join" method="post" name="fr" id="fr" onSubmit="return checkForm();">
 		아이디 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="text" name="userId" id="userId" class="inputStyle" placeholder="영문과 숫자 조합하여 8~16자"> <br>
+		<input type="button" class="space2" value="중복확인" onclick="return idOverlap();"> <br>
+		
 		비밀번호 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="password" name="userPw" id="userPw" class="inputStyle" placeholder="영문, 숫자, 특수문자 조합하여 8~16자"> <br>
 		비밀번호 확인 

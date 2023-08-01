@@ -17,7 +17,6 @@ h1{
 }
 
 #center{
-/* 	text-align: center; */
 	position: absolute;
 	width: 400px;
 	height: 400px;
@@ -29,7 +28,7 @@ h1{
 }
 
 .btn {
-	width: 270px;
+	width: 265px;
 	height: 30px;
 	margin: auto;
 	margin-bottom: 10px;
@@ -140,9 +139,10 @@ function getCookie(cookieName) {
 	
 	
 	<!-- 쿠키에 7일동안 아이디 저장 -->
-	<input type="checkbox" id="idSaveCheck" >
-	<label for="idSaveCheck">아이디 기억하기</label><br>
-	
+	<div style="margin-bottom: 5px;">
+		<input type="checkbox" id="idSaveCheck" >
+		<label for="idSaveCheck">아이디 기억하기</label><br>
+	</div>
 	
 	
 	
