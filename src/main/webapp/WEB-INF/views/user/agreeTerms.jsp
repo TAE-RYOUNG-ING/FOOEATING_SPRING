@@ -30,6 +30,7 @@ fieldset{
 
 #btn{
 	width: 100px;
+	height: 30px;
 	margin: auto;
 	display: block;
 }

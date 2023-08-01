@@ -27,7 +27,9 @@ img{
 
 .btn{
 	width: 250px;
+	height: 25px;
 	margin: auto;
+	margin-bottom: 10px;
 	display: block;
 }
 
