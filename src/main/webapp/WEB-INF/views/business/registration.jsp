@@ -51,6 +51,7 @@ $(document).ready(function() {
 	
 	// 사용자가 입력한 사업장 정보를 저장할 객체
 	var registInfo = {};
+	registInfo.restId = "000-00-00000";			// 세션에 저장된 회원 정보에서 가져오기 (회원이 사업자일 경우 restId도 같이 저장 예정)
 	
 	// 사용자가 입력한 메뉴 정보를 저장할 객체 (없을 수도 있음)
 	var registMenu = {};
@@ -161,6 +162,7 @@ $(document).ready(function() {
 			data : JSON.stringify(registInfo),
 			success : function(msg) {
 				alert("입점 신청이 완료되었습니다!");
+				location.href = "/business/mypage/dashboard";
 			},
 			error : function() {
 				alert("실패 ㅜㅜ");
@@ -383,7 +385,7 @@ function kakaoPostcodeAPI() {
 <div id="step3">
 
 <h1>메뉴 등록 [선택]</h1>
-<h6>※ 추후 [마이페이지] - [내 가게 정보] 에서 추가 가능합니다.</h6> <br>
+<h6>※ 추후 [마이페이지] - [나의 가게 정보] 에서 추가 가능합니다.</h6> <br>
 
 <div>
 	<button type="button" id="btnAddMenu">메뉴 추가</button> <br>

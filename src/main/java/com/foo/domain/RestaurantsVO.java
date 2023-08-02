@@ -2,7 +2,7 @@ package com.foo.domain;
 
 public class RestaurantsVO {
 	
-	private String resId;
+	private String restId;
 	private String restName;
 	private String restTel;
 	private String restAddr;
@@ -22,8 +22,8 @@ public class RestaurantsVO {
 	
 	
 	
-	public String getResId() {
-		return resId;
+	public String getRestId() {
+		return restId;
 	}
 	public String getRestName() {
 		return restName;
@@ -61,8 +61,8 @@ public class RestaurantsVO {
 	public int getRestOnoff() {
 		return restOnoff;
 	}
-	public void setResId(String resId) {
-		this.resId = resId;
+	public void setRestId(String restId) {
+		this.restId = restId;
 	}
 	public void setRestName(String restName) {
 		this.restName = restName;
@@ -109,7 +109,7 @@ public class RestaurantsVO {
 	
 	@Override
 	public String toString() {
-		return "RestaurantsVO [resId=" + resId + ", restName=" + restName + ", restTel=" + restTel + ", restAddr="
+		return "RestaurantsVO [restId=" + restId + ", restName=" + restName + ", restTel=" + restTel + ", restAddr="
 				+ restAddr + ", regdate=" + regdate + ", restDescription=" + restDescription + ", restRuntime="
 				+ restRuntime + ", restCategory=" + restCategory + ", restConvenience=" + restConvenience
 				+ ", restExterior=" + restExterior + ", restInterior=" + restInterior + ", restStatus=" + restStatus

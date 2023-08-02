@@ -21,7 +21,7 @@ public class BusinessDAOImpl implements BusinessDAO {
 	private SqlSession sqlSession;
 	
 	// Mapper 식별 NAMESPACE
-	private static final String NAMESPACE = "com.foo.mappers.businessMapper";
+	private static final String NAMESPACE = "com.foo.mappers.BusinessMapper";
 	
 	
 	
@@ -32,7 +32,7 @@ public class BusinessDAOImpl implements BusinessDAO {
 	@Override
 	public void insertBuser(BusinessusersVO buvo) throws Exception {
 		logger.debug("############### insertBuser 호출");
-		
+		sqlSession.insert(NAMESPACE + ".insertBusinessuser", buvo);
 	}
 	
 	
@@ -41,6 +41,7 @@ public class BusinessDAOImpl implements BusinessDAO {
 	@Override
 	public void registRestaurant(RestaurantsVO revo) throws Exception {
 		logger.debug("############### registRestaurant 호출");
+		sqlSession.insert(NAMESPACE + ".insertRestaurant", revo);
 		
 	}
 	
