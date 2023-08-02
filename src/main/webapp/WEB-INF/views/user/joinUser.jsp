@@ -42,7 +42,12 @@
 	margin-left: 270px;
 }
 
-#confirmMsg {
+.confirmMsgOK {
+	font-size: 0.7em;
+	color: green;
+}
+
+.confirmMsgNO {
 	font-size: 0.7em;
 	color: red;
 }
@@ -51,25 +56,58 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
 
-$(function(){
+// 아이디 중복 체크
+function idOverlap() {
 	
-	// 비밀번호 크로스 체크
+	$.ajax({
+		url :'/user/idOverlap',
+		type : 'post',
+		data : {"userId" : fr.userId.value},
+		dataType : "json",
+		success : function(data){	
+			if(data === 1){
+				$('#idchk2').html("");
+				$('#idchk1').html("　　이 아이디는 사용 가능합니다.");
+				$('#fr').unbind();
+			}else if(data === 0){
+				$('#idchk1').html("");
+				$('#idchk2').html("　　이 아이디는 사용 불가능합니다.");
+				$('#fr').on('submit', function(e) {
+		            e.preventDefault();
+		            fr.userId.focus();
+			    });
+			}
+		},
+		error : function(){
+			alert("ajax Error");
+		}
+		
+	}); // ajax
+		
+} // isOverlap
+
+
+
+$(function(){
+
 	$('#fr').on('submit', function(e) {
-        
+
+		// 비밀번호 크로스 체크
         if(fr.userPw.value !== fr.userPwChk.value){
             e.preventDefault();
-            $('#confirmMsg').html("비밀번호가 일치하지 않습니다.");
+            $('#pwchk').html("비밀번호가 일치하지 않습니다.");
+            fr.userPwChk.focus();
         }else{
-            $('#confirmMsg').html("");
+            $('#pwchk').html("");
         }
         
-    });
+    }); // fr.on
 	
-});
+}); // JQuery
 
 
 
-// 회원가입란 유효성 검사
+//회원가입란 유효성 검사
 function checkForm() {
 	
 	if(fr.userId.value === ""){
@@ -79,6 +117,10 @@ function checkForm() {
 	}else if(fr.userPw.value === ""){
 		fr.userPw.focus();
 		alert("비밀번호를 입력해주세요.");
+		return false;
+	}else if(fr.userPwChk.value === ""){
+		fr.userPwChk.focus();
+		alert("비밀번호 확인을 입력해주세요.");
 		return false;
 	}else if(fr.userName.value === ""){
 		fr.userName.focus();
@@ -96,32 +138,6 @@ function checkForm() {
 	
 }
 
-
-
-// 아이디 중복 체크
-function idOverlap() {
-	alert("아이디 입력 값 : " + fr.userId.value);
-	
-	$.ajax({
-		url :'/idOverlap',
-		type : 'post',
-		data : {"userId" : fr.userId.value},
-		dataType : "text",
-		success : function(data){	
-			if(data === "1"){
-				alert("이 아이디는 사용 가능합니다.");
-			}else{
-				alert("이 아이디는 사용 불가능합니다.");
-			}
-		},
-		error : function(){
-			alert("ajax Error");
-		}
-		
-	}); // ajax
-		
-}
-
 </script>
 </head>
 <body>
@@ -132,14 +148,17 @@ function idOverlap() {
 
 	<form action="/user/join" method="post" name="fr" id="fr" onSubmit="return checkForm();">
 		아이디 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input type="text" name="userId" id="userId" class="inputStyle" placeholder="영문과 숫자 조합하여 8~16자"> <br>
+		<input type="text" name="userId" id="userId" class="inputStyle" placeholder="영문과 숫자 조합하여 8~12자"> <br>
+		
+		<div id="idchk1" class="confirmMsgOK"></div>
+		<div id="idchk2" class="confirmMsgNO"></div>
 		<input type="button" class="space2" value="중복확인" onclick="return idOverlap();"> <br>
 		
 		비밀번호 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input type="password" name="userPw" id="userPw" class="inputStyle" placeholder="영문, 숫자, 특수문자 조합하여 8~16자"> <br>
+		<input type="password" name="userPw" id="userPw" class="inputStyle" placeholder="영문, 숫자, 특수문자 조합하여 8~12자"> <br>
 		비밀번호 확인 
 		<input type="password" name="userPwChk" id="userPwChk" class="inputStyle"> <br>
-		&nbsp;&nbsp;&nbsp; <span id="confirmMsg"></span> <br>
+		&nbsp;&nbsp;&nbsp; <span id="pwchk" class="confirmMsgNO"></span> <br>
 		이름 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 		<input type="text" name="userName" id="userName" class="inputStyle"> <br>
 		

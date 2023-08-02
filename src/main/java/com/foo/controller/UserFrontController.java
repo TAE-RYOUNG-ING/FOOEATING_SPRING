@@ -19,8 +19,8 @@ import com.foo.service.UserService;
 @Controller
 @RequestMapping(value = "/user/*")
 public class UserFrontController {
+		
 	
-	// http://localhost:8088/user/list
 	
 	// 로거 생성
 	private static final Logger logger = LoggerFactory.getLogger(UserFrontController.class);
@@ -51,19 +51,7 @@ public class UserFrontController {
 		return "/user/joinUser";
 	}
 	
-	// 1-3. 회원 가입 - 아이디 중복 체크
-	@RequestMapping(value = "/idOverlap", method = RequestMethod.POST)
-	public void idOverlapPOST(HttpServletResponse response, 
-							  @RequestParam("userId") String userId) throws Exception {
-		
-		logger.debug("@@@@@@@@@@@@@@@ idOverlap_호출");
-		logger.debug("@@@@@@@@@@@@@@@ userId = " + userId);
-		
-		uService.idOverlap(userId, response);
-	}
-	
-	
-	// 1-4. 회원 가입 - 데이터 처리
+	// 1-3. 회원 가입 - 데이터 처리
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String joinUserPOST(UserVO vo) throws Exception {
 		
