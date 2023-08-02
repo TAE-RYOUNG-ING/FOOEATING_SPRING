@@ -34,14 +34,16 @@ public class UserServiceImpl implements UserService {
 
 	// 1-2. 아이디 중복 체크
 	@Override
-	public void idOverlap(String userId, HttpServletResponse response) throws Exception {
+	public String idOverlap(String userId) throws Exception {
 		UserVO resultVO = new UserVO();
 		resultVO = udao.idOverlap(userId);
 		
 		if(resultVO == null) {
-			response.getWriter().print("1");
+			// 아이디 중복 X
+			return "1";
 		}else {
-			response.getWriter().print("0");
+			// 아이디 중복 O
+			return "0";
 		}
 	}
 	
