@@ -53,7 +53,7 @@ public class BusinessFrontController {
 	
 	// http://localhost:8088/business/mypage/restInfo
 	// 3-2. 나의 가게 정보
-	@RequestMapping(value = "/mypage/dashboard", method = RequestMethod.GET)
+	@RequestMapping(value = "/mypage/restInfo", method = RequestMethod.GET)
 	public String businessusersRestInfo(Model model) {
 		logger.debug("@@@@@@@@@@@@@@@@사업자 마이페이지 나의 가게 정보 - businessusersRestInfo() 실행");
 		

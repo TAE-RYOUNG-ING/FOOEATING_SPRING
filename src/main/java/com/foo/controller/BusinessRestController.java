@@ -91,15 +91,19 @@ public class BusinessRestController {
 //	public void getDashboard(@PathVariable("buNum") String buNum) throws Exception {
 //		logger.debug("@@@@@@@@@@@@@@@@@@@@@ getDashboard() 호출");
 //		logger.debug("buNum : " + buNum);
+//		
+//		// bnNum과 일치하는 restaurants 데이터가 있으면 대시보드 출력
 //	}
 	
 	// 3-2. 나의 가게 정보
-	@RequestMapping(value = "/mypage/restInfo/{buNum}")
-	public List<RestaurantsVO> getRestInfo(@PathVariable("buNum") String buNum) throws Exception{
-		logger.debug("@@@@@@@@@@@@@@@@@@@@@ getRestInfo() 호출");
-		logger.debug("buNum : " + buNum);
-		
-		return null;
-	}
+//	@RequestMapping(value = "/mypage/restInfo/{buNum}")
+//	public List<RestaurantsVO> getRestInfo(@PathVariable("buNum") String buNum) throws Exception{
+//		logger.debug("@@@@@@@@@@@@@@@@@@@@@ getRestInfo() 호출");
+//		logger.debug("buNum : " + buNum);
+//		
+//		// bnNum과 일치하는 restaurants 데이터가 있으면 해당 데이터를 리스트로 넘기기 -> 없으면 null 리턴
+//		
+//		return null;
+//	}
 	
 }
