@@ -28,12 +28,16 @@ fieldset{
 	margin-bottom: 20px;
 }
 
+td {
+	display: block;
+	padding-bottom: 5px;
+}
+
 tr>td:nth-child(2), span {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: center;
- 	margin-bottom: 10px;
 }
 
 .step-form {
@@ -42,20 +46,19 @@ tr>td:nth-child(2), span {
 }
 
 .inputStyle {
-	width: 230px;
+	width: 280px;
 	height: 25px;
 }
 
 .btn {
-	width: 250px;
-	height: 40px;
+	width: 100px;
+	height: 30px;
 	margin: auto;
 	display: block;
 }
 
 .space {
-	margin-bottom: 10px;
- 	margin-right: 0px;
+	text-align: right;
 }
 
 #confirmMsg {
@@ -389,29 +392,31 @@ function showStep() {
 <div id="step2">
 	
 	<div class="step-form">
-		<table>
+		<table style="margin: 40px auto;">
 			<tr>
 				<td>아이디</td>
 				<td><input type="text" id="buId" class="inputStyle" placeholder="영문과 숫자 조합하여 8~12자"></td>
-				<td><input type="button" class="space" value="중복확인"></td>
+				<td class="space"><input type="button" value="중복확인"></td>
 			</tr>
 			<tr>
 				<td>비밀번호</td>
 				<td><input type="password" id="buPw" class="inputStyle" placeholder="영문, 숫자, 특수문자 조합하여 8~16자"></td>
 			</tr>
 			<tr>
-				<td rowspan="2">비밀번호 확인</td>
+				<td>비밀번호 확인</td>
 				<td><input type="password" name="buPwChk" id="buPwChk" class="inputStyle"></td>
 			</tr>
 			<tr>
-				<td><span id="confirmMsgPw">ddd</span></td>
+				<td></td>
+				<td><span id="confirmMsgPw"></span></td>
 			</tr>
 			<tr>
-				<td rowspan="2">사업자번호</td>
+				<td>사업자번호</td>
 				<td><input type="text" id="buNum" class="inputStyle" placeholder="ex) 000-00-00000"></td>
 			</tr>
 			<tr>
-				<td><span id="confirmMsgNum">ddd</span></td>
+				<td></td>
+				<td><span id="confirmMsgNum"></span></td>
 			</tr>
 			<tr>
 				<td>이름</td>
@@ -420,12 +425,12 @@ function showStep() {
 			<tr>
 				<td>이메일</td>
 				<td><input type="text" id="buEmail" class="inputStyle" placeholder="이메일"></td>
-				<td><button type="button" id="btnEmailSend" class="space">코드발송</button></td>
+				<td class="space"><button type="button" id="btnEmailSend">코드발송</button></td>
 			</tr>
 			<tr>
 				<td>이메일 인증</td>
 				<td><input type="text" id="checkCode" class="inputStyle" maxlength="10" placeholder="인증코드 입력" disabled></td>
-				<td><button type="button" id="btnEmailCheck" class="space">인증하기</button></td>
+				<td class="space"><button type="button" id="btnEmailCheck">인증하기</button></td>
 			</tr>
 			<tr>
 				<td>전화번호</td>
@@ -434,7 +439,7 @@ function showStep() {
 		</table>
 	</div>
 	
-	<input type="button" id="btn-submit" class="btn" value="회원가입">
+	<input type="button" class="btn" id="btn-submit" value="회원가입" style="width: 290px; height: 40px;">
 
 </div>		<!-- step2 끝 -->
 	
