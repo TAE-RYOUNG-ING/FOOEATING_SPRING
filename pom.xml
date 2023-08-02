@@ -202,6 +202,7 @@
 		<!-- 사진업로드 -->
 		
 		
+		
 		<!-- 엑셀 다운로드 -->
 		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
 		<dependency>
@@ -232,6 +233,11 @@
 		<dependency>
 		    <groupId>org.springframework</groupId>
 		    <artifactId>spring-context-support</artifactId>
+		    <version>${org.springframework-version}</version>
+		</dependency>
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-webmvc</artifactId>
 		    <version>${org.springframework-version}</version>
 		</dependency>
 		<!-- 이메일 인증 -->
