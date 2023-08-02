@@ -26,6 +26,8 @@ public class BusinessServiceImpl implements BusinessService {
 	// 의존성 주입
 	@Autowired
 	private BusinessDAO bdao;
+	@Autowired
+	private JavaMailSender mailSender;
 
 
 	
@@ -65,7 +67,7 @@ public class BusinessServiceImpl implements BusinessService {
 		String ranStr = randomString(10);
 		String content = 
 				"<h1>FOOEATING 홈페이지를 방문해주셔서 감사합니다.</h1><br><br>" +
-				"인증 번호는 " + ranStr + "입니다.<br>" +
+				"인증 번호는 " + ranStr + " 입니다.<br>" +
 				"해당 인증번호를 인증번호 확인란에 기입하여 주십시오.";		// 이메일 내용
 		
 		sendEmail(fromEmail, toEmail, title, content);
@@ -75,15 +77,14 @@ public class BusinessServiceImpl implements BusinessService {
 	// 1-1-3. 이메일 전송
 	@Override
 	public void sendEmail(String fromEmail, String toEmail, String title, String content) throws Exception {
-		JavaMailSender emailSender = new JavaMailSenderImpl();
-		MimeMessage message = emailSender.createMimeMessage();
+		MimeMessage message = mailSender.createMimeMessage();
 		
 		MimeMessageHelper helper = new MimeMessageHelper(message, true, "utf-8");
 		helper.setFrom(fromEmail);
 		helper.setTo(toEmail);
 		helper.setSubject(title);
 		helper.setText(content, true);		// true로 설정 해야만 html 형식으로 전송. 작성하지 않으면 단순 텍스트로 전송됨.
-		emailSender.send(message);
+		mailSender.send(message);
 	}
 	
 	

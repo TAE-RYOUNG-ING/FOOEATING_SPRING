@@ -70,22 +70,41 @@ $(document).ready(function() {
 	
 	// --------------------- step2 ----------------------------
 	
+	var ranStr;
+	
 	// 인증번호 발송 버튼 클릭 시
 	$("#btnEmailSend").click(function() {
 		var email = $("#buEmail").val();		// 사용자가 입력한 이메일
 		
 		// 인증번호 발송 ajax
 		$.ajax({
-			url : "${contextPath}/business/emailCheck/" + email,
+			url : "${contextPath}/business/emailCheck?email=" + email,
 			type : 'GET',
 			success : function(msg) {
-				$("#checkNum").attr("disabled", false);		// 인증번호 전송 후 입력창 활성화
+				$("#checkCode").attr("disabled", false);		// 인증번호 전송 후 입력창 활성화
+				ranStr = msg;								// 전송한 인증번호 저장
+				console.log(email + "로 전송된 인증번호 : " + msg);
 				alert("인증번호가 전송되었습니다.");
 			},
 			error : function() {
 				alert("실패 ㅜㅜ");
 			}
 		});
+	});
+	
+	// 메일인증 버튼 클릭 시
+	$("#btnEmailCheck").click(function() {
+		var inputCode = $("#checkCode").val();		// 사용자가 입력한 인증번호
+		
+		if (inputCode === ranStr) {		// 인증번호 일치
+			alert("이메일 인증이 완료되었습니다.");
+			$("#btnEmailSend").attr("disabled", true);	// 재인증 제한
+			$("#checkCode").attr("readonly", true);		// 인증번호 수정 제한
+			$("#buEmail").attr("readonly", true);		// 인증 후 메일 변경 제한
+		} else {	// 인증번호 불일치
+			alert("인증번호가 일치하지 않습니다! 다시 확인해주세요.");
+			inputCode.focus();
+		}
 	});
 	
 	// 회원가입 버튼 클릭 시
@@ -117,6 +136,10 @@ $(document).ready(function() {
 			return false;
 		} else if ($("#buEmail").val() === "") {
 			alert("이메일을 입력해주세요.");
+			$("#buEmail").focus();
+			return false;
+		} else if (!$("#checkCode").attr("readonly")) {
+			alert("이메일 인증을 완료해주세요.");
 			$("#buEmail").focus();
 			return false;
 		} else if ($("#buTel").val() === "") {
@@ -342,7 +365,7 @@ function showStep() {
 <input type="text" id="buNum" placeholder="사업자번호"> <br>
 <input type="text" id="buName" placeholder="이름"> <br>
 <input type="text" id="buEmail" placeholder="이메일"> <button type="button" id="btnEmailSend">인증번호 발송</button> <br>
-<input type="text" id="checkNum" maxlength="10" placeholder="인증번호 입력" disabled> <button type="button" id="btnEmailCheck">인증 확인</button> <br>
+<input type="text" id="checkCode" maxlength="10" placeholder="인증번호 입력" disabled> <button type="button" id="btnEmailCheck">메일 인증</button> <br>
 <input type="text" id="buTel" placeholder="전화번호"> <br>
 
 <input type="button" id="btn-submit" class="btn" value="회원가입">

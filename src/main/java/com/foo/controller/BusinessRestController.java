@@ -53,7 +53,7 @@ public class BusinessRestController {
 		
 		String ranStr = bService.writeEmail(email);		// 해당 메일로 전송된 인증 번호 저장
 		
-		return "ranStr";
+		return ranStr;
 	}
 	
 	
