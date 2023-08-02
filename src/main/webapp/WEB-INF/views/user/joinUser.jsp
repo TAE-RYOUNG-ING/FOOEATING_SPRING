@@ -58,7 +58,7 @@
 
 $(function(){
 	
-	// ID 중복확인
+	// '중복확인' 클릭 시
 	let isIdChecked = false;
 	
 	$('#idCheck').on("click", function(e){
@@ -73,14 +73,10 @@ $(function(){
 					isIdChecked = true; 
 					$('#idchk2').html("");
 					$('#idchk1').html("　　이 아이디는 사용 가능합니다.");
-// 					$('#fr').unbind();
 				}else if(data === 0){
 					$('#idchk1').html("");
 					$('#idchk2').html("　　이 아이디는 사용 불가능합니다.");
-					$('#fr').on('submit', function(e) {
-			            e.preventDefault();
-			            fr.userId.focus();
-				    });
+			        fr.userId.focus();
 				}
 			},
 			error : function(){
@@ -99,10 +95,20 @@ $(function(){
     });
 	
 	
+	
+	// 비밀번호 크로스 체크
+	$('#userPwChk').keyup(function(){
+		if(fr.userPw.value !== fr.userPwChk.value){
+			$('#pwchk').html("비밀번호가 일치하지 않습니다.");
+		}else {
+			$('#pwchk').html("");
+		}
+	});
 
-	// ID 중복확인 & 회원가입란 유효성 체크
+
+	
+	// 제출 시 ID 중복확인 & 회원가입란 유효성 체크
 	$('#submit').click(function(e) {
-		
 		if(fr.userId.value === ""){
 			fr.userId.focus();
 			alert("아이디를 입력해주세요.");
@@ -129,27 +135,29 @@ $(function(){
 			return false;
 		}
 		
-		
-		
-		// 비밀번호 크로스 체크
-		if(fr.userPw.value !== fr.userPwChk.value){
-	        $('#pwchk').html("비밀번호가 일치하지 않습니다.");
-	        fr.userPwChk.focus();
-	        return false;
-    	}else {
-        	$('#pwchk').html("");
-        	return false;
-    	}
-		
-		
-		
 		// ID 중복확인 하지 않고 제출할 경우
-		if(isIdChecked){
-			alert("아이디 중복확인 OK");
-		}else {
+		else if(!isIdChecked){
 			alert("아이디 중복확인을 해주세요.");
 			fr.userId.focus();
+			return false;
+		}else{
+			alert("회원가입이 완료되었습니다.");
 	    }
+		
+		
+		
+		// 비밀번호 크로스 체크 1
+// 		if(fr.userPw.value !== fr.userPwChk.value){
+// 	        $('#pwchk').html("비밀번호가 일치하지 않습니다.");
+// 	        fr.userPwChk.focus();
+// 	        return false;
+//     	}else {
+//         	$('#pwchk').html("");
+//         	return false;
+//     	}
+		
+
+
 
 	}); // submit.click
 	

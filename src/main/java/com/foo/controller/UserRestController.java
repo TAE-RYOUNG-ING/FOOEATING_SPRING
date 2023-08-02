@@ -34,7 +34,6 @@ public class UserRestController {
 	public String idOverlapPOST(@RequestParam("userId") String userId) throws Exception {
 		
 		logger.debug("@@@@@@@@@@@@@@@ idOverlap_호출");
-		logger.debug("@@@@@@@@@@@@@@@ userId = " + userId);
 		
 		String result = uService.idOverlap(userId);
 		logger.debug("@@@@@@@@@@@@@@@ 아이디 중복일 경우 '0' : " + result);
