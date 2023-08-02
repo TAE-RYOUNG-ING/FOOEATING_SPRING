@@ -51,6 +51,7 @@ $(document).ready(function() {
 	
 	// 사용자가 입력한 사업장 정보를 저장할 객체
 	var registInfo = {};
+	registInfo.restId = "000-00-00000";			// 세션에 저장된 회원 정보에서 가져오기 (회원이 사업자일 경우 restId도 같이 저장 예정)
 	
 	// 사용자가 입력한 메뉴 정보를 저장할 객체 (없을 수도 있음)
 	var registMenu = {};
@@ -161,6 +162,7 @@ $(document).ready(function() {
 			data : JSON.stringify(registInfo),
 			success : function(msg) {
 				alert("입점 신청이 완료되었습니다!");
+				location.href = "/business/mypage";
 			},
 			error : function() {
 				alert("실패 ㅜㅜ");

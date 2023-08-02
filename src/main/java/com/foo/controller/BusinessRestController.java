@@ -1,5 +1,7 @@
 package com.foo.controller;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,7 @@ public class BusinessRestController {
 		logger.debug("@@@@@@@@@@@@@@@@@@@@@ joinBusinessuser() 호출");
 		logger.debug("buvo : {}", buvo);
 		
-		// service 추가 해야함!
+		bService.joinBuser(buvo);
 		
 		return "ok";
 	}
@@ -49,9 +51,9 @@ public class BusinessRestController {
 	@ResponseBody
 	public String emailCheck(@ModelAttribute("email") String email) throws Exception {
 		logger.debug("@@@@@@@@@@@@@@@@@@@@@ emailCheck() 호출");
-		logger.debug("인증번호를 보낼 email : " + email);
 		
 		String ranStr = bService.writeEmail(email);		// 해당 메일로 전송된 인증 번호 저장
+		logger.debug("인증번호를 보낼 email : " + email + " / 생성된 인증코드 : " + ranStr);
 		
 		return ranStr;
 	}
@@ -65,7 +67,7 @@ public class BusinessRestController {
 		logger.debug("@@@@@@@@@@@@@@@@@@@@@ registRestaurant() 호출");
 		logger.debug("revo : {}", revo);
 		
-		// sevice 추가 해야함!
+		bService.registRestaurant(revo);
 		
 		return "ok";
 	}
@@ -79,5 +81,17 @@ public class BusinessRestController {
 //		
 //		return "ok";
 //	}
+	
+	
+	
+	// http://localhost:8088/business/mypage
+	// 3. 사업자 회원 마이 페이지
+	@RequestMapping(value = "/mypage/{buNum}")
+	public List<RestaurantsVO> getRestInfo(@PathVariable("buNum") String buNum) throws Exception{
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@ getRestInfo() 호출");
+		logger.debug("buNum : " + buNum);
+		
+		return null;
+	}
 	
 }

@@ -434,7 +434,7 @@ function showStep() {
 			</tr>
 			<tr>
 				<td>전화번호</td>
-				<td><input type="text" id="buTel" class="inputStyle" placeholder="ex) 000-000-0000"></td>
+				<td><input type="text" id="buTel" class="inputStyle" placeholder="ex) 000-0000-0000"></td>
 			</tr>
 		</table>
 	</div>

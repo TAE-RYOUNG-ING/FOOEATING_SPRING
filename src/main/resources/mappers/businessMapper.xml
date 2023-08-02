@@ -7,8 +7,8 @@
 
 <!-- 사업자 회원가입 -->
 <insert id="insertBusinessuser">
-	insert into businessusers (buId, buPw, buNum, buName, buEmail, buTel) 
-	values (#{buId}, #{buPw}, #{buNum}, #{buName}, #{buEmail}, #{buTel})
+	INSERT INTO businessusers (buId, buPw, buNum, buName, buEmail, buTel, regdate) 
+	VALUES (#{buId}, #{buPw}, #{buNum}, #{buName}, #{buEmail}, #{buTel}, now())
 </insert>
 <!-- 사업자 회원가입 -->
 
@@ -16,10 +16,19 @@
 
 <!-- 사업자 등록 -->
 <insert id="insertRestaurant">
-	insert into restaurants (restId, restName, restTel, restAddr, restDiscription, restRuntime, restCategory, restConvenience, restExterior, restInterior) 
-	values (#{restId}, #{restName}, #{restTel}, #{restAddr}, #{restDiscription}, #{restRuntime}, #{restCategory}, #{restConvenience}, #{restExterior}, #{restInterior})
+	INSERT INTO restaurants (restId, restName, restTel, restAddr, restDescription, restRuntime, restCategory, restConvenience, restExterior, restInterior) 
+	VALUES (#{restId}, #{restName}, #{restTel}, #{restAddr}, #{restDescription}, #{restRuntime}, #{restCategory}, #{restConvenience}, #{restExterior}, #{restInterior})
 </insert>
 <!-- 사업자 등록 -->
+
+
+
+<!-- 마이페이지 - 가게 정보 (입점 신청이 완료된 경우) -->
+<select id="readMyRestaurantInfo" resultType="com.foo.domain.RestaurantsVO">
+	SELECT * FROM restaurants 
+	WHERE restId = #{restId}
+</select>
+<!-- 마이페이지 - 가게 정보 -->
 
 
 

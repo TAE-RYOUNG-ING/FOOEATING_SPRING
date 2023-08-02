@@ -22,8 +22,8 @@ public class BusinessFrontController {
 	// http://localhost:8088/business/join
 	// 1. 사업자 회원 가입
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
-	public String businessUsersJoin(Model model) {
-		logger.debug("@@@@@@@@@@@@@@@@사업자 회원가입 - businessUsersJoin() 실행");
+	public String businessusersJoin(Model model) {
+		logger.debug("@@@@@@@@@@@@@@@@사업자 회원가입 - businessusersJoin() 실행");
 		
 		return "/business/join";
 	}
@@ -33,10 +33,21 @@ public class BusinessFrontController {
 	// http://localhost:8088/business/registration
 	// 2. 입점 신청
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
-	public String businessUsersRegistration(Model model) {
-		logger.debug("@@@@@@@@@@@@@@@@사업자 입점 신청 - businessUsersRegistration() 실행");
+	public String businessusersRegistration(Model model) {
+		logger.debug("@@@@@@@@@@@@@@@@사업자 입점 신청 - businessusersRegistration() 실행");
 		
 		return "/business/registration";
+	}
+	
+	
+	
+	// http://localhost:8088/business/mypage
+	// 3. 사업자 회원 마이 페이지
+	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
+	public String businessusersMypage(Model model) {
+		logger.debug("@@@@@@@@@@@@@@@@사업자 마이페이지 - businessusersMypage() 실행");
+		
+		return "/business/mypage";
 	}
 	
 }

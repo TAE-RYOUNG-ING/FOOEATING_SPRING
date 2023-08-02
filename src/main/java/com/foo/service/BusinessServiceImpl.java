@@ -38,6 +38,7 @@ public class BusinessServiceImpl implements BusinessService {
 	// 1. 사업자 회원 가입
 	@Override
 	public void joinBuser(BusinessusersVO buvo) throws Exception {
+		bdao.insertBuser(buvo);
 	}
 	
 	// 1-1. 이메일 인증
@@ -94,6 +95,7 @@ public class BusinessServiceImpl implements BusinessService {
 	// 2. 입점 신청
 	@Override
 	public void registRestaurant(RestaurantsVO revo) throws Exception {
+		bdao.registRestaurant(revo);
 	}
 	
 	// 2-1. 메뉴 등록
