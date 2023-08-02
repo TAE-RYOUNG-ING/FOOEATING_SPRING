@@ -48,10 +48,12 @@ public class BusinessServiceImpl implements BusinessService {
 		StringBuffer buf = new StringBuffer();
 		
 		for (int i = 0; i < strLength; i++) {
-			if (ran.nextBoolean()) {	// 랜덤으로 뽑은 boolean 값이 true면 소문자 하나를 buffer에 추가
-				buf.append((char)((ran.nextInt(26) + 1) + 97));		// a ~ z 까지 소문자 랜덤
-			} else {	// 랜덤으로 뽑은 boolean 값이 false면 숫자 하나를 buffer에 추가
+			if (ran.nextInt(3) == 0) {	// 랜덤으로 뽑은 값이 0면 숫자 하나를 buffer에 추가
 				buf.append(ran.nextInt(10));						// 0 ~ 9 까지 숫자 랜덤
+			} else if (ran.nextInt(3) == 1) {
+				buf.append((char)(ran.nextInt(26) + 65));		// A ~ Z 까지 소문자 랜덤
+			} else {	// 랜덤으로 뽑은 boolean 값이 false면 숫자 하나를 buffer에 추가
+				buf.append((char)(ran.nextInt(26) + 97));		// a ~ z 까지 소문자 랜덤
 			}
 		}
 		
