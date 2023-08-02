@@ -84,9 +84,17 @@ public class BusinessRestController {
 	
 	
 	
-	// http://localhost:8088/business/mypage
+	// http://localhost:8088/business/mypage/dashboard
 	// 3. 사업자 회원 마이 페이지
-	@RequestMapping(value = "/mypage/{buNum}")
+	// 3-1. 대시보드
+//	@RequestMapping(value = "/mypage/dashboard/{buNum}", method = RequestMethod.GET)
+//	public void getDashboard(@PathVariable("buNum") String buNum) throws Exception {
+//		logger.debug("@@@@@@@@@@@@@@@@@@@@@ getDashboard() 호출");
+//		logger.debug("buNum : " + buNum);
+//	}
+	
+	// 3-2. 나의 가게 정보
+	@RequestMapping(value = "/mypage/restInfo/{buNum}")
 	public List<RestaurantsVO> getRestInfo(@PathVariable("buNum") String buNum) throws Exception{
 		logger.debug("@@@@@@@@@@@@@@@@@@@@@ getRestInfo() 호출");
 		logger.debug("buNum : " + buNum);

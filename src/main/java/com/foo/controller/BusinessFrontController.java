@@ -41,13 +41,23 @@ public class BusinessFrontController {
 	
 	
 	
-	// http://localhost:8088/business/mypage
+	// http://localhost:8088/business/mypage/dashboard
 	// 3. 사업자 회원 마이 페이지
-	@RequestMapping(value = "/mypage", method = RequestMethod.GET)
-	public String businessusersMypage(Model model) {
-		logger.debug("@@@@@@@@@@@@@@@@사업자 마이페이지 - businessusersMypage() 실행");
+	// 3-1. 대시보드
+	@RequestMapping(value = "/mypage/dashboard", method = RequestMethod.GET)
+	public String businessusersDash(Model model) {
+		logger.debug("@@@@@@@@@@@@@@@@사업자 마이페이지 대시보드 - businessusersDash() 실행");
 		
-		return "/business/mypage";
+		return "/business/mypage/dashboard";
+	}
+	
+	// http://localhost:8088/business/mypage/restInfo
+	// 3-2. 나의 가게 정보
+	@RequestMapping(value = "/mypage/dashboard", method = RequestMethod.GET)
+	public String businessusersRestInfo(Model model) {
+		logger.debug("@@@@@@@@@@@@@@@@사업자 마이페이지 나의 가게 정보 - businessusersRestInfo() 실행");
+		
+		return "/business/mypage/restInfo";
 	}
 	
 }

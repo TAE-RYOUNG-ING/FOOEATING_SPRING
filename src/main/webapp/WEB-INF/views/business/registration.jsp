@@ -162,7 +162,7 @@ $(document).ready(function() {
 			data : JSON.stringify(registInfo),
 			success : function(msg) {
 				alert("입점 신청이 완료되었습니다!");
-				location.href = "/business/mypage";
+				location.href = "/business/mypage/dashboard";
 			},
 			error : function() {
 				alert("실패 ㅜㅜ");
@@ -385,7 +385,7 @@ function kakaoPostcodeAPI() {
 <div id="step3">
 
 <h1>메뉴 등록 [선택]</h1>
-<h6>※ 추후 [마이페이지] - [내 가게 정보] 에서 추가 가능합니다.</h6> <br>
+<h6>※ 추후 [마이페이지] - [나의 가게 정보] 에서 추가 가능합니다.</h6> <br>
 
 <div>
 	<button type="button" id="btnAddMenu">메뉴 추가</button> <br>
