@@ -28,11 +28,18 @@ public class UserDAOImpl implements UserDAO {
 	
 	
 	
-	// 1. 회원 가입
+	// 1-1. 회원 가입
 	@Override
 	public void insertUser(UserVO vo) throws Exception {
 		logger.debug("############### insertUser_호출");
 		sqlSession.insert(NAMESPACE + ".insertUser", vo);
+	}
+	
+	// 1-2. 아이디 중복 체크
+	@Override
+	public UserVO idOverlap(String userId) throws Exception {
+		logger.debug("############### idOverlap_호출");
+		return sqlSession.selectOne(NAMESPACE + ".idOverlap", userId);
 	}
 
 
@@ -43,6 +50,10 @@ public class UserDAOImpl implements UserDAO {
 		logger.debug("############### loginUser_호출");
 		return sqlSession.selectOne(NAMESPACE + ".loginUser", vo);
 	}
+
+
+
+
 	
 	
 
