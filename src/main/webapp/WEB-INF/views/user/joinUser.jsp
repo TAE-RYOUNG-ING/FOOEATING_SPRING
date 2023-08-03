@@ -12,9 +12,9 @@ h1{
 	text-align: center;
 }
 
-.step-form {
-	width: 600px;
+img{
 	margin: auto;
+	display: block;
 }
 
 fieldset{
@@ -24,9 +24,26 @@ fieldset{
 	margin-bottom: 20px;
 }
 
-img{
-	margin: auto;
+td {
 	display: block;
+	padding-bottom: 5px;
+}
+
+tr>td:nth-child(2), span {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+
+.step-form {
+	width: 600px;
+	margin: auto;
+}
+
+.inputStyle {
+	width: 280px;
+	height: 25px;
 }
 
 .btn {
@@ -36,34 +53,8 @@ img{
 	display: block;
 }
 
-/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
-
-.confirmMsgOK {
-	font-size: 0.7em;
-	color: green;
-}
-
-.confirmMsgNO {
-	font-size: 0.7em;
-	color: red;
-}
-
-/* ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ */
-
-.inputStyle {
-	width: 230px;
-	height: 25px;
-	margin-bottom: 10px;
-}
-
 .space {
-	margin-bottom: 10px;
-	margin-left: 185px;
-}
-
-.space2 {
-	margin-bottom: 10px;
-	margin-left: 270px;
+	text-align: right;
 }
 
 </style>
@@ -111,57 +102,84 @@ $(function(){
 	$('#step2').css('display', "none");
 
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ step2 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	// ID 중복확인 변수
+
+	// 조건 부합 상태를 저장하는 변수
 	let isIdChecked = false;
+	let isPwChecked = false;
+
 	
-	// '중복확인' 클릭
-	$('#idCheck').on('click', function(e){
-		$.ajax({
-			url :'/user/idOverlap',
-			type : 'post',
-			data : {"userId" : $('#userId').val()},
-			dataType : "json",
-			success : function(data){	
-				if(data === 1){
-					isIdChecked = true; 
-					$('#idchk2').html("");
-					$('#idchk1').html("　　이 아이디는 사용 가능합니다.");
-				}else if(data === 0){
-					$('#idchk1').html("");
-					$('#idchk2').html("　　이 아이디는 사용 불가능합니다.");
-			        fr.userId.focus();
-				}
-			},
-			error : function(){
-				alert("ajax Error");
-			}
-			
-		}); // ajax
+	
+	// 아이디 조건 및 중복 확인
+	$('#userId').keyup(function(){
+		let userId = $('#userId').val();
+		let trueId = /^[a-zA-Z0-9]{8,12}$/;
 		
-	}); // idCheck.click
+		// 아이디 조건 OK & 중복 확인
+		if(trueId.test(userId)){
+			$('#idchk').html("");
+			
+			$.ajax({
+				url :'/user/idOverlap',
+				type : 'post',
+				data : {"userId" : $('#userId').val()},
+				dataType : "json",
+				success : function(data){
+					if(data === 1 && trueId.test(userId)){
+						isIdChecked = true;
+						$('#idchk').html("사용 가능한 아이디 입니다.");
+						$('#idchk').css('color', 'green');
+						$('#idchk').css('font-size', '10px');
+					}else if(data === 0 && trueId.test(userId)){
+						isIdChecked = false;
+						$('#idchk').html("이미 존재하는 아이디 입니다.");
+						$('#idchk').css('color', 'red');
+						$('#idchk').css('font-size', '10px');
+						$('#userId').focus();
+					}
+				},
+				error : function(){
+					alert("ajax Error");
+				}
+			}); // ajax
+		
+		// 아이디 조건 NO
+		}else if(!trueId.test(userId)){
+			isIdChecked = false;
+			$('#idchk').html("영문과 숫자를 조합하여 8~12자로 작성해 주세요.");
+			$('#idchk').css('color', 'red');
+			$('#idchk').css('font-size', '10px');
+		}
+
+	}); // userId.keyup
 	
 	
 	
-	// 사용자가 ID값을 바꿨을 경우
-	$('input[name="userId"]').on('change', function(e){
-        isIdChecked = false;
-    });
+	// 비밀번호 조건 및 크로스 체크
+	$('#userPw').keyup(function(){
 	
+	}); // userPw.keyup
 	
-	
-	// 비밀번호 크로스 체크
+	// 크로스 체크
 	$('#userPw').keyup(function(){
 		if($('#userPw').val() !== $('#userPwChk').val()){
+			isPwChecked = false;
 			$('#pwchk').html("비밀번호가 일치하지 않습니다.");
+			$('#pwchk').css('color', 'red');
+			$('#pwchk').css('font-size', '10px');
 		}else {
+			isPwChecked = true;
 			$('#pwchk').html("");
 		}
 	});
 	
 	$('#userPwChk').keyup(function(){
 		if($('#userPw').val() !== $('#userPwChk').val()){
+			isPwChecked = false;
 			$('#pwchk').html("비밀번호가 일치하지 않습니다.");
+			$('#pwchk').css('color', 'red');
+			$('#pwchk').css('font-size', '10px');
 		}else {
+			isPwChecked = true;
 			$('#pwchk').html("");
 		}
 	});
@@ -170,41 +188,47 @@ $(function(){
 	
 	// 제출 시 유효성 체크
 	$('#submit').click(function(e) {
-		
-		// 회원가입란 공백 체크
+
 		if($('#userId').val() === ""){
 			$('#userId').focus();
 			alert("아이디를 입력해주세요.");
 			return false;
-		}else if($('#userPw').val() === ""){
+		}
+		else if($('#userPw').val() === ""){
 			$('#userPw').focus();
 			alert("비밀번호를 입력해주세요.");
 			return false;
-		}else if($('#userPwChk').val() === ""){
+		}
+		else if($('#userPwChk').val() === ""){
 			$('#userPwChk').focus();
 			alert("비밀번호 확인을 입력해주세요.");
 			return false;
-        }else if($('#userName').val() === ""){
+        }
+		else if($('#userName').val() === ""){
         	$('#userName').focus();
 			alert("이름을 입력해주세요.");
 			return false;
-		}else if($('#userEmail').val() === ""){
+		}
+        else if($('#userEmail').val() === ""){
 			$('#userEmail').focus();
 			alert("이메일을 입력해주세요.");
 			return false;
-		}else if($('#userTel').val() === ""){
+		}
+		else if($('#userTel').val() === ""){
 			$('#userTel').focus();
 			alert("전화번호를 입력해주세요.");
 			return false;
 		}
-		
-		// ID 중복확인 하지 않을 경우 체크
 		else if(!isIdChecked){
-			alert("아이디 중복확인을 해주세요.");
 			$('#userId').focus();
 			return false;
-		}else{
-			// 제출
+		}
+		else if(!isPwChecked){
+			$('#userPwChk').focus();
+			return false;
+		}
+		else{
+			// 모든 조건 통과 -> 제출
 			$.ajax({
 				url: '/user/join',
 				type: 'post',
@@ -401,37 +425,48 @@ $(function(){
 <div id="step2">
 
 	<div class="step-form">
-	
-		아이디 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input type="text" name="userId" id="userId" class="inputStyle" placeholder="영문과 숫자 조합하여 8~12자"> <br>
-		
-		<div id="idchk1" class="confirmMsgOK"></div>
-		<div id="idchk2" class="confirmMsgNO"></div>
-		<input type="button" id="idCheck" class="space2" value="중복확인" onclick="return false;"> <br>
-		
-		비밀번호 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input type="password" name="userPw" id="userPw" class="inputStyle" placeholder="영문, 숫자, 특수문자 조합하여 8~12자"> <br>
-		비밀번호 확인 
-		<input type="password" name="userPwChk" id="userPwChk" class="inputStyle" > <br>
-		&nbsp;&nbsp;&nbsp; <span id="pwchk" class="confirmMsgNO"></span> <br>
-		
-		이름 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input type="text" name="userName" id="userName" class="inputStyle"> <br>
-		
-		이메일 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input type="email" name="userEmail" id="userEmail" class="inputStyle"> <br>
-		<div class="space">
-			<input type="button" value="인증코드발송" onclick="">
-			<input type="button" value="인증하기" onclick="">&nbsp; <br>
-		</div>
-		
-		전화번호 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-		<input type="tel" name="userTel" id="userTel" class="inputStyle"> <br><br>
+		<table style="margin: 40px auto;">
+			<tr>
+				<td>아이디</td>
+				<td><input type="text" name="userId" id="userId" class="inputStyle" placeholder="영문과 숫자 조합하여 8~12자"></td>
+				<td id="idchk"></td>
+				<td class="space"><input type="button" id="idCheck" value="중복확인" onclick="return false;"></td>
+			</tr>
+			<tr>
+				<td>비밀번호</td>
+				<td><input type="password" name="userPw" id="userPw" class="inputStyle" placeholder="영문, 숫자, 특수문자 조합하여 8~12자"></td>
+			</tr>
+			<tr>	
+				<td>비밀번호 확인</td>
+				<td><input type="password" name="userPwChk" id="userPwChk" class="inputStyle" ></td>
+				<td id="pwchk"></td>
+			</tr>
+			<tr>
+				<td>이름</td>
+				<td><input type="text" name="userName" id="userName" class="inputStyle"></td>
+				<td id="namechk"></td>
+			</tr>
+			<tr>
+				<td>이메일</td>
+				<td><input type="email" name="userEmail" id="userEmail" class="inputStyle"></td>
+				<td id="emailchk"></td>
+				<td class="space"><input type="button" id="btnEmailSend" value="코드발송"></td>
+			<tr>	
+				<td>이메일 인증</td>
+				<td><input type="text" id="checkCode" class="inputStyle" maxlength="10" placeholder="인증코드 입력" disabled></td>
+				<td class="space"><input type="button" id="btnEmailCheck" value="인증하기"></td>
+			</tr>	
+			<tr>
+				<td>전화번호</td>
+				<td><input type="tel" name="userTel" id="userTel" class="inputStyle" placeholder="ex) 000-0000-0000"></td>
+				<td id="telchk"></td>
+			</tr>
+		</table>
 	</div>
 	
-		<input type="button" id="submit" class="btn" value="회원가입" >
-	
-</div>
+		<input type="button" id="submit" class="btn" value="회원가입" style="width: 290px; height: 40px;">
+
+</div> 
 <!-- ㅡㅡㅡ step 2 ㅡㅡㅡ -->
 
 </body>
