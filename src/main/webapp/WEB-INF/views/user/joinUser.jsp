@@ -203,10 +203,52 @@ $(function(){
 			$('#pwchk2').html("");
 		}
 	}); // userPwChk.keyup
-
 	
 	
-	// !!! 제출 시 유효성 체크
+	
+	// 3. 이름 조건 체크
+	$('#userName').keyup(function(){
+		let userName = $('#userName').val();
+		let trueName = /^[가-힣a-zA-Z]{2,10}$/;
+		
+		if(userName === ""){
+			$('#namechk').html("");
+		}
+		else if(trueName.test(userName)){
+			isNameChecked = true;
+			$('#namechk').html("");
+		}
+		else if(!trueName.test(userName)){
+			isNameChecked = false;
+			$('#namechk').html("최소 2글자~최대 10글자, 한글 또는 영어만 입력해 주세요.");
+			$('#namechk').css('color', 'red');
+			$('#namechk').css('font-size', '10px');
+		}
+	}); // userName.keyup
+	
+	
+	
+	// 4. 이메일 조건 체크
+	$('#userEmail').keyup(function(){
+		
+		
+		
+	}); // userEmail.keyup
+	
+	
+	
+	// 5. 전화번호 조건 체크
+	$('#userTel').keyup(function(){
+		
+		
+		
+	}); // userEmail.keyup
+	
+	
+	
+	
+	
+	// 6. 제출 시 유효성 체크
 	$('#submit').click(function(e) {
 
 		if($('#userId').val() === ""){
@@ -245,6 +287,18 @@ $(function(){
 		}
 		else if(!isPwChecked){
 			$('#userPwChk').focus();
+			return false;
+		}
+		else if(!isNameChecked){
+			$('#userName').focus();
+			return false;
+		}
+		else if(!isEmailChecked){
+			$('#userEmail').focus();
+			return false;
+		}
+		else if(!isTelChecked){
+			$('#userTel').focus();
 			return false;
 		}
 		else{
