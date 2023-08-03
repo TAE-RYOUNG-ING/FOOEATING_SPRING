@@ -62,7 +62,7 @@ tr>td:nth-child(2), span {
 <script>
 
 // ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ step1 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-// '전체 동의' 클릭
+// 1. '전체 동의' 클릭
 function selectAll(selectAll){
 	const checkboxes = document.getElementsByName('chk');
 	
@@ -71,7 +71,7 @@ function selectAll(selectAll){
 	})
 }
 
-// '다음' 클릭
+// 2. '다음' 클릭
 // 필수 약관 동의 제어
 function showStep() {
 	if (!$('#chk1').prop('checked')) {
@@ -102,19 +102,21 @@ $(function(){
 	$('#step2').css('display', "none");
 
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ step2 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-
-	// 조건 부합 상태를 저장하는 변수
+	// 0. 조건 부합 상태를 저장하는 변수
 	let isIdChecked = false;
 	let isPwChecked = false;
-
+	let isNameChecked = false;
+	let isEmailChecked = false;
+	let isTelChecked = false;
+		
 	
 	
-	// 아이디 조건 및 중복 확인
+	// 1. 아이디 조건 및 중복 체크
 	$('#userId').keyup(function(){
 		let userId = $('#userId').val();
 		let trueId = /^[a-zA-Z0-9]{8,12}$/;
 		
-		// 아이디 조건 OK & 중복 확인
+		// 아이디 조건 OK -> 중복 체크
 		if(userId === ""){
 			$('#idchk').html("");
 		}
@@ -124,7 +126,7 @@ $(function(){
 			$.ajax({
 				url :'/user/idOverlap',
 				type : 'post',
-				data : {"userId" : $('#userId').val()},
+				data : {"userId" : userId},
 				dataType : "json",
 				success : function(data){
 					if(data === 1 && trueId.test(userId)){
@@ -156,12 +158,23 @@ $(function(){
 	
 	
 	
-	// 비밀번호 조건 및 크로스 체크
+	// 2-1. 비밀번호 조건 체크
 	$('#userPw').keyup(function(){
 		let userPw = $('#userPw').val();
+		let userPwChk = $('#userPwChk').val();
 		let truePw = /^[a-zA-Z0-9]{8,12}$/;
 		
-		if(truePw.test(userPw)){
+		if(userPw === ""){
+			$('#pwchk1').html("");
+			$('#pwchk2').html("");
+		}
+		else if(userPw !== userPwChk && userPwChk !== ""){
+			isPwChecked = false;
+			$('#pwchk2').html("비밀번호가 일치하지 않습니다.");
+			$('#pwchk2').css('color', 'red');
+			$('#pwchk2').css('font-size', '10px');
+		}
+		else if(truePw.test(userPw)){
 			isPwChecked = true;
 			$('#pwchk1').html("");
 			$('#pwchk2').html("");
@@ -172,23 +185,28 @@ $(function(){
 			$('#pwchk1').css('color', 'red');
 			$('#pwchk1').css('font-size', '10px');
 		}
-		else if($('#userPw').val() !== $('#userPwChk').val()){
+	}); // userPw.keyup
+	
+	// 2-2. 비밀번호 크로스 체크
+	$('#userPwChk').keyup(function(){
+		let userPw = $('#userPw').val();
+		let userPwChk = $('#userPwChk').val();
+		
+		if(userPw !== userPwChk){
 			isPwChecked = false;
 			$('#pwchk2').html("비밀번호가 일치하지 않습니다.");
 			$('#pwchk2').css('color', 'red');
 			$('#pwchk2').css('font-size', '10px');
 		}
-		else if($('#userPw').val() === $('#userPwChk').val()){
-			isPwChecked = false;
+		else if(userPw === userPwChk){
+			isPwChecked = true;
 			$('#pwchk2').html("");
 		}
-	}); // userPw.keyup
+	}); // userPwChk.keyup
 
 	
 	
-	
-	
-	// 제출 시 유효성 체크
+	// !!! 제출 시 유효성 체크
 	$('#submit').click(function(e) {
 
 		if($('#userId').val() === ""){
@@ -432,16 +450,15 @@ $(function(){
 				<td>아이디</td>
 				<td><input type="text" name="userId" id="userId" class="inputStyle" placeholder="영문과 숫자 조합하여 8~12자"></td>
 				<td id="idchk"></td>
-				<td class="space"><input type="button" id="idCheck" value="중복확인" onclick="return false;"></td>
 			</tr>
 			<tr>
 				<td>비밀번호</td>
-				<td><input type="password" name="userPw" id="userPw" class="inputStyle" placeholder="영문, 숫자, 특수문자 조합하여 8~12자"></td>
+				<td><input type="password" name="userPw" id="userPw" class="inputStyle" value="" placeholder="영문, 숫자, 특수문자 조합하여 8~12자"></td>
 				<td id="pwchk1"></td>
 			</tr>
 			<tr>	
 				<td>비밀번호 확인</td>
-				<td><input type="password" name="userPwChk" id="userPwChk" class="inputStyle" ></td>
+				<td><input type="password" name="userPwChk" id="userPwChk" class="inputStyle" value=""></td>
 				<td id="pwchk2"></td>
 			</tr>
 			<tr>
