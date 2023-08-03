@@ -115,7 +115,10 @@ $(function(){
 		let trueId = /^[a-zA-Z0-9]{8,12}$/;
 		
 		// 아이디 조건 OK & 중복 확인
-		if(trueId.test(userId)){
+		if(userId === ""){
+			$('#idchk').html("");
+		}
+		else if(trueId.test(userId)){
 			$('#idchk').html("");
 			
 			$.ajax({
@@ -142,47 +145,46 @@ $(function(){
 				}
 			}); // ajax
 		
-		// 아이디 조건 NO
-		}else if(!trueId.test(userId)){
+		} // 아이디 조건 NO
+		else if(!trueId.test(userId)){
 			isIdChecked = false;
 			$('#idchk').html("영문과 숫자를 조합하여 8~12자로 작성해 주세요.");
 			$('#idchk').css('color', 'red');
 			$('#idchk').css('font-size', '10px');
 		}
-
 	}); // userId.keyup
 	
 	
 	
 	// 비밀번호 조건 및 크로스 체크
 	$('#userPw').keyup(function(){
-	
+		let userPw = $('#userPw').val();
+		let truePw = /^[a-zA-Z0-9]{8,12}$/;
+		
+		if(truePw.test(userPw)){
+			isPwChecked = true;
+			$('#pwchk1').html("");
+			$('#pwchk2').html("");
+		}
+		else if(!truePw.test(userPw)){
+			isPwChecked = false;
+			$('#pwchk1').html("영문, 숫자, 특수문자를 조합하여 8~12자로 작성해 주세요.");
+			$('#pwchk1').css('color', 'red');
+			$('#pwchk1').css('font-size', '10px');
+		}
+		else if($('#userPw').val() !== $('#userPwChk').val()){
+			isPwChecked = false;
+			$('#pwchk2').html("비밀번호가 일치하지 않습니다.");
+			$('#pwchk2').css('color', 'red');
+			$('#pwchk2').css('font-size', '10px');
+		}
+		else if($('#userPw').val() === $('#userPwChk').val()){
+			isPwChecked = false;
+			$('#pwchk2').html("");
+		}
 	}); // userPw.keyup
+
 	
-	// 크로스 체크
-	$('#userPw').keyup(function(){
-		if($('#userPw').val() !== $('#userPwChk').val()){
-			isPwChecked = false;
-			$('#pwchk').html("비밀번호가 일치하지 않습니다.");
-			$('#pwchk').css('color', 'red');
-			$('#pwchk').css('font-size', '10px');
-		}else {
-			isPwChecked = true;
-			$('#pwchk').html("");
-		}
-	});
-	
-	$('#userPwChk').keyup(function(){
-		if($('#userPw').val() !== $('#userPwChk').val()){
-			isPwChecked = false;
-			$('#pwchk').html("비밀번호가 일치하지 않습니다.");
-			$('#pwchk').css('color', 'red');
-			$('#pwchk').css('font-size', '10px');
-		}else {
-			isPwChecked = true;
-			$('#pwchk').html("");
-		}
-	});
 	
 	
 	
@@ -435,11 +437,12 @@ $(function(){
 			<tr>
 				<td>비밀번호</td>
 				<td><input type="password" name="userPw" id="userPw" class="inputStyle" placeholder="영문, 숫자, 특수문자 조합하여 8~12자"></td>
+				<td id="pwchk1"></td>
 			</tr>
 			<tr>	
 				<td>비밀번호 확인</td>
 				<td><input type="password" name="userPwChk" id="userPwChk" class="inputStyle" ></td>
-				<td id="pwchk"></td>
+				<td id="pwchk2"></td>
 			</tr>
 			<tr>
 				<td>이름</td>
