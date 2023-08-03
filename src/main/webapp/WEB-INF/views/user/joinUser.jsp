@@ -162,7 +162,7 @@ $(function(){
 	$('#userPw').keyup(function(){
 		let userPw = $('#userPw').val();
 		let userPwChk = $('#userPwChk').val();
-		let truePw = /^[a-zA-Z0-9]{8,12}$/;
+		let truePw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,12}$/;
 		
 		if(userPw === ""){
 			$('#pwchk1').html("");
@@ -230,21 +230,45 @@ $(function(){
 	
 	// 4. 이메일 조건 체크
 	$('#userEmail').keyup(function(){
+		let userEmail = $('#userEmail').val();
+		let trueEmail = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
 		
-		
-		
+		if(userEmail === ""){
+			$('#emailchk').html("");
+		}
+		else if(trueEmail.test(userEmail)){
+			isEmailChecked = true;
+			$('#emailchk').html("");
+		}
+		else if(!trueEmail.test(userEmail)){
+			isEmailChecked = false;
+			$('#emailchk').html("잘못된 이메일 형식입니다.");
+			$('#emailchk').css('color', 'red');
+			$('#emailchk').css('font-size', '10px');
+		}
 	}); // userEmail.keyup
 	
 	
 	
 	// 5. 전화번호 조건 체크
 	$('#userTel').keyup(function(){
+		let userTel = $('#userTel').val();
+		let trueTel = /01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}/;
 		
-		
-		
-	}); // userEmail.keyup
-	
-	
+		if(userTel === ""){
+			$('#telchk').html("");
+		}
+		else if(trueTel.test(userTel)){
+			isTelChecked = true;
+			$('#telchk').html("");
+		}
+		else if(!trueTel.test(userTel)){
+			isTelChecked = false;
+			$('#telchk').html("연락처 형식에 맞지 않습니다.");
+			$('#telchk').css('color', 'red');
+			$('#telchk').css('font-size', '10px');
+		}
+	}); // userTel.keyup
 	
 	
 	
