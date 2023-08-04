@@ -8,7 +8,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
@@ -88,6 +87,34 @@ public class BusinessServiceImpl implements BusinessService {
 		helper.setSubject(title);
 		helper.setText(content, true);		// true로 설정 해야만 html 형식으로 전송. 작성하지 않으면 단순 텍스트로 전송됨.
 		mailSender.send(message);
+	}
+
+	// 1-2. 아이디 중복 체크
+	@Override
+	public String idOverlap(String buId) throws Exception {
+		String result = bdao.idOverlap(buId);
+		
+		if (result == null) {
+			logger.debug("$$$$$$$$$$$$$$$ 아이디 중복 X");
+			return "1";
+		} else {
+			logger.debug("$$$$$$$$$$$$$$$ 아이디 중복 O");
+			return "0";
+		}
+	}
+	
+	// 1-3. 사업자번호 중복 체크
+	@Override
+	public String bnumOverlap(String buNum) throws Exception {
+		String result = bdao.bnumOverlap(buNum);
+		
+		if (result == null) {
+			logger.debug("$$$$$$$$$$$$$$$ 사업자번호 중복 X");
+			return "3";
+		} else {
+			logger.debug("$$$$$$$$$$$$$$$ 사업자번호 중복 O");
+			return "2";
+		}
 	}
 	
 	

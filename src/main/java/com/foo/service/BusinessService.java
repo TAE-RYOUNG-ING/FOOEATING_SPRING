@@ -19,6 +19,12 @@ public interface BusinessService {
 	// 1-1-3. 이메일 전송
 	public void sendEmail(String fromEmail, String toEmail, String title, String content) throws Exception;
 	
+	// 1-2. 아이디 중복 체크
+	public String idOverlap(String buId) throws Exception;
+	
+	// 1-3. 사업자번호 중복 체크
+	public String bnumOverlap(String buNum) throws Exception;
+	
 	// 2. 입점 신청
 	public void registRestaurant(RestaurantsVO revo) throws Exception;
 	

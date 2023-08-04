@@ -82,7 +82,7 @@ $(document).ready(function() {
 	
 	
 	
-	// --------------------- step1 ----------------------------
+	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ step1 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	
 	// 약관 전체 동의
 	$("#chkTermsAll").click(function() {
@@ -98,8 +98,260 @@ $(document).ready(function() {
 	
 	
 	
-	// --------------------- step2 ----------------------------
+	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ step2 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	
+	// 0. 조건 부합 상태를 저장하는 변수
+	let isIdChecked = false;
+	let isPwChecked = false;
+	let isPwChecked2 = false;
+	let isbnumChecked = false;
+	let isNameChecked = false;
+	let isEmailChecked = false;
+	let isTelChecked = false;
+	
+	// 1. 아이디 조건 및 중복 체크
+	$('#buId').keyup(function(){
+		let buId = $('#buId').val();
+		let trueId = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,12}$/;
+		
+		if(buId === ""){
+			$('#idchk').html("");
+		}
+		// 조건 O
+		else if(trueId.test(buId)){
+			$('#buId').html("");
+			
+			// 중복 체크
+			$.ajax({
+				url :'/business/idOverlap',
+				type : 'post',
+				data : {"buId" : buId},
+				dataType : "json",
+				success : function(data){
+					console.log(data);
+					if(data === "1" && trueId.test(buId)){
+						isIdChecked = true;
+						$('#idchk').html("사용 가능한 아이디 입니다.");
+						$('#idchk').css('color', 'green');
+						$('#idchk').css('font-size', '10px');
+					}else if(data === "0" && trueId.test(buId)){
+						isIdChecked = false;
+						$('#idchk').html("이미 존재하는 아이디 입니다.");
+						$('#idchk').css('color', 'red');
+						$('#idchk').css('font-size', '10px');
+						$('#buId').focus();
+					}
+				},
+				error : function(){
+					alert("ajax Error");
+				}
+			}); // ajax
+		
+		} 
+		// 조건 X
+		else if(!trueId.test(buId)){
+			isIdChecked = false;
+			$('#idchk').html("영문과 숫자를 조합하여 8~12자로 작성해 주세요.");
+			$('#idchk').css('color', 'red');
+			$('#idchk').css('font-size', '10px');
+		}
+	}); // buId.keyup
+	
+	
+	
+	// 2-1. 비밀번호 조건 체크
+	$('#buPw').keyup(function(){
+		let buPw = $('#buPw').val();
+		let buPwChk = $('#buPwChk').val();
+		let truePw = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,12}$/;
+		
+		if(buPw === ""){
+			$('#pwchk1').html("");
+		}
+		// 조건 O
+		else if(truePw.test(buPw)){
+			isPwChecked = true;
+			$('#pwchk1').html("");
+			$('#pwchk2').html("");
+			
+			// 비밀번호 일치 여부
+			if(buPw === buPwChk && buPwChk !== ""){
+				isPwChecked = true;
+				isPwChecked2 = true;
+				$('#pwchk1').html("");
+				$('#pwchk2').html("");
+			}
+			else if(buPw !== buPwChk && buPwChk !== ""){
+				isPwChecked2 = false;
+				$('#pwchk2').html("비밀번호가 일치하지 않습니다.");
+				$('#pwchk2').css('color', 'red');
+				$('#pwchk2').css('font-size', '10px');
+			}
+		}
+		// 조건 X
+		else if(!truePw.test(buPw)){
+			isPwChecked = false;
+			$('#pwchk1').html("영문, 숫자, 특수문자를 조합하여 8~12자로 작성해 주세요.");
+			$('#pwchk1').css('color', 'red');
+			$('#pwchk1').css('font-size', '10px');
+			
+			// 비밀번호 일치 여부
+			if(buPw !== buPwChk && buPwChk !== ""){
+				$('#pwchk2').html("비밀번호가 일치하지 않습니다.");
+				$('#pwchk2').css('color', 'red');
+				$('#pwchk2').css('font-size', '10px');
+			}
+		}
+	}); // buPw.keyup
+	
+	
+	
+	// 2-2. 비밀번호 크로스 체크
+	$('#buPwChk').keyup(function(){
+		let buPw = $('#buPw').val();
+		let buPwChk = $('#buPwChk').val();
+		
+		if(buPwChk === ""){
+			$('#pwchk2').html("");
+		}
+		// 조건 O
+		else if(buPw === buPwChk){
+			isPwChecked2 = true;
+			$('#pwchk2').html("");
+		}
+		// 조건 X
+		else if(buPw !== buPwChk && buPwChk !== ""){
+			isPwChecked2 = false;
+			$('#pwchk2').html("비밀번호가 일치하지 않습니다.");
+			$('#pwchk2').css('color', 'red');
+			$('#pwchk2').css('font-size', '10px');
+		}
+	}); // buPwChk.keyup
+	
+	
+	
+	// 3. 사업자번호 조건 체크
+	$('#buNum').keyup(function(){
+		let buNum = $('#buNum').val();
+		let trueNum = /^\d{3}-\d{2}-\d{5}$/;
+		
+		if(buNum === ""){
+			$('#bnumchk').html("");
+		}
+		// 조건 O
+		else if(trueNum.test(buNum)){
+			$('#buNum').html("");
+			
+			// 중복 체크
+			$.ajax({
+				url :'/business/bnumOverlap',
+				type : 'post',
+				data : {"buNum" : buNum},
+				dataType : "json",
+				success : function(data){
+					if(data === "3" && trueNum.test(buNum)){
+						isbnumChecked = true;
+						$('#bnumchk').html("등록 가능한 사업자번호 입니다.");
+						$('#bnumchk').css('color', 'green');
+						$('#bnumchk').css('font-size', '10px');
+					}else if(data === "2" && trueNum.test(buNum)){
+						isbnumChecked = false;
+						$('#bnumchk').html("이미 등록된 사업자번호 입니다.");
+						$('#bnumchk').css('color', 'red');
+						$('#bnumchk').css('font-size', '10px');
+						$('#buNum').focus();
+					}
+				},
+				error : function(){
+					alert("ajax Error");
+				}
+			}); // ajax
+		
+		} 
+		// 조건 X
+		else if(!trueNum.test(buNum)){
+			isbnumChecked = false;
+			$('#bnumchk').html("사업자번호 형식에 맞지 않습니다.");
+			$('#bnumchk').css('color', 'red');
+			$('#bnumchk').css('font-size', '10px');
+		}
+	}); // buNum.keyup
+	
+	
+	
+	// 4. 이름 조건 체크
+	$('#buName').keyup(function(){
+		let buName = $('#buName').val();
+		let trueName = /^[가-힣a-zA-Z]{2,10}$/;
+		
+		if(buName === ""){
+			$('#namechk').html("");
+		}
+		// 조건 O
+		else if(trueName.test(buName)){
+			isNameChecked = true;
+			$('#namechk').html("");
+		}
+		// 조건 X
+		else if(!trueName.test(buName)){
+			isNameChecked = false;
+			$('#namechk').html("최소 2글자~최대 10글자, 한글 또는 영어로 입력해 주세요.");
+			$('#namechk').css('color', 'red');
+			$('#namechk').css('font-size', '10px');
+		}
+	}); // buName.keyup
+	
+	
+	
+	// 5. 이메일 조건 체크
+	$('#buEmail').keyup(function(){
+		let buEmail = $('#buEmail').val();
+		let trueEmail = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+		
+		if(buEmail === ""){
+			$('#emailchk').html("");
+		}
+		// 조건 O
+		else if(trueEmail.test(buEmail)){
+			isEmailChecked = true;
+			$('#emailchk').html("");
+		}
+		// 조건 X
+		else if(!trueEmail.test(buEmail)){
+			isEmailChecked = false;
+			$('#emailchk').html("잘못된 이메일 형식입니다.");
+			$('#emailchk').css('color', 'red');
+			$('#emailchk').css('font-size', '10px');
+		}
+	}); // buEmail.keyup
+	
+	
+	
+	// 6. 전화번호 조건 체크
+	$('#buTel').keyup(function(){
+		let buTel = $('#buTel').val();
+		let trueTel = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+		
+		if(buTel === ""){
+			$('#telchk').html("");
+		}
+		// 조건 O
+		else if(trueTel.test(buTel)){
+			isTelChecked = true;
+			$('#telchk').html("");
+		}
+		// 조건 X
+		else if(!trueTel.test(buTel)){
+			isTelChecked = false;
+			$('#telchk').html("연락처 형식에 맞지 않습니다.");
+			$('#telchk').css('color', 'red');
+			$('#telchk').css('font-size', '10px');
+		}
+	}); // buTel.keyup
+	
+	
+	
+	// 인증코드 저장 변수
 	var ranStr;
 	
 	// 인증코드발송 버튼 클릭 시
@@ -233,6 +485,7 @@ function showStep() {
 
 <img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200px" height="200px">
 	
+<!-- ㅡㅡㅡㅡ step 1 ㅡㅡㅡㅡ -->
 <div id="step1">
 
 	<div class="step-form">
@@ -385,10 +638,12 @@ function showStep() {
 		
 	<input type="button" id="btn-next1" class="btn" value="다음" onclick="showStep();">
 
-</div>		<!-- step1 끝 -->
+</div>
+<!-- ㅡㅡㅡㅡ step 1 ㅡㅡㅡㅡ -->
 
 
 
+<!-- ㅡㅡㅡㅡ step 2 ㅡㅡㅡㅡ -->
 <div id="step2">
 	
 	<div class="step-form">
@@ -396,35 +651,32 @@ function showStep() {
 			<tr>
 				<td>아이디</td>
 				<td><input type="text" id="buId" class="inputStyle" placeholder="영문과 숫자 조합하여 8~12자"></td>
-				<td class="space"><input type="button" value="중복확인"></td>
+				<td id="idchk"></td>
 			</tr>
 			<tr>
 				<td>비밀번호</td>
 				<td><input type="password" id="buPw" class="inputStyle" placeholder="영문, 숫자, 특수문자 조합하여 8~16자"></td>
+				<td id="pwchk1"></td>
 			</tr>
 			<tr>
 				<td>비밀번호 확인</td>
 				<td><input type="password" name="buPwChk" id="buPwChk" class="inputStyle"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><span id="confirmMsgPw"></span></td>
+				<td id="pwchk2"></td>
 			</tr>
 			<tr>
 				<td>사업자번호</td>
 				<td><input type="text" id="buNum" class="inputStyle" placeholder="ex) 000-00-00000"></td>
-			</tr>
-			<tr>
-				<td></td>
-				<td><span id="confirmMsgNum"></span></td>
+				<td id="bnumchk"></td>
 			</tr>
 			<tr>
 				<td>이름</td>
 				<td><input type="text" id="buName" class="inputStyle"></td>
+				<td id="namechk"></td>
 			</tr>
 			<tr>
 				<td>이메일</td>
 				<td><input type="text" id="buEmail" class="inputStyle" placeholder="이메일"></td>
+				<td id="emailchk"></td>
 				<td class="space"><button type="button" id="btnEmailSend">코드발송</button></td>
 			</tr>
 			<tr>
@@ -435,13 +687,15 @@ function showStep() {
 			<tr>
 				<td>전화번호</td>
 				<td><input type="text" id="buTel" class="inputStyle" placeholder="ex) 000-0000-0000"></td>
+				<td id="telchk"></td>
 			</tr>
 		</table>
 	</div>
 	
 	<input type="button" class="btn" id="btn-submit" value="회원가입" style="width: 290px; height: 40px;">
 
-</div>		<!-- step2 끝 -->
+</div>
+<!-- ㅡㅡㅡㅡ step 2 ㅡㅡㅡㅡ -->
 	
 	
 	

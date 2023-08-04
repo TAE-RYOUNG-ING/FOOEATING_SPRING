@@ -11,8 +11,8 @@ public class RestaurantsVO {
 	private String restRuntime;
 	private String restCategory;
 	private String restConvenience;
-	private String restExterior;
-	private String restInterior;
+	private String restFile;
+	private String restNotice;
 	private int restStatus;
 	private int restOnoff;
 	
@@ -49,11 +49,11 @@ public class RestaurantsVO {
 	public String getRestConvenience() {
 		return restConvenience;
 	}
-	public String getRestExterior() {
-		return restExterior;
+	public String getRestFile() {
+		return restFile;
 	}
-	public String getRestInterior() {
-		return restInterior;
+	public String getRestNotice() {
+		return restNotice;
 	}
 	public int getRestStatus() {
 		return restStatus;
@@ -88,11 +88,11 @@ public class RestaurantsVO {
 	public void setRestConvenience(String restConvenience) {
 		this.restConvenience = restConvenience;
 	}
-	public void setRestExterior(String restExterior) {
-		this.restExterior = restExterior;
+	public void setRestFile(String restFile) {
+		this.restFile = restFile;
 	}
-	public void setRestInterior(String restInterior) {
-		this.restInterior = restInterior;
+	public void setRestNotice(String restNotice) {
+		this.restNotice = restNotice;
 	}
 	public void setRestStatus(int restStatus) {
 		this.restStatus = restStatus;
@@ -112,8 +112,7 @@ public class RestaurantsVO {
 		return "RestaurantsVO [restId=" + restId + ", restName=" + restName + ", restTel=" + restTel + ", restAddr="
 				+ restAddr + ", regdate=" + regdate + ", restDescription=" + restDescription + ", restRuntime="
 				+ restRuntime + ", restCategory=" + restCategory + ", restConvenience=" + restConvenience
-				+ ", restExterior=" + restExterior + ", restInterior=" + restInterior + ", restStatus=" + restStatus
-				+ ", restOnoff=" + restOnoff + "]";
+				+ ", restFile=" + restFile + ", restNotice=" + restNotice + ", restStatus=" + restStatus + ", restOnoff=" + restOnoff + "]";
 	}
 	
 }

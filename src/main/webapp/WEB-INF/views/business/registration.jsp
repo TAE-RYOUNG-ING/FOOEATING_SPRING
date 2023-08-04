@@ -49,9 +49,10 @@ $(document).ready(function() {
 	$("#step2").hide();
 	$("#step3").hide();
 	
-	// 사용자가 입력한 사업장 정보를 저장할 객체
+	// 사용자가 입력한 사업장 정보를 저장할 formData 객체
+	var formData = new FormData();
 	var registInfo = {};
-	registInfo.restId = "000-00-00000";			// 세션에 저장된 회원 정보에서 가져오기 (회원이 사업자일 경우 restId도 같이 저장 예정)
+	formData.append("restId", "000-00-00001");			// 세션에 저장된 회원 정보에서 가져오기 (회원이 사업자일 경우 restId도 같이 저장 예정)
 	
 	// 사용자가 입력한 메뉴 정보를 저장할 객체 (없을 수도 있음)
 	var registMenu = {};
@@ -80,14 +81,15 @@ $(document).ready(function() {
 	
 	// next 클릭 시 객체 정보 저장
 	$("#btn-next1").click(function() {
-		registInfo.restName = $("#restName").val();		// 상호명
-		registInfo.restCategory = $("#restCategory").val();		// 업종
-		registInfo.restAddr = $("#restAddrPostcode").val() + "/" + $("#restAddr1").val();	// 주소
-		if ($("#restAddr2").val()) { registInfo.restAddr +=  "/" + $("#restAddr2").val(); }
+		formData.append("restName", $("#restName").val());							// 상호명
+		formData.append("restCategory", $("#restCategory").val());					// 업종
+		var restAddr = $("#restAddrPostcode").val() + "/" + $("#restAddr1").val();
+		if ($("#restAddr2").val()) { restAddr +=  "/" + $("#restAddr2").val(); }
+		formData.append("restAddr", restAddr);										// 주소
 		
-		registInfo.restTel = $("#restTel").val();	// 전화번호
-		registInfo.restRuntime = "";	// 영업시간
+		formData.append("restTel", $("#restTel").val());							// 전화번호
 		
+		var restRuntime = "";
 		var runtime = [ "일요일 휴무", "월요일 휴무", "화요일 휴무", "수요일 휴무", "목요일 휴무", "금요일 휴무", "토요일 휴무" ];
 		if ($("#time8기타").val()) { runtime.push($("#time8기타").val()); }
 		$.each(runtime, function(idx, el) {
@@ -98,14 +100,15 @@ $(document).ready(function() {
 					runtime[idx] = dayValue + " " + document.getElementById("time1" + dayValue).value + " ~ " + document.getElementById("time2" + dayValue).value;
 				}
 			});
-			registInfo.restRuntime += (idx !== runtime.length - 1 ? runtime[idx] + "/" : runtime[idx]);		// 영업시간 상세
+			restRuntime += (idx !== runtime.length - 1 ? runtime[idx] + "/" : runtime[idx]);
 		});
+		formData.append("restRuntime", restRuntime);								// 영업시간
 		
 		var conv = "";
 		$('input[name="restConv"]:checked').each(function() {
 			conv += this.value + "/";
 		});
-		registInfo.restConvenience = conv.slice(0, -1);		// 편의시설
+		formData.append("restConvenience", conv.slice(0, -1));						// 편의시설
 	});
 	
 	
@@ -114,14 +117,14 @@ $(document).ready(function() {
 	
 	// next 클릭 시 객체 정보 저장
 	$("#btn-next2").click(function() {
-		registInfo.restDescription = $("#restDescription").val();		// 가게 소개
-		registInfo.restExterior = $("#restExterior").val();				// 외관 사진
-		registInfo.restInterior = $("#restInterior").val();				// 내부 사진
+		formData.append("restDescription", $("#restDescription").val());			// 가게 소개
 		
-// 		var filePathSplit1 = $("#restExterior").val().split("\\");
-// 		var filePathSplit2 = $("#restInterior").val().split("\\");
-// 		registInfo.restExterior = filePathSplit1[filePathSplit1.length - 1];
-// 		registInfo.restInterior = filePathSplit2[filePathSplit2.length - 1];
+		var files = $("#restFile")[0].files;
+		console.log(files);
+		
+		for (var i = 0; i < files.length; i++) {
+			formData.append("files", files[i]);
+		}																			// 사진
 	});
 	
 	
@@ -154,15 +157,16 @@ $(document).ready(function() {
 	$("#btn-submit").click(function() {
 		console.log(registInfo);
 		
-		// restaurant 관련 정보
+		// 가게 정보 저장
 		$.ajax({
 			url : "${contextPath}/business/registration",
-			type : "POST",
-			contentType : "application/json",
-			data : JSON.stringify(registInfo),
+			method : "POST",
+			data : formData,
+			contentType : false,
+			processData : false,
+			enctype : "multipart/form-data",
 			success : function(msg) {
-				alert("입점 신청이 완료되었습니다!");
-				location.href = "/business/mypage/dashboard";
+				alert("입점 신청이 완료되었습니다. :)");
 			},
 			error : function() {
 				alert("실패 ㅜㅜ");
@@ -371,8 +375,7 @@ function kakaoPostcodeAPI() {
 	가게 소개 <br>
 	<textarea rows="7" cols="50" id="restDescription" placeholder="가게 소개글을 입력하세요."></textarea> 0/300 <br>
 	
-	외관 <input type="file" id="restExterior"> <br>
-	내부 <input type="file" id="restInterior"> <br>
+	사진 <input type="file" id="restFile" multiple> <br>
 </div>
 
 <input type="button" id="btn-prev1" class="btn" value="이전" onclick="showStep('#step1');">

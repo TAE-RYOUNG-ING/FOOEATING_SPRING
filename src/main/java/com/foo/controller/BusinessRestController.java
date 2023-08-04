@@ -1,17 +1,19 @@
 package com.foo.controller;
 
-import java.util.List;
+import java.io.File;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.foo.domain.BusinessusersVO;
 import com.foo.domain.RestaurantsVO;
@@ -58,14 +60,51 @@ public class BusinessRestController {
 		return ranStr;
 	}
 	
+	// 1-2. 아이디 중복 체크
+	@RequestMapping(value = "/idOverlap", method = RequestMethod.POST)
+	public String idOverlap(@RequestParam("buId") String buId) throws Exception {
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@ idOverlap() 호출");
+		
+		String result1 = bService.idOverlap(buId);
+		logger.debug("아이디 중복 결과 : " + result1);
+		
+		return result1;
+	}
+	
+	// 1-3. 사업자번호 중복 체크
+	@RequestMapping(value = "/bnumOverlap", method = RequestMethod.POST)
+	public String bnumOverlap(@RequestParam("buNum") String buNum) throws Exception {
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@ bnumOverlap() 호출");
+		
+		String result2 = bService.bnumOverlap(buNum);
+		logger.debug("사업자번호 중복 결과 : " + result2);
+		
+		return result2;
+	}
+	
 	
 	
 	// http://localhost:8088/business/registration
 	// 2. 입점 신청
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-	public String registRestaurant(@RequestBody RestaurantsVO revo) throws Exception {
+	public String registRestaurant(@ModelAttribute RestaurantsVO revo, @RequestPart MultipartFile[] files) throws Exception {
 		logger.debug("@@@@@@@@@@@@@@@@@@@@@ registRestaurant() 호출");
 		logger.debug("revo : {}", revo);
+		logger.debug("files : {}", files);
+		
+		String uploadFolder = "C:\\fooeating_upload";
+		String uploadFile = ""; 
+		
+		for(MultipartFile multi : files) {
+			logger.debug("upload_file_name : " + multi.getOriginalFilename());
+			logger.debug("upload_file_size : " + multi.getSize());
+			
+			File savefile = new File(uploadFolder, multi.getOriginalFilename());
+			multi.transferTo(savefile);
+			
+			uploadFile += multi.getOriginalFilename() + "/";
+		}
+		revo.setRestFile(uploadFile.substring(0, uploadFile.length() - 1));
 		
 		bService.registRestaurant(revo);
 		
