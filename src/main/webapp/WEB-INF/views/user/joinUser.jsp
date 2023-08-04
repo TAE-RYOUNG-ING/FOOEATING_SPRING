@@ -137,6 +137,7 @@ $(function(){
 						$('#idchk').css('color', 'green');
 						$('#idchk').css('font-size', '10px');
 					}else if(data === 0 && trueId.test(userId)){
+						isIdChecked = false;
 						$('#idchk').html("이미 존재하는 아이디 입니다.");
 						$('#idchk').css('color', 'red');
 						$('#idchk').css('font-size', '10px');
@@ -151,6 +152,7 @@ $(function(){
 		} 
 		// 조건 X
 		else if(!trueId.test(userId)){
+			isIdChecked = false;
 			$('#idchk').html("영문과 숫자를 조합하여 8~12자로 작성해 주세요.");
 			$('#idchk').css('color', 'red');
 			$('#idchk').css('font-size', '10px');

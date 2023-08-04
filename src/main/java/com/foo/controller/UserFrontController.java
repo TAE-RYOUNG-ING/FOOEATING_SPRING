@@ -1,6 +1,5 @@
 package com.foo.controller;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,9 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.foo.domain.UserVO;
 import com.foo.service.UserService;
 
@@ -35,14 +31,7 @@ public class UserFrontController {
 	
 	
 	
-	// 1-1. 약관 동의
-	@RequestMapping(value = "/agreeTerms", method = RequestMethod.GET)
-	public void agreeTerms() throws Exception {
-		
-		logger.debug("@@@@@@@@@@@@@@@ agreeTerms_호출");
-	}
-	
-	// 1-2. 회원 가입
+	// 1-1. 회원 가입
 	@RequestMapping(value = "/join", method = RequestMethod.GET)
 	public String joinUserGET() throws Exception {
 		
@@ -50,20 +39,8 @@ public class UserFrontController {
 		
 		return "/user/joinUser";
 	}
-	
-	// 1-3. 회원 가입 - 아이디 중복 체크
-	@RequestMapping(value = "/idOverlap", method = RequestMethod.POST)
-	public void idOverlapPOST(HttpServletResponse response, 
-							  @RequestParam("userId") String userId) throws Exception {
-		
-		logger.debug("@@@@@@@@@@@@@@@ idOverlap_호출");
-		logger.debug("@@@@@@@@@@@@@@@ userId = " + userId);
-		
-		uService.idOverlap(userId, response);
-	}
-	
-	
-	// 1-4. 회원 가입 - 데이터 처리
+
+	// 1-2. 회원 가입 - 데이터 처리
 	@RequestMapping(value = "/join", method = RequestMethod.POST)
 	public String joinUserPOST(UserVO vo) throws Exception {
 		
