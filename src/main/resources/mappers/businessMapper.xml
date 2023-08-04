@@ -16,11 +16,10 @@
 
 <!-- 사업자 등록 -->
 <insert id="insertRestaurant">
-	INSERT INTO restaurants (restId, restName, restTel, restAddr, restDescription, restRuntime, restCategory, restConvenience, restExterior, restInterior) 
-	VALUES (#{restId}, #{restName}, #{restTel}, #{restAddr}, #{restDescription}, #{restRuntime}, #{restCategory}, #{restConvenience}, #{restExterior}, #{restInterior})
+	INSERT INTO restaurants (restId, restName, restTel, restAddr, restDescription, restRuntime, restCategory, restConvenience, restFile) 
+	VALUES (#{restId}, #{restName}, #{restTel}, #{restAddr}, #{restDescription}, #{restRuntime}, #{restCategory}, #{restConvenience}, #{restFile})
 </insert>
 <!-- 사업자 등록 -->
-
 
 
 <!-- 마이페이지 - 가게 정보 (입점 신청이 완료된 경우) -->

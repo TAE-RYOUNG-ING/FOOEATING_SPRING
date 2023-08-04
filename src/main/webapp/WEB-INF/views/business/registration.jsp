@@ -51,7 +51,7 @@ $(document).ready(function() {
 	
 	// 사용자가 입력한 사업장 정보를 저장할 객체
 	var registInfo = {};
-	registInfo.restId = "000-00-00000";			// 세션에 저장된 회원 정보에서 가져오기 (회원이 사업자일 경우 restId도 같이 저장 예정)
+	registInfo.restId = "000-00-00001";			// 세션에 저장된 회원 정보에서 가져오기 (회원이 사업자일 경우 restId도 같이 저장 예정)
 	
 	// 사용자가 입력한 메뉴 정보를 저장할 객체 (없을 수도 있음)
 	var registMenu = {};
@@ -112,16 +112,19 @@ $(document).ready(function() {
 	
 	// --------------------- step2 ----------------------------
 	
+	// formData 객체
+	var formData = new FormData();
+	
 	// next 클릭 시 객체 정보 저장
 	$("#btn-next2").click(function() {
 		registInfo.restDescription = $("#restDescription").val();		// 가게 소개
-		registInfo.restExterior = $("#restExterior").val();				// 외관 사진
-		registInfo.restInterior = $("#restInterior").val();				// 내부 사진
 		
-// 		var filePathSplit1 = $("#restExterior").val().split("\\");
-// 		var filePathSplit2 = $("#restInterior").val().split("\\");
-// 		registInfo.restExterior = filePathSplit1[filePathSplit1.length - 1];
-// 		registInfo.restInterior = filePathSplit2[filePathSplit2.length - 1];
+		var files = $("#restFile")[0].files;
+		console.log(files);
+		
+		for (var i = 0; i < files.length; i++) {
+			formData.append("files", files[i]);
+		}
 	});
 	
 	
@@ -154,6 +157,22 @@ $(document).ready(function() {
 	$("#btn-submit").click(function() {
 		console.log(registInfo);
 		
+		// 사진 업로드
+		$.ajax({
+			url : "${contextPath}/business/upload",
+			method : "POST",
+			data : formData,
+			contentType : false,
+			processData : false,
+			enctype : "multipart/form-data",
+			success : function(msg) {
+				alert("사진 업로드 성공 + " + msg);
+			},
+			error : function() {
+				alert("사진 실패 ㅜㅜ");
+			}
+		});
+		
 		// restaurant 관련 정보
 		$.ajax({
 			url : "${contextPath}/business/registration",
@@ -162,7 +181,7 @@ $(document).ready(function() {
 			data : JSON.stringify(registInfo),
 			success : function(msg) {
 				alert("입점 신청이 완료되었습니다!");
-				location.href = "/business/mypage/dashboard";
+// 				location.href = "/business/mypage/dashboard";
 			},
 			error : function() {
 				alert("실패 ㅜㅜ");
@@ -371,8 +390,7 @@ function kakaoPostcodeAPI() {
 	가게 소개 <br>
 	<textarea rows="7" cols="50" id="restDescription" placeholder="가게 소개글을 입력하세요."></textarea> 0/300 <br>
 	
-	외관 <input type="file" id="restExterior"> <br>
-	내부 <input type="file" id="restInterior"> <br>
+	사진 <input type="file" id="restFile" multiple> <br>
 </div>
 
 <input type="button" id="btn-prev1" class="btn" value="이전" onclick="showStep('#step1');">

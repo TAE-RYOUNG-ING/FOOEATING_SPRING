@@ -1,5 +1,6 @@
 package com.foo.controller;
 
+import java.io.File;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -10,8 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.foo.domain.BusinessusersVO;
 import com.foo.domain.RestaurantsVO;
@@ -72,8 +75,34 @@ public class BusinessRestController {
 		return "ok";
 	}
 	
+	// 2-1. 사진 업로드
+	@RequestMapping(value = "/upload", method = RequestMethod.POST)
+	public String upload(@RequestPart MultipartFile[] files) throws Exception {
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@ upload() 호출");
+		logger.debug("files : {}", files);
+		
+		RestaurantsVO revo = new RestaurantsVO();
+		
+		String uploadFolder = "C:\\fooeating_upload";
+		String uploadFile = ""; 
+		
+		for(MultipartFile multi : files) {
+			logger.debug("upload_file_name : " + multi.getOriginalFilename());
+			logger.debug("upload_file_size : " + multi.getSize());
+			
+			File savefile = new File(uploadFolder, multi.getOriginalFilename());
+			multi.transferTo(savefile);
+			
+			uploadFile += multi.getOriginalFilename() + "/";
+		}
+		revo.setRestFile(uploadFile.substring(0, uploadFile.length() - 1));
+		// 사진 정보는 '가게 수정' 메서드 사용 예정
+		
+		return "upload_ok";
+	}
+	
 	// http://localhost:8088/business/addMenu
-	// 2-1. 메뉴 등록
+	// 2-2. 메뉴 등록
 //	@RequestMapping(value = "/addMenu", method = RequestMethod.POST)
 //	public String addRestaurantMenu(@RequestBody RestaurantmenusVO rmvo) throws Exception {
 //		logger.debug("@@@@@@@@@@@@@@@@@@@@@ addRestaurantMenu() 호출");
