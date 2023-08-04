@@ -131,12 +131,12 @@ $(function(){
 				data : {"userId" : userId},
 				dataType : "json",
 				success : function(data){
-					if(data === 1 && trueId.test(userId)){
+					if(data === 1){
 						isIdChecked = true;
 						$('#idchk').html("사용 가능한 아이디 입니다.");
 						$('#idchk').css('color', 'green');
 						$('#idchk').css('font-size', '10px');
-					}else if(data === 0 && trueId.test(userId)){
+					}else if(data === 0){
 						isIdChecked = false;
 						$('#idchk').html("이미 존재하는 아이디 입니다.");
 						$('#idchk').css('color', 'red');
@@ -266,8 +266,32 @@ $(function(){
 		}
 		// 조건 O
 		else if(trueEmail.test(userEmail)){
-			isEmailChecked = true;
 			$('#emailchk').html("");
+			
+			// 중복 체크
+			$.ajax({
+				url :'/user/emailOverlap',
+				type : 'post',
+				data : {"userEmail" : userEmail},
+				dataType : "json",
+				success : function(data){
+					if(data === 1){
+						isEmailChecked = true;
+						$('#emailchk').html("사용 가능한 이메일 입니다.");
+						$('#emailchk').css('color', 'green');
+						$('#emailchk').css('font-size', '10px');
+					}else if(data === 0){
+						isEmailChecked = false;
+						$('#emailchk').html("이미 존재하는 이메일 입니다.");
+						$('#emailchk').css('color', 'red');
+						$('#emailchk').css('font-size', '10px');
+						$('#emailchk').focus();
+					}
+				},
+				error : function(){
+					alert("ajax Error");
+				}
+			}); // ajax
 		}
 		// 조건 X
 		else if(!trueEmail.test(userEmail)){
@@ -290,8 +314,32 @@ $(function(){
 		}
 		// 조건 O
 		else if(trueTel.test(userTel)){
-			isTelChecked = true;
 			$('#telchk').html("");
+			
+			// 중복 체크
+			$.ajax({
+				url :'/user/telOverlap',
+				type : 'post',
+				data : {"userTel" : userTel},
+				dataType : "json",
+				success : function(data){
+					if(data === 1){
+						isTelChecked = true;
+						$('#telchk').html("사용 가능한 전화번호 입니다.");
+						$('#telchk').css('color', 'green');
+						$('#telchk').css('font-size', '10px');
+					}else if(data === 0){
+						isTelChecked = false;
+						$('#telchk').html("이미 존재하는 전화번호 입니다.");
+						$('#telchk').css('color', 'red');
+						$('#telchk').css('font-size', '10px');
+						$('#telchk').focus();
+					}
+				},
+				error : function(){
+					alert("ajax Error");
+				}
+			}); // ajax
 		}
 		// 조건 X
 		else if(!trueTel.test(userTel)){

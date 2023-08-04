@@ -23,6 +23,24 @@
 
 
 
+<!-- 이메일 중복 체크 -->
+<select id="emailOverlap" resultType="com.foo.domain.UserVO">
+	SELECT userEmail FROM users 
+	WHERE userEmail = #{userEmail}
+</select>
+<!-- 이메일 중복 체크 -->
+
+
+
+<!-- 전화번호 중복 체크 -->
+<select id="telOverlap" resultType="com.foo.domain.UserVO">
+	SELECT userTel FROM users 
+	WHERE userTel = #{userTel}
+</select>
+<!-- 전화번호 중복 체크 -->
+
+
+
 <!-- 로그인 -->
 <select id="loginUser" resultType="com.foo.domain.UserVO">
 	SELECT * FROM users 
