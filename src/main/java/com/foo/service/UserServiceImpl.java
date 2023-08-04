@@ -1,6 +1,4 @@
 package com.foo.service;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +32,16 @@ public class UserServiceImpl implements UserService {
 
 	// 1-2. 아이디 중복 체크
 	@Override
-	public void idOverlap(String userId, HttpServletResponse response) throws Exception {
+	public String idOverlap(String userId) throws Exception {
 		UserVO resultVO = new UserVO();
 		resultVO = udao.idOverlap(userId);
 		
 		if(resultVO == null) {
-			response.getWriter().print("1");
+			logger.debug("$$$$$$$$$$$$$$$ 아이디 중복 O");
+			return "1";
 		}else {
-			response.getWriter().print("0");
+			logger.debug("$$$$$$$$$$$$$$$ 아이디 중복 X");
+			return "0";
 		}
 	}
 	
