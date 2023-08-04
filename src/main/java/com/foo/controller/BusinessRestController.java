@@ -1,7 +1,9 @@
 package com.foo.controller;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -59,6 +62,28 @@ public class BusinessRestController {
 		logger.debug("인증번호를 보낼 email : " + email + " / 생성된 인증코드 : " + ranStr);
 		
 		return ranStr;
+	}
+	
+	// 1-2. 아이디 중복 체크
+	@RequestMapping(value = "/idOverlap", method = RequestMethod.POST)
+	public String idOverlap(@RequestParam("buId") String buId) throws Exception {
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@ idOverlap() 호출");
+		
+		String result1 = bService.idOverlap(buId);
+		logger.debug("아이디 중복 결과 : " + result1);
+		
+		return result1;
+	}
+	
+	// 1-3. 사업자번호 중복 체크
+	@RequestMapping(value = "/bnumOverlap", method = RequestMethod.POST)
+	public String bnumOverlap(@RequestParam("buNum") String buNum) throws Exception {
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@ bnumOverlap() 호출");
+		
+		String result2 = bService.bnumOverlap(buNum);
+		logger.debug("사업자번호 중복 결과 : " + result2);
+		
+		return result2;
 	}
 	
 	

@@ -14,6 +14,24 @@
 
 
 
+<!-- 아이디 중복 체크 -->
+<select id="idOverlap" resultType="com.foo.domain.BusinessusersVO">
+	SELECT buId FROM businessusers 
+	WHERE buId = #{buId}
+</select>
+<!-- 아이디 중복 체크 -->
+
+
+
+<!-- 사업자번호 중복 체크 -->
+<select id="bnumOverlap" resultType="com.foo.domain.BusinessusersVO">
+	SELECT buNum FROM businessusers 
+	WHERE buNum = #{buNum}
+</select>
+<!-- 사업자번호 중복 체크 -->
+
+
+
 <!-- 사업자 등록 -->
 <insert id="insertRestaurant">
 	INSERT INTO restaurants (restId, restName, restTel, restAddr, restDescription, restRuntime, restCategory, restConvenience, restFile) 
