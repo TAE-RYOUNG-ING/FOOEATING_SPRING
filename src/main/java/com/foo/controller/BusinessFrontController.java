@@ -2,18 +2,28 @@ package com.foo.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.foo.domain.RestaurantsVO;
+import com.foo.service.BusinessService;
 
 @Controller
 @RequestMapping(value = "/business")
 public class BusinessFrontController {
 	
+	// 로거 생성
 	private static final Logger logger = LoggerFactory.getLogger(BusinessFrontController.class);
 	
-
+	// 의존성 주입
+	@Autowired
+	private BusinessService bService;
+	
+	
 	
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ메서드 정의ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 	
@@ -53,9 +63,13 @@ public class BusinessFrontController {
 	
 	// http://localhost:8088/business/mypage/restInfo
 	// 3-2. 나의 가게 정보
-	@RequestMapping(value = "/mypage/restInfo", method = RequestMethod.GET)
-	public String businessusersRestInfo(Model model) {
+	@RequestMapping(value = "/mypage/restInfo/{restId}", method = RequestMethod.GET)
+	public String businessusersRestInfo(Model model, @PathVariable("restId") String restId) throws Exception {
 		logger.debug("@@@@@@@@@@@@@@@@사업자 마이페이지 나의 가게 정보 - businessusersRestInfo() 실행");
+		logger.debug("restId : " + restId);
+		
+		RestaurantsVO restInfo = bService.readMyRestaurantInfo(restId);
+		model.addAttribute("restInfo", restInfo);
 		
 		return "/business/mypage/restInfo";
 	}

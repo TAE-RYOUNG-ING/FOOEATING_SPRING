@@ -67,4 +67,13 @@ public class BusinessDAOImpl implements BusinessDAO {
 	}
 	
 	
+	
+	// 3. 나의 가게 정보
+	@Override
+	public RestaurantsVO readMyRestaurantInfo(String restId) throws Exception {
+		logger.debug("############### readMyRestaurantInfo 호출");
+		return sqlSession.selectOne(NAMESPACE + ".readMyRestaurantInfo", restId);
+	}
+	
+	
 }

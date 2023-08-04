@@ -129,5 +129,13 @@ public class BusinessServiceImpl implements BusinessService {
 	@Override
 	public void addMenu(RestaurantmenusVO rmvo) throws Exception {
 	}
+	
+	
+	
+	// 3. 나의 가게 정보
+	@Override
+	public RestaurantsVO readMyRestaurantInfo(String restId) throws Exception {
+		return bdao.readMyRestaurantInfo(restId);
+	}
 
 }

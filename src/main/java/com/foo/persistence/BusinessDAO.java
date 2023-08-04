@@ -21,4 +21,7 @@ public interface BusinessDAO {
 	// 2-1. 메뉴 등록
 	public void insertMenu(RestaurantmenusVO rmvo) throws Exception;
 	
+	// 3. 나의 가게 정보
+	public RestaurantsVO readMyRestaurantInfo(String restId) throws Exception;
+	
 }

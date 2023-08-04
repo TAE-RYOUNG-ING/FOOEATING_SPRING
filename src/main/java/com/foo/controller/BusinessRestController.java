@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -135,14 +136,15 @@ public class BusinessRestController {
 //	}
 	
 	// 3-2. 나의 가게 정보
-//	@RequestMapping(value = "/mypage/restInfo/{buNum}")
-//	public List<RestaurantsVO> getRestInfo(@PathVariable("buNum") String buNum) throws Exception{
+//	@RequestMapping(value = "/mypage/restInfo/{restId}", method = RequestMethod.GET)
+//	public RestaurantsVO getRestInfo(@PathVariable("restId") String restId) throws Exception{
 //		logger.debug("@@@@@@@@@@@@@@@@@@@@@ getRestInfo() 호출");
-//		logger.debug("buNum : " + buNum);
+//		logger.debug("restId : " + restId);
 //		
 //		// bnNum과 일치하는 restaurants 데이터가 있으면 해당 데이터를 리스트로 넘기기 -> 없으면 null 리턴
+//		RestaurantsVO restInfo = bService.readMyRestaurantInfo(restId);
 //		
-//		return null;
+//		return restInfo;
 //	}
 	
 }

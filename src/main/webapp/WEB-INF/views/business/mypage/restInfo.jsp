@@ -11,7 +11,22 @@
 
 $(document).ready(function() {
 	
-	
+// 	// 특정 가게 정보 조회
+// 	$.ajax({
+// 		url : "${contextPath}/restInfo/" + "000-00-00000",		// 세션에 담긴 restId 사용 예정
+// 		type : "GET",
+// 		success : function(data) {
+// 			alert("가져오기 성공!");
+// 			$("#restName").html(data.restName);
+// 			$("#restCategory").html(data.restCategory);
+// 			$("#restAddr").html(data.restAddr);
+// 			$("#restTel").html(data.restTel);
+// 			$("#restId").html(data.restId);
+// 			$("#restConvenience").html(data.restConvenience);
+// 			$("#restNotice").html(data.restNotice);
+// 			$("#restOnoff").html(data.restOnoff);
+// 		}
+// 	});
 	
 });
 
@@ -41,39 +56,39 @@ $(document).ready(function() {
 		<table>
 			<tr>
 				<td>상호명</td>
-				<td></td>
+				<td id="restName">${restInfo.restName}</td>
 			</tr>
 			<tr>
 				<td>업종</td>
-				<td></td>
+				<td id="restCategory">${restInfo.restCategory}</td>
 			</tr>
 			<tr>
 				<td>주소</td>
-				<td></td>
+				<td id="restAddr">${restInfo.restAddr}</td>
 			</tr>
 			<tr>
 				<td>전화번호</td>
-				<td></td>
+				<td id="restTel">${restInfo.restTel}</td>
 			</tr>
 			<tr>
 				<td>사업자번호</td>
-				<td></td>
+				<td id="restId">${restInfo.restId}</td>
 			</tr>
 			<tr>
-				<td>메뉴</td>
-				<td></td>
+				<td>대표 메뉴</td>
+				<td id="Menu">수정 예정!!</td>
 			</tr>
 			<tr>
 				<td>편의시설</td>
-				<td></td>
+				<td id="restConvenience">${restInfo.restConvenience}</td>
 			</tr>
 			<tr>
 				<td>공지사항</td>
-				<td></td>
+				<td id="restNotice">${restInfo.restNotice}</td>
 			</tr>
 			<tr>
 				<td>영업 상태</td>
-				<td></td>
+				<td id="restOnoff">${restInfo.restOnoff}</td>
 			</tr>
 		</table>
 	</div>
