@@ -41,9 +41,23 @@ public class UserDAOImpl implements UserDAO {
 		logger.debug("############### idOverlap_호출");
 		return sqlSession.selectOne(NAMESPACE + ".idOverlap", userId);
 	}
+	
+	// 1-3. 이메일 중복 체크
+	@Override
+	public UserVO emailOverlap(String userEmail) throws Exception {
+		logger.debug("############### emailOverlap_호출");
+		return sqlSession.selectOne(NAMESPACE + ".emailOverlap", userEmail);
+	}
 
+	// 1-4. 전화번호 중복 체크
+	@Override
+	public UserVO telOverlap(String userTel) throws Exception {
+		logger.debug("############### telOverlap_호출");
+		return sqlSession.selectOne(NAMESPACE + ".telOverlap", userTel);
+	}
 
-
+	
+	
 	// 2. 로그인
 	@Override
 	public UserVO loginUser(UserVO vo) throws Exception {
@@ -54,7 +68,5 @@ public class UserDAOImpl implements UserDAO {
 
 
 
-	
-	
 
 }
