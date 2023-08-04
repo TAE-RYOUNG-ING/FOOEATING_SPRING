@@ -40,6 +40,7 @@
 <!-- 사업자 등록 -->
 
 
+
 <!-- 마이페이지 - 가게 정보 (입점 신청이 완료된 경우) -->
 <select id="readMyRestaurantInfo" resultType="com.foo.domain.RestaurantsVO">
 	SELECT * FROM restaurants 

@@ -1,15 +1,11 @@
 package com.foo.controller;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -91,22 +87,10 @@ public class BusinessRestController {
 	// http://localhost:8088/business/registration
 	// 2. 입점 신청
 	@RequestMapping(value = "/registration", method = RequestMethod.POST)
-	public String registRestaurant(@RequestBody RestaurantsVO revo) throws Exception {
+	public String registRestaurant(@ModelAttribute RestaurantsVO revo, @RequestPart MultipartFile[] files) throws Exception {
 		logger.debug("@@@@@@@@@@@@@@@@@@@@@ registRestaurant() 호출");
 		logger.debug("revo : {}", revo);
-		
-		bService.registRestaurant(revo);
-		
-		return "ok";
-	}
-	
-	// 2-1. 사진 업로드
-	@RequestMapping(value = "/upload", method = RequestMethod.POST)
-	public String upload(@RequestPart MultipartFile[] files) throws Exception {
-		logger.debug("@@@@@@@@@@@@@@@@@@@@@ upload() 호출");
 		logger.debug("files : {}", files);
-		
-		RestaurantsVO revo = new RestaurantsVO();
 		
 		String uploadFolder = "C:\\fooeating_upload";
 		String uploadFile = ""; 
@@ -121,13 +105,14 @@ public class BusinessRestController {
 			uploadFile += multi.getOriginalFilename() + "/";
 		}
 		revo.setRestFile(uploadFile.substring(0, uploadFile.length() - 1));
-		// 사진 정보는 '가게 수정' 메서드 사용 예정
 		
-		return "upload_ok";
+		bService.registRestaurant(revo);
+		
+		return "ok";
 	}
 	
 	// http://localhost:8088/business/addMenu
-	// 2-2. 메뉴 등록
+	// 2-1. 메뉴 등록
 //	@RequestMapping(value = "/addMenu", method = RequestMethod.POST)
 //	public String addRestaurantMenu(@RequestBody RestaurantmenusVO rmvo) throws Exception {
 //		logger.debug("@@@@@@@@@@@@@@@@@@@@@ addRestaurantMenu() 호출");

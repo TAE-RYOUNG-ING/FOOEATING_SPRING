@@ -3,7 +3,6 @@ package com.foo.persistence;
 import com.foo.domain.BusinessusersVO;
 import com.foo.domain.RestaurantmenusVO;
 import com.foo.domain.RestaurantsVO;
-import com.foo.domain.UserVO;
 
 public interface BusinessDAO {
 	
