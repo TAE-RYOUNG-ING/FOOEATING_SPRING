@@ -105,26 +105,24 @@ $(function(){
 	// 0. 조건 부합 상태를 저장하는 변수
 	let isIdChecked = false;
 	let isPwChecked = false;
-	let isPwChecked2 = false;
 	let isNameChecked = false;
 	let isEmailChecked = false;
 	let isTelChecked = false;
-	
+		
 	
 	
 	// 1. 아이디 조건 및 중복 체크
 	$('#userId').keyup(function(){
 		let userId = $('#userId').val();
-		let trueId = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,12}$/;
+		let trueId = /^[a-zA-Z0-9]{8,12}$/;
 		
+		// 아이디 조건 OK -> 중복 체크
 		if(userId === ""){
 			$('#idchk').html("");
 		}
-		// 조건 O
 		else if(trueId.test(userId)){
 			$('#idchk').html("");
 			
-			// 중복 체크
 			$.ajax({
 				url :'/user/idOverlap',
 				type : 'post',
@@ -137,6 +135,7 @@ $(function(){
 						$('#idchk').css('color', 'green');
 						$('#idchk').css('font-size', '10px');
 					}else if(data === 0 && trueId.test(userId)){
+						isIdChecked = false;
 						$('#idchk').html("이미 존재하는 아이디 입니다.");
 						$('#idchk').css('color', 'red');
 						$('#idchk').css('font-size', '10px');
@@ -148,9 +147,9 @@ $(function(){
 				}
 			}); // ajax
 		
-		} 
-		// 조건 X
+		} // 아이디 조건 NO
 		else if(!trueId.test(userId)){
+			isIdChecked = false;
 			$('#idchk').html("영문과 숫자를 조합하여 8~12자로 작성해 주세요.");
 			$('#idchk').css('color', 'red');
 			$('#idchk').css('font-size', '10px');
@@ -167,64 +166,41 @@ $(function(){
 		
 		if(userPw === ""){
 			$('#pwchk1').html("");
+			$('#pwchk2').html("");
 		}
-		// 조건 O
+		else if(userPw !== userPwChk && userPwChk !== ""){
+			isPwChecked = false;
+			$('#pwchk2').html("비밀번호가 일치하지 않습니다.");
+			$('#pwchk2').css('color', 'red');
+			$('#pwchk2').css('font-size', '10px');
+		}
 		else if(truePw.test(userPw)){
 			isPwChecked = true;
 			$('#pwchk1').html("");
 			$('#pwchk2').html("");
-			
-			// 비밀번호 일치 여부
-			if(userPw === userPwChk && userPwChk !== ""){
-				isPwChecked = true;
-				isPwChecked2 = true;
-				$('#pwchk1').html("");
-				$('#pwchk2').html("");
-			}
-			else if(userPw !== userPwChk && userPwChk !== ""){
-				isPwChecked2 = false;
-				$('#pwchk2').html("비밀번호가 일치하지 않습니다.");
-				$('#pwchk2').css('color', 'red');
-				$('#pwchk2').css('font-size', '10px');
-			}
 		}
-		// 조건 X
 		else if(!truePw.test(userPw)){
 			isPwChecked = false;
 			$('#pwchk1').html("영문, 숫자, 특수문자를 조합하여 8~12자로 작성해 주세요.");
 			$('#pwchk1').css('color', 'red');
 			$('#pwchk1').css('font-size', '10px');
-			
-			// 비밀번호 일치 여부
-			if(userPw !== userPwChk && userPwChk !== ""){
-				$('#pwchk2').html("비밀번호가 일치하지 않습니다.");
-				$('#pwchk2').css('color', 'red');
-				$('#pwchk2').css('font-size', '10px');
-			}
 		}
 	}); // userPw.keyup
-	
-	
 	
 	// 2-2. 비밀번호 크로스 체크
 	$('#userPwChk').keyup(function(){
 		let userPw = $('#userPw').val();
 		let userPwChk = $('#userPwChk').val();
 		
-		if(userPwChk === ""){
-			$('#pwchk2').html("");
-		}
-		// 조건 O
-		else if(userPw === userPwChk){
-			isPwChecked2 = true;
-			$('#pwchk2').html("");
-		}
-		// 조건 X
-		else if(userPw !== userPwChk && userPwChk !== ""){
-			isPwChecked2 = false;
+		if(userPw !== userPwChk){
+			isPwChecked = false;
 			$('#pwchk2').html("비밀번호가 일치하지 않습니다.");
 			$('#pwchk2').css('color', 'red');
 			$('#pwchk2').css('font-size', '10px');
+		}
+		else if(userPw === userPwChk){
+			isPwChecked = true;
+			$('#pwchk2').html("");
 		}
 	}); // userPwChk.keyup
 	
@@ -238,15 +214,13 @@ $(function(){
 		if(userName === ""){
 			$('#namechk').html("");
 		}
-		// 조건 O
 		else if(trueName.test(userName)){
 			isNameChecked = true;
 			$('#namechk').html("");
 		}
-		// 조건 X
 		else if(!trueName.test(userName)){
 			isNameChecked = false;
-			$('#namechk').html("최소 2글자~최대 10글자, 한글 또는 영어로 입력해 주세요.");
+			$('#namechk').html("최소 2글자~최대 10글자, 한글 또는 영어만 입력해 주세요.");
 			$('#namechk').css('color', 'red');
 			$('#namechk').css('font-size', '10px');
 		}
@@ -262,12 +236,10 @@ $(function(){
 		if(userEmail === ""){
 			$('#emailchk').html("");
 		}
-		// 조건 O
 		else if(trueEmail.test(userEmail)){
 			isEmailChecked = true;
 			$('#emailchk').html("");
 		}
-		// 조건 X
 		else if(!trueEmail.test(userEmail)){
 			isEmailChecked = false;
 			$('#emailchk').html("잘못된 이메일 형식입니다.");
@@ -281,17 +253,15 @@ $(function(){
 	// 5. 전화번호 조건 체크
 	$('#userTel').keyup(function(){
 		let userTel = $('#userTel').val();
-		let trueTel = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
+		let trueTel = /01[016789]-[^0][0-9]{2,3}-[0-9]{3,4}/;
 		
 		if(userTel === ""){
 			$('#telchk').html("");
 		}
-		// 조건 O
 		else if(trueTel.test(userTel)){
 			isTelChecked = true;
 			$('#telchk').html("");
 		}
-		// 조건 X
 		else if(!trueTel.test(userTel)){
 			isTelChecked = false;
 			$('#telchk').html("연락처 형식에 맞지 않습니다.");
@@ -304,6 +274,7 @@ $(function(){
 	
 	// 6. 제출 시 유효성 체크
 	$('#submit').click(function(e) {
+
 		if($('#userId').val() === ""){
 			$('#userId').focus();
 			alert("아이디를 입력해주세요.");
@@ -339,10 +310,6 @@ $(function(){
 			return false;
 		}
 		else if(!isPwChecked){
-			$('#userPw').focus();
-			return false;
-		}
-		else if(!isPwChecked2){
 			$('#userPwChk').focus();
 			return false;
 		}
@@ -359,7 +326,7 @@ $(function(){
 			return false;
 		}
 		else{
-			// 모든 조건 통과 시 데이터 전송
+			// 모든 조건 통과 -> 제출
 			$.ajax({
 				url: '/user/join',
 				type: 'post',
@@ -544,7 +511,9 @@ $(function(){
 				</fieldset>
 		</form>
 	</div>
+	
 		<input type="button" class="btn" value="다음" onclick="showStep();">
+
 </div>
 <!-- ㅡㅡㅡ step 1 ㅡㅡㅡ -->
 
@@ -552,6 +521,7 @@ $(function(){
 
 <!-- ㅡㅡㅡ step 2 ㅡㅡㅡ -->
 <div id="step2">
+
 	<div class="step-form">
 		<table style="margin: 40px auto;">
 			<tr>
@@ -591,7 +561,9 @@ $(function(){
 			</tr>
 		</table>
 	</div>
+	
 		<input type="button" id="submit" class="btn" value="회원가입" style="width: 290px; height: 40px;">
+
 </div> 
 <!-- ㅡㅡㅡ step 2 ㅡㅡㅡ -->
 
