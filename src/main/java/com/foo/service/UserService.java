@@ -1,4 +1,5 @@
 package com.foo.service;
+import javax.servlet.http.HttpServletResponse;
 import com.foo.domain.UserVO;
 
 
@@ -9,7 +10,7 @@ public interface UserService {
 	public void joinUser(UserVO vo) throws Exception;
 	
 	// 1-2. 아이디 중복 체크
-	public String idOverlap(String userId) throws Exception;
+	public void idOverlap(String userId, HttpServletResponse response) throws Exception;
 	
 	
 	
