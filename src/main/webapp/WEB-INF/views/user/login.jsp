@@ -152,7 +152,7 @@ function getCookie(cookieName) {
 	
 	
 	<input type="submit" class="btn" value="로그인" >
-	<input type="button" class="btn" value="회원가입" onclick="location.href='/user/join';">
+	<input type="button" class="btn" value="회원가입" onclick="location.href='/user/agreeTerms';">
 	</form>
 </div>
 

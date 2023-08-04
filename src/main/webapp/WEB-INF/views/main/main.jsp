@@ -41,7 +41,7 @@
 	<c:choose>
 		<c:when test="${empty sessionScope.userId }">
 			<input type="button" class="btnstyle" value="로그인" onclick="location.href='/user/login';">
-			<input type="button" class="btnstyle" value="회원가입" onclick="location.href='/user/join';">
+			<input type="button" class="btnstyle" value="회원가입" onclick="location.href='/user/agreeTerms';">
 		</c:when>
 		<c:when test="${!empty sessionScope.userId }">
 			<h3>${sessionScope.userName }님, 안녕하세요 :)</h3>
