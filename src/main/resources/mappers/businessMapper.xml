@@ -14,15 +14,6 @@
 
 
 
-<!-- 아이디 중복 체크 -->
-<select id="idOverlap" resultType="com.foo.domain.BusinessusersVO">
-	SELECT buId FROM businessusers 
-	WHERE buId = #{buId}
-</select>
-<!-- 아이디 중복 체크 -->
-
-
-
 <!-- 사업자번호 중복 체크 -->
 <select id="bnumOverlap" resultType="com.foo.domain.BusinessusersVO">
 	SELECT buNum FROM businessusers 

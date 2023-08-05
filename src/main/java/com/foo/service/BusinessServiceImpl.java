@@ -89,31 +89,17 @@ public class BusinessServiceImpl implements BusinessService {
 		mailSender.send(message);
 	}
 
-	// 1-2. 아이디 중복 체크
-	@Override
-	public String idOverlap(String buId) throws Exception {
-		String result = bdao.idOverlap(buId);
-		
-		if (result == null) {
-			logger.debug("$$$$$$$$$$$$$$$ 아이디 중복 X");
-			return "1";
-		} else {
-			logger.debug("$$$$$$$$$$$$$$$ 아이디 중복 O");
-			return "0";
-		}
-	}
-	
-	// 1-3. 사업자번호 중복 체크
+	// 1-2. 사업자번호 중복 체크
 	@Override
 	public String bnumOverlap(String buNum) throws Exception {
-		String result = bdao.bnumOverlap(buNum);
+		BusinessusersVO result = bdao.bnumOverlap(buNum);
 		
 		if (result == null) {
 			logger.debug("$$$$$$$$$$$$$$$ 사업자번호 중복 X");
-			return "3";
+			return "1";
 		} else {
 			logger.debug("$$$$$$$$$$$$$$$ 사업자번호 중복 O");
-			return "2";
+			return "0";
 		}
 	}
 	

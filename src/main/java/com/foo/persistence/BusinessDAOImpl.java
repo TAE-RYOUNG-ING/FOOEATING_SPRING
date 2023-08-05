@@ -35,16 +35,9 @@ public class BusinessDAOImpl implements BusinessDAO {
 		sqlSession.insert(NAMESPACE + ".insertBusinessuser", buvo);
 	}
 	
-	// 1-1. 아이디 중복 체크
+	// 1-1. 사업자번호 중복 체크
 	@Override
-	public String idOverlap(String buId) throws Exception {
-		logger.debug("############### idOverlap 호출");
-		return sqlSession.selectOne(NAMESPACE + ".idOverlap", buId);
-	}
-	
-	// 1-2. 사업자번호 중복 체크
-	@Override
-	public String bnumOverlap(String buNum) throws Exception {
+	public BusinessusersVO bnumOverlap(String buNum) throws Exception {
 		logger.debug("############### bnumOverlap 호출");
 		return sqlSession.selectOne(NAMESPACE + ".bnumOverlap", buNum);
 	}
@@ -74,6 +67,5 @@ public class BusinessDAOImpl implements BusinessDAO {
 		logger.debug("############### readMyRestaurantInfo 호출");
 		return sqlSession.selectOne(NAMESPACE + ".readMyRestaurantInfo", restId);
 	}
-	
 	
 }
