@@ -100,8 +100,63 @@ $(function(){
 	
 	$('#step1').show();
 	$('#step2').css('display', "none");
-
+	
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ step2 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	let ranStr;
+	let isCodeChecked = false;
+	
+	// 1. 이메일 코드발송 버튼 클릭
+	$('#btnEmailSend').click(function() {
+		let userEmail = $('#userEmail').val();		// 사용자가 입력한 이메일
+		
+		// 인증코드 발송
+		$.ajax({
+			url : '${contextPath}/business/emailCheck?email=' + userEmail,
+			type : 'get',
+			success : function(msg) {
+				$('#checkCode').attr('disabled', false);	// 인증코드 전송 후 입력창 활성화
+				ranStr = msg;								// 전송한 인증코드 저장
+				alert("인증코드가 전송되었습니다.");
+			},
+			error : function() {
+				alert("ajax Error");
+			}
+			
+		}); // ajax
+		
+	}); // btnEmailSend.click
+	
+	
+	
+	// 2. 인증하기 버튼 클릭
+	$('#btnEmailCheck').click(function() {
+		let inputCode = $('#checkCode').val();			// 사용자가 입력한 인증코드
+		
+		// 인증코드 일치
+		if(inputCode === ranStr) {
+			isCodeChecked = true;
+			$('#authchk').html("이메일 인증이 완료되었습니다.");
+			$('#authchk').css('color', 'green');
+			$('#authchk').css('font-size', '10px');
+			
+			$('#btnEmailSend').attr('disabled', true);	// 재인증 제한
+			$('#btnEmailCheck').attr('disabled', true);
+			$('#checkCode').attr('readonly', true);		// 인증코드 수정 제한
+			$('#userEmail').attr('readonly', true);		// 인증 후 메일 변경 제한
+		} 
+		// 인증코드 불일치
+		else{
+			$('#authchk').html("인증코드가 일치하지 않습니다! 다시 확인해 주세요.");
+			$('#authchk').css('color', 'red');
+			$('#authchk').css('font-size', '10px');
+			inputCode.focus();
+		}
+	});
+
+	
+	
+	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 정규 표현식 & 중복 체크 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	
 	// 0. 조건 부합 상태를 저장하는 변수
 	let isIdChecked = false;
 	let isPwChecked = false;
@@ -131,12 +186,12 @@ $(function(){
 				data : {"userId" : userId},
 				dataType : "json",
 				success : function(data){
-					if(data === 1 && trueId.test(userId)){
+					if(data === 1){
 						isIdChecked = true;
 						$('#idchk').html("사용 가능한 아이디 입니다.");
 						$('#idchk').css('color', 'green');
 						$('#idchk').css('font-size', '10px');
-					}else if(data === 0 && trueId.test(userId)){
+					}else if(data === 0){
 						isIdChecked = false;
 						$('#idchk').html("이미 존재하는 아이디 입니다.");
 						$('#idchk').css('color', 'red');
@@ -266,8 +321,33 @@ $(function(){
 		}
 		// 조건 O
 		else if(trueEmail.test(userEmail)){
-			isEmailChecked = true;
 			$('#emailchk').html("");
+			
+			// 중복 체크
+			$.ajax({
+				url :'/user/emailOverlap',
+				type : 'post',
+				data : {"userEmail" : userEmail},
+				dataType : "json",
+				success : function(data){
+					if(data === 1){
+						isEmailChecked = true;
+						$('#btnEmailSend').attr('disabled', false);
+						$('#emailchk').html("사용 가능한 이메일 입니다.");
+						$('#emailchk').css('color', 'green');
+						$('#emailchk').css('font-size', '10px');
+					}else if(data === 0){
+						isEmailChecked = false;
+						$('#emailchk').html("이미 존재하는 이메일 입니다.");
+						$('#emailchk').css('color', 'red');
+						$('#emailchk').css('font-size', '10px');
+						$('#emailchk').focus();
+					}
+				},
+				error : function(){
+					alert("ajax Error");
+				}
+			}); // ajax
 		}
 		// 조건 X
 		else if(!trueEmail.test(userEmail)){
@@ -290,8 +370,32 @@ $(function(){
 		}
 		// 조건 O
 		else if(trueTel.test(userTel)){
-			isTelChecked = true;
 			$('#telchk').html("");
+			
+			// 중복 체크
+			$.ajax({
+				url :'/user/telOverlap',
+				type : 'post',
+				data : {"userTel" : userTel},
+				dataType : "json",
+				success : function(data){
+					if(data === 1){
+						isTelChecked = true;
+						$('#telchk').html("사용 가능한 전화번호 입니다.");
+						$('#telchk').css('color', 'green');
+						$('#telchk').css('font-size', '10px');
+					}else if(data === 0){
+						isTelChecked = false;
+						$('#telchk').html("이미 존재하는 전화번호 입니다.");
+						$('#telchk').css('color', 'red');
+						$('#telchk').css('font-size', '10px');
+						$('#telchk').focus();
+					}
+				},
+				error : function(){
+					alert("ajax Error");
+				}
+			}); // ajax
 		}
 		// 조건 X
 		else if(!trueTel.test(userTel)){
@@ -308,32 +412,37 @@ $(function(){
 	$('#submit').click(function(e) {
 		if($('#userId').val() === ""){
 			$('#userId').focus();
-			alert("아이디를 입력해주세요.");
+			alert("아이디를 입력해 주세요.");
 			return false;
 		}
 		else if($('#userPw').val() === ""){
 			$('#userPw').focus();
-			alert("비밀번호를 입력해주세요.");
+			alert("비밀번호를 입력해 주세요.");
 			return false;
 		}
 		else if($('#userPwChk').val() === ""){
 			$('#userPwChk').focus();
-			alert("비밀번호 확인을 입력해주세요.");
+			alert("비밀번호 확인을 입력해 주세요.");
 			return false;
         }
 		else if($('#userName').val() === ""){
         	$('#userName').focus();
-			alert("이름을 입력해주세요.");
+			alert("이름을 입력해 주세요.");
 			return false;
 		}
         else if($('#userEmail').val() === ""){
 			$('#userEmail').focus();
-			alert("이메일을 입력해주세요.");
+			alert("이메일을 입력해 주세요.");
+			return false;
+		}
+        else if($('#checkCode').val() === ""){
+			$('#checkCode').focus();
+			alert("이메일 인증 코드를 입력해 주세요.");
 			return false;
 		}
 		else if($('#userTel').val() === ""){
 			$('#userTel').focus();
-			alert("전화번호를 입력해주세요.");
+			alert("전화번호를 입력해 주세요.");
 			return false;
 		}
 		else if(!isIdChecked){
@@ -358,6 +467,13 @@ $(function(){
 		}
 		else if(!isTelChecked){
 			$('#userTel').focus();
+			return false;
+		}
+		else if(!isCodeChecked){
+			$('#authchk').html("이메일을 인증해 주세요.");
+			$('#authchk').css('color', 'red');
+			$('#authchk').css('font-size', '10px');
+			$('#authchk').focus();
 			return false;
 		}
 		else{
@@ -580,10 +696,11 @@ $(function(){
 				<td>이메일</td>
 				<td><input type="email" name="userEmail" id="userEmail" class="inputStyle"></td>
 				<td id="emailchk"></td>
-				<td class="space"><input type="button" id="btnEmailSend" value="코드발송"></td>
+				<td class="space"><input type="button" id="btnEmailSend" value="코드발송" disabled></td>
 			<tr>	
 				<td>이메일 인증</td>
 				<td><input type="text" id="checkCode" class="inputStyle" maxlength="10" placeholder="인증코드 입력" disabled></td>
+				<td id="authchk"></td>
 				<td class="space"><input type="button" id="btnEmailCheck" value="인증하기"></td>
 			</tr>	
 			<tr>

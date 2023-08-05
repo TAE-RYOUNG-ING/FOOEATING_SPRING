@@ -37,15 +37,45 @@ public class UserServiceImpl implements UserService {
 		resultVO = udao.idOverlap(userId);
 		
 		if(resultVO == null) {
-			logger.debug("$$$$$$$$$$$$$$$ 아이디 중복 O");
+			logger.debug("$$$$$$$$$$$$$$$ 아이디 중복 X");
 			return "1";
 		}else {
-			logger.debug("$$$$$$$$$$$$$$$ 아이디 중복 X");
+			logger.debug("$$$$$$$$$$$$$$$ 아이디 중복 O");
 			return "0";
 		}
 	}
 	
+	// 1-3. 이메일 중복 체크
+	@Override
+	public String emailOverlap(String userEmail) throws Exception {
+		UserVO resultVO = new UserVO();
+		resultVO = udao.emailOverlap(userEmail);
+		
+		if(resultVO == null) {
+			logger.debug("$$$$$$$$$$$$$$$ 이메일 중복 X");
+			return "1";
+		}else {
+			logger.debug("$$$$$$$$$$$$$$$ 이메일 중복 O");
+			return "0";
+		}
+	}
+	
+	// 1-4. 전화번호 중복 체크
+	@Override
+	public String telOverlap(String userTel) throws Exception {
+		UserVO resultVO = new UserVO();
+		resultVO = udao.telOverlap(userTel);
+		
+		if(resultVO == null) {
+			logger.debug("$$$$$$$$$$$$$$$ 전화번호 중복 X");
+			return "1";
+		}else {
+			logger.debug("$$$$$$$$$$$$$$$ 전화번호 중복 O");
+			return "0";
+		}
+	}
 
+	
 	
 	// 2. 로그인
 	@Override
