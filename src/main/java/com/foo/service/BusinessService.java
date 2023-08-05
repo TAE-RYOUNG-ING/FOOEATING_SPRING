@@ -22,11 +22,15 @@ public interface BusinessService {
 	// 1-2. 사업자번호 중복 체크
 	public String bnumOverlap(String buNum) throws Exception;
 	
+	
+	
 	// 2. 입점 신청
 	public void registRestaurant(RestaurantsVO revo) throws Exception;
 	
 	// 2-1. 메뉴 등록
 	public void addMenu(RestaurantmenusVO rmvo) throws Exception;
+	
+	
 	
 	// 3. 나의 가게 정보
 	public RestaurantsVO readMyRestaurantInfo(String restId) throws Exception;

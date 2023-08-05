@@ -30,8 +30,6 @@ public class BusinessRestController {
 	// 의존성 주입
 	@Autowired
 	private BusinessService bService;
-	@Autowired
-	private UserService uService;
 	
 
 	
