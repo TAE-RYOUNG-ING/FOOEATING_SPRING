@@ -5,9 +5,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import com.foo.domain.RestaurantsVO;
 import com.foo.service.BusinessService;
@@ -40,10 +40,6 @@ public class BusinessFrontController {
 	
 	
 	
-	// http://localhost:8088/business/login
-	
-	
-	
 	// http://localhost:8088/business/registration
 	// 2. 입점 신청
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
@@ -59,8 +55,17 @@ public class BusinessFrontController {
 	// 3. 사업자 회원 마이 페이지
 	// 3-1. 대시보드
 	@RequestMapping(value = "/mypage/dashboard", method = RequestMethod.GET)
-	public String businessusersDash(Model model) {
+	public String businessusersDash(Model model, @SessionAttribute("buNum") String buNum) {
 		logger.debug("@@@@@@@@@@@@@@@@사업자 마이페이지 대시보드 - businessusersDash() 실행");
+		logger.debug("buNum : " + buNum);
+		
+		if (buNum == null) {
+			return "redriect:/main";
+		}
+		
+//		RestaurantsVO restInfo = bService.readMyRestaurantInfo(buNum);
+//		logger.debug("restInfo : {}", restInfo);
+//		model.addAttribute("restInfo", restInfo);
 		
 		return "/business/mypage/dashboard";
 	}
@@ -68,8 +73,17 @@ public class BusinessFrontController {
 	// http://localhost:8088/business/mypage/restInfo
 	// 3-2. 나의 가게 정보
 	@RequestMapping(value = "/mypage/restInfo", method = RequestMethod.GET)
-	public String businessusersRestInfo(Model model) throws Exception {
+	public String businessusersRestInfo(Model model, @SessionAttribute("buNum") String buNum) throws Exception {
 		logger.debug("@@@@@@@@@@@@@@@@사업자 마이페이지 나의 가게 정보 - businessusersRestInfo() 실행");
+		logger.debug("buNum : " + buNum);
+		
+		if (buNum == null) {
+			return "redriect:/main";
+		}
+		
+		RestaurantsVO restInfo = bService.readMyRestaurantInfo(buNum);
+		logger.debug("restInfo : {}", restInfo);
+		model.addAttribute("restInfo", restInfo);
 		
 		return "/business/mypage/restInfo";
 	}

@@ -167,6 +167,7 @@ $(document).ready(function() {
 			enctype : "multipart/form-data",
 			success : function(msg) {
 				alert("입점 신청이 완료되었습니다. :)");
+				location.href = "/business/mypage/dashboard";
 			},
 			error : function() {
 				alert("실패 ㅜㅜ");

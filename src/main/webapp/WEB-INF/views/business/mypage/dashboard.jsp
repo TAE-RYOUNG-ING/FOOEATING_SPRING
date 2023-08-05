@@ -30,7 +30,6 @@
 .main {
 	width: 75%;
 	float: right;
-	background-color: aqua;
 }
 
 </style>

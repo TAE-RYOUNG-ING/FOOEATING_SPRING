@@ -1,12 +1,14 @@
 package com.foo.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,7 +21,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.foo.domain.BusinessusersVO;
 import com.foo.domain.RestaurantsVO;
 import com.foo.service.BusinessService;
-import com.foo.service.UserService;
 
 @RestController
 @RequestMapping(value = "/business")
@@ -114,27 +115,17 @@ public class BusinessRestController {
 	
 	
 	
-	// http://localhost:8088/business/mypage/dashboard
-	// 3. 사업자 회원 마이 페이지
-	// 3-1. 대시보드
-	@RequestMapping(value = "/mypage/dashboard/{buNum}", method = RequestMethod.GET)
-	public void getDashboard(@PathVariable("buNum") String buNum) throws Exception {
-		logger.debug("@@@@@@@@@@@@@@@@@@@@@ getDashboard() 호출");
-		logger.debug("buNum : " + buNum);
+	// 3. 사진 출력
+	@RequestMapping(value = "/showImg", method = RequestMethod.GET)
+	public byte[] showImg(@ModelAttribute("img") String img) throws Exception {
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@ showImg() 호출");
+		logger.debug("img : " + img);
 		
-		// bnNum과 일치하는 restaurants 데이터가 있으면 대시보드 출력
+		InputStream is = new FileInputStream("C:\\fooeating_upload\\" + img);
+		byte[] bArr = IOUtils.toByteArray(is);
+		is.close();
+		
+		return bArr;
 	}
-	
-	// 3-2. 나의 가게 정보
-//	@RequestMapping(value = "/mypage/restInfo/{restId}", method = RequestMethod.GET)
-//	public RestaurantsVO getRestInfo(@PathVariable("restId") String restId) throws Exception{
-//		logger.debug("@@@@@@@@@@@@@@@@@@@@@ getRestInfo() 호출");
-//		logger.debug("restId : " + restId);
-//		
-//		// bnNum과 일치하는 restaurants 데이터가 있으면 해당 데이터를 리스트로 넘기기 -> 없으면 null 리턴
-//		RestaurantsVO restInfo = bService.readMyRestaurantInfo(restId);
-//		
-//		return restInfo;
-//	}
 	
 }

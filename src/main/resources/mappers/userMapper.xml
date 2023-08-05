@@ -18,6 +18,9 @@
 <select id="idOverlap" resultType="com.foo.domain.UserVO">
 	SELECT userId FROM users 
 	WHERE userId = #{userId}
+	UNION ALL 
+	SELECT buId FROM businessusers 
+	WHERE buId = #{buId}
 </select>
 <!-- 아이디 중복 체크 -->
 
@@ -27,6 +30,9 @@
 <select id="emailOverlap" resultType="com.foo.domain.UserVO">
 	SELECT userEmail FROM users 
 	WHERE userEmail = #{userEmail}
+	UNION ALL 
+	SELECT buEmail FROM businessusers 
+	WHERE buEmail = #{buEmail}
 </select>
 <!-- 이메일 중복 체크 -->
 
@@ -36,6 +42,9 @@
 <select id="telOverlap" resultType="com.foo.domain.UserVO">
 	SELECT userTel FROM users 
 	WHERE userTel = #{userTel}
+	UNION ALL 
+	SELECT buTel FROM businessusers 
+	WHERE buTel = #{buTel}
 </select>
 <!-- 전화번호 중복 체크 -->
 

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -30,7 +31,6 @@
 .main {
 	width: 75%;
 	float: right;
-	background-color: aqua;
 }
 
 </style>
@@ -42,23 +42,7 @@
 
 $(document).ready(function() {
 	
-	// 특정 가게 정보 조회
-// 	$.ajax({
-// 		url : "${contextPath}/restInfo/" + ${sessionScope.buNum},
-// 		type : "GET",
-// 		success : function(data) {
-// 			console.log(data);
-// 			alert(data.restId + " 가져오기 성공!");
-// 			$("#restName").html(data.restName);
-// 			$("#restCategory").html(data.restCategory);
-// 			$("#restAddr").html(data.restAddr);
-// 			$("#restTel").html(data.restTel);
-// 			$("#restId").html(data.restId);
-// 			$("#restConvenience").html(data.restConvenience);
-// 			$("#restNotice").html(data.restNotice);
-// 			$("#restOnoff").html(data.restOnoff);
-// 		}
-// 	});
+	
 	
 });
 
@@ -104,9 +88,13 @@ $(document).ready(function() {
 
 
 <div class="main" id="restInfo">
-
+	
 	<div id="myRestInfo">
-		<div id="myRestFile"></div>
+		<div id="myRestFile">
+			<c:forEach var="restImg" items="${fn:split(restInfo.restFile, '/')}">
+				<img src="/business/showImg?img=${restImg}" width="200px" height="200px"> 
+			</c:forEach>
+		</div>
 		
 		<table>
 			<tr>
@@ -119,7 +107,7 @@ $(document).ready(function() {
 			</tr>
 			<tr>
 				<td>주소</td>
-				<td id="restAddr">${restInfo.restAddr}</td>
+				<td id="restAddr">${fn:split(restInfo.restAddr, '/')[0]} ${fn:split(restInfo.restAddr, '/')[1]} ${fn:split(restInfo.restAddr, '/')[2]}</td>
 			</tr>
 			<tr>
 				<td>전화번호</td>
@@ -135,7 +123,11 @@ $(document).ready(function() {
 			</tr>
 			<tr>
 				<td>편의시설</td>
-				<td id="restConvenience">${restInfo.restConvenience}</td>
+				<td id="restConvenience">
+					<c:forEach var="con" items="${fn:split(restInfo.restConvenience, '/')}">
+						<img src="${pageContext.request.contextPath}/resources/img/${con}.png" width="50px"> 
+					</c:forEach>
+				</td>
 			</tr>
 			<tr>
 				<td>공지사항</td>
