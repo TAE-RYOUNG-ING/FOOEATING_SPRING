@@ -24,15 +24,20 @@ public interface BusinessService {
 	
 	
 	
-	// 2. 입점 신청
+	// 2. 로그인
+	public BusinessusersVO loginBUser(BusinessusersVO buvo) throws Exception;
+	
+	
+	
+	// 3. 입점 신청
 	public void registRestaurant(RestaurantsVO revo) throws Exception;
 	
-	// 2-1. 메뉴 등록
+	// 3-1. 메뉴 등록
 	public void addMenu(RestaurantmenusVO rmvo) throws Exception;
 	
 	
 	
-	// 3. 나의 가게 정보
+	// 4. 나의 가게 정보
 	public RestaurantsVO readMyRestaurantInfo(String restId) throws Exception;
 	
 }

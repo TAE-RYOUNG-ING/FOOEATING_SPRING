@@ -40,6 +40,10 @@ public class BusinessFrontController {
 	
 	
 	
+	// http://localhost:8088/business/login
+	
+	
+	
 	// http://localhost:8088/business/registration
 	// 2. 입점 신청
 	@RequestMapping(value = "/registration", method = RequestMethod.GET)
@@ -63,13 +67,9 @@ public class BusinessFrontController {
 	
 	// http://localhost:8088/business/mypage/restInfo
 	// 3-2. 나의 가게 정보
-	@RequestMapping(value = "/mypage/restInfo/{restId}", method = RequestMethod.GET)
-	public String businessusersRestInfo(Model model, @PathVariable("restId") String restId) throws Exception {
+	@RequestMapping(value = "/mypage/restInfo", method = RequestMethod.GET)
+	public String businessusersRestInfo(Model model) throws Exception {
 		logger.debug("@@@@@@@@@@@@@@@@사업자 마이페이지 나의 가게 정보 - businessusersRestInfo() 실행");
-		logger.debug("restId : " + restId);
-		
-		RestaurantsVO restInfo = bService.readMyRestaurantInfo(restId);
-		model.addAttribute("restInfo", restInfo);
 		
 		return "/business/mypage/restInfo";
 	}

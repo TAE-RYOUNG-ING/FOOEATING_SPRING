@@ -1,22 +1,54 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
 
+<style>
+
+.center {
+	text-align: center;
+}
+
+.btn {
+	text-align: right;
+}
+
+.btnstyle {
+	width: 100px;
+	height: 30px;
+}
+
+.sidebar {
+	width: 25%;
+	float: left;
+}
+
+.main {
+	width: 75%;
+	float: right;
+	background-color: aqua;
+}
+
+</style>
+
+
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script type="text/javascript">
 
 $(document).ready(function() {
 	
-// 	// 특정 가게 정보 조회
+	// 특정 가게 정보 조회
 // 	$.ajax({
-// 		url : "${contextPath}/restInfo/" + "000-00-00000",		// 세션에 담긴 restId 사용 예정
+// 		url : "${contextPath}/restInfo/" + ${sessionScope.buNum},
 // 		type : "GET",
 // 		success : function(data) {
-// 			alert("가져오기 성공!");
+// 			console.log(data);
+// 			alert(data.restId + " 가져오기 성공!");
 // 			$("#restName").html(data.restName);
 // 			$("#restCategory").html(data.restCategory);
 // 			$("#restAddr").html(data.restAddr);
@@ -37,9 +69,32 @@ $(document).ready(function() {
 
 
 
-<h1>나의 가게 정보</h1>
+<c:if test="${empty sessionScope.buId}">
+	<c:redirect url="/main"/>
+</c:if>
 
-<div id="notRegistRest">
+
+
+<!-- 헤더 -->
+<div class="center">
+	<a href="/main">
+		<img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200px" height="200px">
+	</a>
+	<h1>FOOEATING_Mypage_RestaurantInfo</h1>
+</div>
+<!-- 헤더 -->
+
+
+
+<!-- 사이드바_사업자 -->
+<div class="sidebar">
+	<c:import url="sidebarB.jsp" />
+</div>
+<!-- 사이드바_사업자 -->
+
+
+
+<div class="main" id="notRegistRest">
 
 	등록된 가게가 없습니다. <br>
 	<button type="button" id="goRegistration" onclick="location.href = '/business/registration';">&gt; 입점 신청하기</button>
@@ -48,7 +103,7 @@ $(document).ready(function() {
 
 
 
-<div id="">
+<div class="main" id="restInfo">
 
 	<div id="myRestInfo">
 		<div id="myRestFile"></div>

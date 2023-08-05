@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -116,13 +117,13 @@ public class BusinessRestController {
 	// http://localhost:8088/business/mypage/dashboard
 	// 3. 사업자 회원 마이 페이지
 	// 3-1. 대시보드
-//	@RequestMapping(value = "/mypage/dashboard/{buNum}", method = RequestMethod.GET)
-//	public void getDashboard(@PathVariable("buNum") String buNum) throws Exception {
-//		logger.debug("@@@@@@@@@@@@@@@@@@@@@ getDashboard() 호출");
-//		logger.debug("buNum : " + buNum);
-//		
-//		// bnNum과 일치하는 restaurants 데이터가 있으면 대시보드 출력
-//	}
+	@RequestMapping(value = "/mypage/dashboard/{buNum}", method = RequestMethod.GET)
+	public void getDashboard(@PathVariable("buNum") String buNum) throws Exception {
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@ getDashboard() 호출");
+		logger.debug("buNum : " + buNum);
+		
+		// bnNum과 일치하는 restaurants 데이터가 있으면 대시보드 출력
+	}
 	
 	// 3-2. 나의 가게 정보
 //	@RequestMapping(value = "/mypage/restInfo/{restId}", method = RequestMethod.GET)

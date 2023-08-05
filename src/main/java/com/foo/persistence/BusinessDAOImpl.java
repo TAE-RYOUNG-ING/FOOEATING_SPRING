@@ -44,7 +44,16 @@ public class BusinessDAOImpl implements BusinessDAO {
 	
 	
 	
-	// 2. 입점 신청
+	// 2. 로그인
+	@Override
+	public BusinessusersVO loginBUser(BusinessusersVO buvo) throws Exception {
+		logger.debug("############### loginBUser 호출");
+		return sqlSession.selectOne(NAMESPACE + ".loginBUser", buvo);
+	}
+	
+	
+	
+	// 3. 입점 신청
 	@Override
 	public void registRestaurant(RestaurantsVO revo) throws Exception {
 		logger.debug("############### registRestaurant 호출");
@@ -52,7 +61,7 @@ public class BusinessDAOImpl implements BusinessDAO {
 		
 	}
 	
-	// 2-1. 메뉴 등록
+	// 3-1. 메뉴 등록
 	@Override
 	public void insertMenu(RestaurantmenusVO rmvo) throws Exception {
 		logger.debug("############### insertMenu 호출");
@@ -61,7 +70,7 @@ public class BusinessDAOImpl implements BusinessDAO {
 	
 	
 	
-	// 3. 나의 가게 정보
+	// 4. 나의 가게 정보
 	@Override
 	public RestaurantsVO readMyRestaurantInfo(String restId) throws Exception {
 		logger.debug("############### readMyRestaurantInfo 호출");
