@@ -8,6 +8,8 @@
 <style>
 
 .info {
+	margin-top: -3px;
+	margin-bottom: 7px;
 	font-size: 0.7em;
 	color: red;
 }
@@ -22,23 +24,72 @@ h1{
 	height: 400px;
 	text-align: center;
 	margin-left: -200px;
-	margin-top: -250px;
+	margin-top: -285px;
 	left: 50%;
 	top: 50%;
-}
-
-.btn {
-	width: 265px;
-	height: 30px;
-	margin: auto;
-	margin-bottom: 10px;
-	display: block;
 }
 
 .width {
 	width: 200px;
 	height: 25px;
 	margin-bottom: 10px;
+}
+
+.searchInfo {
+	text-decoration: none;
+	color: black;
+}
+
+.searchInfo:hover {
+	color: gray;
+	cursor: pointer;
+}
+
+.cookie {
+	margin-bottom: 5px;
+}
+
+.cookie:hover > label {
+	color: gray;
+	cursor: pointer;
+}
+
+.btn {
+	width: 265px;
+	height: 40px;
+	margin: auto;
+	margin-bottom: 10px;
+	display: block;
+	cursor: pointer;
+	border-radius: 15px;
+	border: none;
+	font-size: 14px;
+}
+
+
+
+/* ㅡㅡㅡㅡㅡ 카카오 로그인 ㅡㅡㅡㅡㅡ */
+a {
+	text-decoration: none;
+}
+
+.kakaoLogin {
+	width: 265px;
+ 	height: 40px;
+	margin: auto;
+	margin-bottom: 10px;
+	display: block;
+	cursor: pointer;
+	border: solid 1px #FEE500;
+	background: #FEE500;
+	color: black;
+	font-size: 14px;
+	border-radius: 15px;
+}
+
+img {
+	margin-top: 11px;
+	display: inline-block;
 }
 
 </style>
@@ -51,14 +102,14 @@ $(function(){
     $('#fr').on('submit', function(e) {
         if(fr.userId.value === ""){
             e.preventDefault();
-            $('#divId').html("　아이디를 입력하세요.");
+            $('#divId').html("아이디를 입력하세요.");
         } else{
             $('#divId').html("");
         }
         
         if(fr.userPw.value === ""){
             e.preventDefault();
-            $('#divPw').html("　　비밀번호를 입력하세요.");
+            $('#divPw').html("　비밀번호를 입력하세요.");
         } else{
             $('#divPw').html("");
         }
@@ -130,16 +181,19 @@ function getCookie(cookieName) {
 	<img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200px" height="200px"> <br>
 	
 	<form action="/user/login" method="post" id="fr" onsubmit="saveId()">
-	아이디 &nbsp;&nbsp;&nbsp;<input type="text" name="userId" id="userId" class="width"> <br>
+	아이디 &nbsp;&nbsp;&nbsp;&nbsp;
+	<input type="text" name="userId" id="userId" class="width"> <br>
 	<div id="divId" class="info"></div>
-	비밀번호 <input type="password" name="userPw" class="width">
+	
+	비밀번호 &nbsp;
+	<input type="password" name="userPw" class="width">
 	<div id="divPw" class="info"></div>
 	<br>
 	
 	
 	
 	<!-- 쿠키에 7일동안 아이디 저장 -->
-	<div style="margin-bottom: 5px;">
+	<div class="cookie">
 		<input type="checkbox" id="idSaveCheck" >
 		<label for="idSaveCheck">아이디 기억하기</label><br>
 	</div>
@@ -147,11 +201,22 @@ function getCookie(cookieName) {
 	
 	
 	<!-- 아이디 / 비밀번호 찾기 -->
-	<a href="#">아이디 / 비밀번호 찾기</a> <br><br>
+	<a href="/user/searchInfo" class="searchInfo"
+	   onclick="window.open(this.href, '_blank', 'width=500, height=300, left=510, top=365'); return false;">
+	   아이디 / 비밀번호 찾기</a> <br><br>
 	
 	
 	
 	<input type="submit" class="btn" value="로그인" >
+	
+	<!-- REST_API키 및 REDIRECT_URI는 본인걸로 수정하세요 -->	
+	<a href="https://kauth.kakao.com/oauth/authorize?client_id=REST_API키&redirect_uri=REDIRECT_URI&response_type=code">
+		<div class="kakaoLogin">
+			<img src="${pageContext.request.contextPath}/resources/img/kakaoSymbol.png" width="18px" height="18px">
+			<span>&nbsp;카카오 간편 로그인</span>
+		</div>
+	</a>
+	
 	<input type="button" class="btn" value="회원가입" onclick="location.href='/user/join';">
 	</form>
 </div>
