@@ -16,8 +16,6 @@ import com.foo.service.UserService;
 @RequestMapping(value = "/user/*")
 public class UserFrontController {
 	
-	// http://localhost:8088/user/list
-	
 	// 로거 생성
 	private static final Logger logger = LoggerFactory.getLogger(UserFrontController.class);
 	

@@ -1,4 +1,5 @@
 package com.foo.controller;
+import java.util.HashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,12 +68,24 @@ public class UserRestController {
 	
 	
 	// 2. 카카오 연동 로그인
-	// 카카오톡에 사용자 코드 받기 (jsp의 a태그 href에 경로 있음)
 	@RequestMapping(value = "/kakaoLogin", method = RequestMethod.GET)
-	public ModelAndView kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Throwable {
+	public ModelAndView kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Exception {
 
 		// 1번
+		// 카카오톡에 사용자 코드 받기 (jsp의 a태그 href에 경로 있음)
 		logger.debug("@@@@@@@@@@@@@@@ code : " + code);
+		
+		// 2번
+		// 받은 code를 service 메서드로 보내서 accessToken값 출력
+		String access_Token = uService.getAccessToken(code);
+		logger.debug("@@@@@@@@@@@@@@@ access_Token : " + access_Token);
+		
+		// 3번
+		// 받은 accessToken를 getUserInfo로 보내서 정보를 받아옴
+		// userInfo에 이름, 이메일 정보가 저장됨
+		HashMap<String, Object> userInfo = uService.getUserInfo(access_Token);
+		logger.debug("@@@@@@@@@@@@@@@ 이름 : " + userInfo.get("nickname"));
+		logger.debug("@@@@@@@@@@@@@@@ 이메일 : " + userInfo.get("email"));
 		
 		return null;	
 		// 여기서는 코드가 넘어오는지만 확인

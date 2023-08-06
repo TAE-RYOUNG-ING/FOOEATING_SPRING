@@ -1,4 +1,6 @@
 package com.foo.service;
+import java.util.HashMap;
+
 import com.foo.domain.UserVO;
 
 
@@ -21,5 +23,16 @@ public interface UserService {
 	
 	// 2. 로그인
 	public UserVO loginUser(UserVO vo) throws Exception;
+	
+	
+	
+	// 3. 카카오 간편 로그인
+	public String getAccessToken(String authorize_code) throws Exception;
+	
+	// 3-1. 유저 정보 가져오기
+	public HashMap<String, Object> getUserInfo(String access_Token) throws Exception;
+	
+	
+	
 	
 }

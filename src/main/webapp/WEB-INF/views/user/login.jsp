@@ -209,7 +209,7 @@ function getCookie(cookieName) {
 	
 	<input type="submit" class="btn" value="로그인" >
 	
-	<!-- 카카오 로그인 -->	
+	<!-- 카카오 로그인 -->
 	<a href="https://kauth.kakao.com/oauth/authorize?client_id=76611d9594b317e8ca73f2ddcaf03839&redirect_uri=http://localhost:8088/user/kakaoLogin&response_type=code">
 		<div class="kakaoLogin">
 			<img src="${pageContext.request.contextPath}/resources/img/kakaoSymbol.png" width="18px" height="18px">
