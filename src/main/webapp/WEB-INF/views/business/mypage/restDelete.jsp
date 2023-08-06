@@ -59,25 +59,27 @@ $(document).ready(function() {
 	
 	// 삭제 버튼 클릭
 	$("#btn-delete").click(function() {
-		var data = {
-						"buNum" : $("#buNum").val(),
-						"buPw" : $("#buPw").val()
-					};
+		// 사용자가 입력한 사업장 정보를 저장할 formData 객체
+		var formData = new FormData();
+		formData.append("buNum", "${sessionScope.buNum}");
+		formData.append("buPw", $("#buPw").val());
 		
 		if (confirm("삭제 하시겠습니까?")) {
 			// ajax
 			$.ajax({
 				url : "${contextPath}/business/infoDelete",
 				method : "POST",
-				contentType : "application/json",
-				data : JSON.stringify(data),
+				data : formData,
+				contentType : false,
+				processData : false,
+				enctype : "multipart/form-data",
 				success : function(msg) {
-					if (msg === "OK") {
+					if (msg === "ok") {
 						alert("퇴점 처리 되었습니다.");
 						location.href = "/business/mypage/restInfo";
 					} else {
 						alert("사업자번호 또는 비밀번호가 일치하지 않습니다.");
-						location.href = "${contextPath}business/mypage/infoDelete";
+						location.href = "${contextPath}/business/mypage/restDelete";
 					}
 				},
 				error : function() {
@@ -133,21 +135,21 @@ $(document).ready(function() {
 
 
 
-<!-- 상단 탭 -->
-	<div class="nav-tab">
-		<ul>
-			<li id="restInfoTab" onclick="location.href = '${contextPath}/business/mypage/restInfo';">나의 가게 정보</li>
-			<li id="restModifyTab" onclick="location.href = '${contextPath}/business/mypage/restModify';">정보 수정</li>
-			<li id="restDeleteTab" onclick="location.href = '${contextPath}/business/mypage/restDelete';">가게 삭제</li>
-		</ul>
-	</div>
-<!-- 상단 탭 -->
-
-
-
 <!-- 입점신청 O -->
 	<c:if test="${restInfo != null}">
 		
+	<!-- 상단 탭 -->
+		<div class="nav-tab">
+			<ul>
+				<li id="restInfoTab" onclick="location.href = '${contextPath}/business/mypage/restInfo';">나의 가게 정보</li>
+				<li id="restModifyTab" onclick="location.href = '${contextPath}/business/mypage/restModify';">정보 수정</li>
+				<li id="restDeleteTab" onclick="location.href = '${contextPath}/business/mypage/restDelete';">가게 삭제</li>
+			</ul>
+		</div>
+	<!-- 상단 탭 -->
+	
+	
+	
 		<div id="myRestDelete">
 			<table style="margin: 40px auto;">
 				<tr>

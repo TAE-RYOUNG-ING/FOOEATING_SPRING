@@ -168,9 +168,11 @@ public class BusinessRestController {
 		int result = bService.deleteRestaurant(buvo);
 		
 		if (result == 1) {
+			logger.debug("result : 삭제 완료");
 			return "ok";
 		} else {
-			return "false";
+			logger.debug("result : 삭제 실패");
+			return "fail";
 		}
 		
 	}
