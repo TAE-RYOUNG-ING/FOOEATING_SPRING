@@ -20,7 +20,7 @@
 	WHERE userId = #{userId}
 	UNION ALL 
 	SELECT buId FROM businessusers 
-	WHERE buId = #{buId}
+	WHERE buId = #{userId}
 </select>
 <!-- 아이디 중복 체크 -->
 
@@ -32,7 +32,7 @@
 	WHERE userEmail = #{userEmail}
 	UNION ALL 
 	SELECT buEmail FROM businessusers 
-	WHERE buEmail = #{buEmail}
+	WHERE buEmail = #{userEmail}
 </select>
 <!-- 이메일 중복 체크 -->
 
@@ -44,7 +44,7 @@
 	WHERE userTel = #{userTel}
 	UNION ALL 
 	SELECT buTel FROM businessusers 
-	WHERE buTel = #{buTel}
+	WHERE buTel = #{userTel}
 </select>
 <!-- 전화번호 중복 체크 -->
 

@@ -12,10 +12,6 @@ h1{
 	text-align: center;
 }
 
-h6{
-	text-align: center;
-}
-
 img{
 	margin: auto;
 	display: block;
@@ -498,11 +494,7 @@ $(document).ready(function() {
 				data : JSON.stringify(buserInfo),
 				success : function(msg) {
 					alert("회원가입이 완료되었습니다!");
-					if(confirm("입점 신청 페이지로 바로 이동하시겠습니까?\n취소 시, 추후 [마이페이지]에서 신청하실 수 있습니다.")) {
-						location.href = "${contextPath}/business/registration";
-					} else {
-						location.href = "${contextPath}/business/mypage";
-					}
+					location.href = "/user/login";
 				},
 				error : function() {
 					alert("실패 ㅜㅜ");

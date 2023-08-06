@@ -131,5 +131,11 @@ public class BusinessServiceImpl implements BusinessService {
 	public RestaurantsVO readMyRestaurantInfo(String restId) throws Exception {
 		return bdao.readMyRestaurantInfo(restId);
 	}
+	
+	// 4-1. 가게 수정
+	@Override
+	public void modifyRestaurant(RestaurantsVO revo) throws Exception {
+		bdao.updateRestaurant(revo);
+	}
 
 }

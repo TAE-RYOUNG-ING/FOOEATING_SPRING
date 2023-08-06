@@ -96,7 +96,9 @@ public class BusinessRestController {
 			
 			uploadFile += multi.getOriginalFilename() + "/";
 		}
-		revo.setRestFile(uploadFile.substring(0, uploadFile.length() - 1));
+		if (uploadFile != "") {
+			revo.setRestFile(uploadFile.substring(0, uploadFile.length() - 1));
+		}
 		
 		bService.registRestaurant(revo);
 		
@@ -115,7 +117,8 @@ public class BusinessRestController {
 	
 	
 	
-	// 3. 사진 출력
+	// 3. 사업자 회원 마이페이지
+	// 3-1. 사진 출력
 	@RequestMapping(value = "/showImg", method = RequestMethod.GET)
 	public byte[] showImg(@ModelAttribute("img") String img) throws Exception {
 		logger.debug("@@@@@@@@@@@@@@@@@@@@@ showImg() 호출");
@@ -126,6 +129,34 @@ public class BusinessRestController {
 		is.close();
 		
 		return bArr;
+	}
+	
+	// 3-2. 가게 정보 수정
+	@RequestMapping(value = "/infoModify", method = RequestMethod.POST)
+	public String updateRestaurant(@ModelAttribute RestaurantsVO revo, @RequestPart MultipartFile[] files) throws Exception {
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@ updateRestaurant() 호출");
+		logger.debug("revo : {}", revo);
+		logger.debug("files : {}", files);
+		
+		String uploadFolder = "C:\\fooeating_upload";
+		String uploadFile = ""; 
+		
+		for(MultipartFile multi : files) {
+			logger.debug("upload_file_name : " + multi.getOriginalFilename());
+			logger.debug("upload_file_size : " + multi.getSize());
+			
+			File savefile = new File(uploadFolder, multi.getOriginalFilename());
+			multi.transferTo(savefile);
+			
+			uploadFile += multi.getOriginalFilename() + "/";
+		}
+		if (uploadFile != "") {
+			revo.setRestFile(uploadFile.substring(0, uploadFile.length() - 1));
+		}
+		
+		bService.modifyRestaurant(revo);
+		
+		return "ok";
 	}
 	
 }

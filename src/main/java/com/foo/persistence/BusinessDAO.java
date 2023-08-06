@@ -30,4 +30,7 @@ public interface BusinessDAO {
 	// 4. 나의 가게 정보
 	public RestaurantsVO readMyRestaurantInfo(String restId) throws Exception;
 	
+	// 4-1. 가게 수정
+	public void updateRestaurant(RestaurantsVO revo) throws Exception;
+	
 }

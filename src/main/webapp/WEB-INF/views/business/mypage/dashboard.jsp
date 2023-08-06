@@ -79,26 +79,30 @@ $(document).ready(function() {
 
 
 
-<div class="main" id="notRegistRest">
-
-	등록된 가게가 없습니다. <br>
-	<button type="button" id="goRegistration" onclick="location.href = '/business/registration';">&gt; 입점 신청하기</button>
+<c:if test="${restInfo == null}">
+	<div class="main" id="notRegistRest">
 	
-</div>
-
-
-
-<div class="main" id="restInfo">
-
-	<div id="simpleReviews">
-		간단 리뷰 목록
+		등록된 가게가 없습니다. <br>
+		<button type="button" id="goRegistration" onclick="location.href = '/business/registration';">&gt; 입점 신청하기</button>
+		
 	</div>
+</c:if>
+
+
+
+<c:if test="${restInfo != null}">
+	<div class="main" id="restInfo">
 	
-	<div id="visitorChart">
-		일일 방문자 그래프
+		<div id="simpleReviews">
+			간단 리뷰 목록
+		</div>
+		
+		<div id="visitorChart">
+			일일 방문자 그래프
+		</div>
+	
 	</div>
-
-</div>
+</c:if>
 
 
 

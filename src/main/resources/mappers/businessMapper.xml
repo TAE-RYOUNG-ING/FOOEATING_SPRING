@@ -23,12 +23,12 @@
 
 
 
-<!-- 사업자 등록 -->
+<!-- 가게 등록 -->
 <insert id="insertRestaurant">
 	INSERT INTO restaurants (restId, restName, restTel, restAddr, restDescription, restRuntime, restCategory, restConvenience, restFile) 
 	VALUES (#{restId}, #{restName}, #{restTel}, #{restAddr}, #{restDescription}, #{restRuntime}, #{restCategory}, #{restConvenience}, #{restFile})
 </insert>
-<!-- 사업자 등록 -->
+<!-- 가게 등록 -->
 
 
 
@@ -47,6 +47,16 @@
 	WHERE restId = #{restId}
 </select>
 <!-- 마이페이지 - 가게 정보 -->
+
+
+
+<!-- 가게 수정 -->
+<update id="updateRestaurant">
+	UPDATE restaurants 
+	SET restDescription = #{restDescription}, restRuntime = #{restRuntime}, restConvenience = #{restConvenience}, restNotice = #{restNotice}, restFile = #{restFile} 
+	WHERE restId = #{restId}
+</update>
+<!-- 가게 수정 -->
 
 
 
