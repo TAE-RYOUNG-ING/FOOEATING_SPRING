@@ -19,8 +19,6 @@ import com.foo.service.UserService;
 @RequestMapping(value = "/user/*")
 public class UserFrontController {
 	
-	// http://localhost:8088/user/list
-	
 	// 로거 생성
 	private static final Logger logger = LoggerFactory.getLogger(UserFrontController.class);
 	
@@ -105,7 +103,16 @@ public class UserFrontController {
 	
 	
 	
-	// 3. 회원 로그아웃
+	// 3. 아이디 & 비밀번호 찾기
+	@RequestMapping(value = "/searchInfo",method = RequestMethod.GET)
+	public void searchInfoGET() {
+		
+		logger.debug("@@@@@@@@@@@@@@@ searchInfoGET_호출");
+	}
+	
+	
+	
+	// 4. 회원 로그아웃
 	@RequestMapping(value = "/logout",method = RequestMethod.GET)
 	public String logoutGET(HttpSession session) {
 		logger.debug("@@@@@@@@@@@@@@@ logoutGET_호출");
