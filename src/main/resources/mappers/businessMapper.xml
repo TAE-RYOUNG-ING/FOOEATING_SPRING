@@ -60,4 +60,15 @@
 
 
 
+<!-- 가게 삭제 -->
+<delete id="deleteRestaurant">
+	DELETE FROM restaurants 
+	WHERE restId = (
+		SELECT bu.buNum FROM businessusers bu 
+		WHERE bu.buNum = #{buNum} AND bu.buPw = #{buPw})
+</delete>
+<!-- 가게 삭제 -->
+
+
+
 </mapper>

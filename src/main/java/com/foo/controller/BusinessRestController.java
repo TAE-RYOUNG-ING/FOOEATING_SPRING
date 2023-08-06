@@ -159,4 +159,20 @@ public class BusinessRestController {
 		return "ok";
 	}
 	
+	// 3-3. 가게 삭제
+	@RequestMapping(value = "/infoDelete", method = RequestMethod.POST)
+	public String deleteRestaurant(@ModelAttribute BusinessusersVO buvo) throws Exception {
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@ deleteRestaurant() 호출");
+		logger.debug("buvo : {}", buvo);
+		
+		int result = bService.deleteRestaurant(buvo);
+		
+		if (result == 1) {
+			return "ok";
+		} else {
+			return "false";
+		}
+		
+	}
+	
 }

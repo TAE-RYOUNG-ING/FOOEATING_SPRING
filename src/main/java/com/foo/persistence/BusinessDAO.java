@@ -33,4 +33,7 @@ public interface BusinessDAO {
 	// 4-1. 가게 수정
 	public void updateRestaurant(RestaurantsVO revo) throws Exception;
 	
+	// 4-2. 가게 삭제
+	public int deleteRestaurant(BusinessusersVO buvo) throws Exception;
+	
 }
