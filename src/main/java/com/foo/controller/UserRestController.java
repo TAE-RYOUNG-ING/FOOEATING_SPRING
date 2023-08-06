@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
+
 import com.foo.service.UserService;
 
 
@@ -62,6 +64,20 @@ public class UserRestController {
 		return result;
 	}
 	
+	
+	
+	// 2. 카카오 연동 로그인
+	// 카카오톡에 사용자 코드 받기 (jsp의 a태그 href에 경로 있음)
+	@RequestMapping(value = "/kakaoLogin", method = RequestMethod.GET)
+	public ModelAndView kakaoLogin(@RequestParam(value = "code", required = false) String code) throws Throwable {
+
+		// 1번
+		logger.debug("@@@@@@@@@@@@@@@ code : " + code);
+		
+		return null;	
+		// 여기서는 코드가 넘어오는지만 확인
+	}
+
 	
 	
 	
