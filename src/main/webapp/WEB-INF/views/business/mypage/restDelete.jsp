@@ -10,10 +10,17 @@
 
 <style>
 
-td {
-	box-sizing: border-box;
-	padding-right: 20px;
-	padding-bottom: 20px;
+tr {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	margin-bottom: 20px;
+}
+
+.inputStyle {
+	width: 280px;
+	height: 25px;
 }
 
 .center {
@@ -50,7 +57,35 @@ td {
 
 $(document).ready(function() {
 	
-	
+	// 삭제 버튼 클릭
+	$("#btn-delete").click(function() {
+		var data = {
+						"buNum" : $("#buNum").val(),
+						"buPw" : $("#buPw").val()
+					};
+		
+		if (confirm("삭제 하시겠습니까?")) {
+			// ajax
+			$.ajax({
+				url : "${contextPath}/business/infoDelete",
+				method : "POST",
+				contentType : "application/json",
+				data : JSON.stringify(data),
+				success : function(msg) {
+					if (msg === "OK") {
+						alert("퇴점 처리 되었습니다.");
+						location.href = "/business/mypage/restInfo";
+					} else {
+						alert("사업자번호 또는 비밀번호가 일치하지 않습니다.");
+						location.href = "${contextPath}business/mypage/infoDelete";
+					}
+				},
+				error : function() {
+					alert("ajax Error");
+				}
+			});		// ajax
+		}
+	});
 	
 });
 
@@ -113,77 +148,19 @@ $(document).ready(function() {
 <!-- 입점신청 O -->
 	<c:if test="${restInfo != null}">
 		
-		<div id="myRestInfo">
-			
-			<div id="myRestFile">
-				<c:forEach var="restImg" items="${fn:split(restInfo.restFile, '/')}">
-					<img src="/business/showImg?img=${restImg}" width="200px" height="200px"> 
-				</c:forEach>
-			</div>
-			
-			<table>
-				<tr>
-					<td>상호명</td>
-					<td>${restInfo.restName}</td>
-				</tr>
-				<tr>
-					<td>업종</td>
-					<td>${restInfo.restCategory}</td>
-				</tr>
-				<tr>
-					<td>소개</td>
-					<td>${restInfo.restDescription}</td>
-				</tr>
-				<tr>
-					<td>주소</td>
-					<td>${fn:split(restInfo.restAddr, '/')[0]} ${fn:split(restInfo.restAddr, '/')[1]} ${fn:split(restInfo.restAddr, '/')[2]}</td>
-				</tr>
-				<tr>
-					<td>전화번호</td>
-					<td>${restInfo.restTel}</td>
-				</tr>
+		<div id="myRestDelete">
+			<table style="margin: 40px auto;">
 				<tr>
 					<td>사업자번호</td>
-					<td>${restInfo.restId}</td>
+					<td><input type="text" id="buNum" class="inputStyle"></td>
 				</tr>
 				<tr>
-					<td>영업시간</td>
-					<td>
-						<c:forEach var="runt" items="${fn:split(restInfo.restRuntime, '/')}">
-							${runt}
-							<c:if test="${runt == ' '}">기타 </c:if> <br>
-						</c:forEach>
-					</td>
-				</tr>
-				<tr>
-					<td>편의시설</td>
-					<td>
-						<c:forEach var="con" items="${fn:split(restInfo.restConvenience, '/')}" varStatus="no">
-							<img src="${pageContext.request.contextPath}/resources/img/${con}.png" width="70px"> 
-						</c:forEach>
-					</td>
-				</tr>
-				<tr>
-					<td>대표 메뉴</td>
-					<td><del>수정 예정!!</del></td>
-				</tr>
-				<tr>
-					<td>영업 상태</td>
-					<td>
-						<c:choose>
-							<c:when test="${restInfo.restStatus == 0}">입점 승인 대기 중입니다.</c:when>
-							<c:when test="${restInfo.restStatus == 1}">
-								${restInfo.restOnoff == 0 ? '영업 전<button type="button" id="btn-onoff">OPEN</button>' : '영업 중<button type="button" id="btn-onoff">CLOSE</button>'}
-							</c:when>
-							<c:when test="${restInfo.restStatus == 2}">관리자에 의해 제한되어있습니다. 문의 부탁드립니다.</c:when>
-						</c:choose>
-					</td>
-				</tr>
-				<tr>
-					<td>공지사항</td>
-					<td>${restInfo.restNotice}</td>
+					<td>비밀번호</td>
+					<td><input type="password" id="buPw" class="inputStyle"></td>
 				</tr>
 			</table>
+			
+			<button type="button" id="btn-delete">삭제</button>
 		</div>
 		
 	</c:if>

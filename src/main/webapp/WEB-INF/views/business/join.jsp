@@ -12,10 +12,6 @@ h1{
 	text-align: center;
 }
 
-h6{
-	text-align: center;
-}
-
 img{
 	margin: auto;
 	display: block;
@@ -119,22 +115,22 @@ $(document).ready(function() {
 		}
 		// 조건 O
 		else if(trueId.test(buId)){
-			$('#buId').html("");
+			$('#idchk').html("");
 			
 			// 중복 체크
 			$.ajax({
-				url :'/business/idOverlap',
+				url :'/user/idOverlap',
 				type : 'post',
-				data : {"buId" : buId},
+				data : {"userId" : buId},
 				dataType : "json",
 				success : function(data){
 					console.log(data);
-					if(data === "1" && trueId.test(buId)){
+					if(data === 1){
 						isIdChecked = true;
 						$('#idchk').html("사용 가능한 아이디 입니다.");
 						$('#idchk').css('color', 'green');
 						$('#idchk').css('font-size', '10px');
-					}else if(data === "0" && trueId.test(buId)){
+					}else if(data === 0){
 						isIdChecked = false;
 						$('#idchk').html("이미 존재하는 아이디 입니다.");
 						$('#idchk').css('color', 'red');
@@ -249,12 +245,12 @@ $(document).ready(function() {
 				data : {"buNum" : buNum},
 				dataType : "json",
 				success : function(data){
-					if(data === "3" && trueNum.test(buNum)){
+					if(data === 1){
 						isbnumChecked = true;
 						$('#bnumchk').html("등록 가능한 사업자번호 입니다.");
 						$('#bnumchk').css('color', 'green');
 						$('#bnumchk').css('font-size', '10px');
-					}else if(data === "2" && trueNum.test(buNum)){
+					}else if(data === 0){
 						isbnumChecked = false;
 						$('#bnumchk').html("이미 등록된 사업자번호 입니다.");
 						$('#bnumchk').css('color', 'red');
@@ -313,8 +309,33 @@ $(document).ready(function() {
 		}
 		// 조건 O
 		else if(trueEmail.test(buEmail)){
-			isEmailChecked = true;
 			$('#emailchk').html("");
+			
+			// 중복 체크
+			$.ajax({
+				url :'/user/emailOverlap',
+				type : 'post',
+				data : {"userEmail" : buEmail},
+				dataType : "json",
+				success : function(data){
+					if(data === 1){
+						isEmailChecked = true;
+						$('#btnEmailSend').attr('disabled', false);
+						$('#emailchk').html("사용 가능한 이메일 입니다.");
+						$('#emailchk').css('color', 'green');
+						$('#emailchk').css('font-size', '10px');
+					}else if(data === 0){
+						isEmailChecked = false;
+						$('#emailchk').html("이미 존재하는 이메일 입니다.");
+						$('#emailchk').css('color', 'red');
+						$('#emailchk').css('font-size', '10px');
+						$('#emailchk').focus();
+					}
+				},
+				error : function(){
+					alert("ajax Error");
+				}
+			}); // ajax
 		}
 		// 조건 X
 		else if(!trueEmail.test(buEmail)){
@@ -337,8 +358,32 @@ $(document).ready(function() {
 		}
 		// 조건 O
 		else if(trueTel.test(buTel)){
-			isTelChecked = true;
 			$('#telchk').html("");
+			
+			// 중복 체크
+			$.ajax({
+				url :'/user/telOverlap',
+				type : 'post',
+				data : {"userTel" : buTel},
+				dataType : "json",
+				success : function(data){
+					if(data === 1){
+						isTelChecked = true;
+						$('#telchk').html("사용 가능한 전화번호 입니다.");
+						$('#telchk').css('color', 'green');
+						$('#telchk').css('font-size', '10px');
+					}else if(data === 0){
+						isTelChecked = false;
+						$('#telchk').html("이미 존재하는 전화번호 입니다.");
+						$('#telchk').css('color', 'red');
+						$('#telchk').css('font-size', '10px');
+						$('#telchk').focus();
+					}
+				},
+				error : function(){
+					alert("ajax Error");
+				}
+			}); // ajax
 		}
 		// 조건 X
 		else if(!trueTel.test(buTel)){
@@ -352,11 +397,12 @@ $(document).ready(function() {
 	
 	
 	// 인증코드 저장 변수
-	var ranStr;
+	let ranStr;
+	let isCodeChecked = false;
 	
 	// 인증코드발송 버튼 클릭 시
 	$("#btnEmailSend").click(function() {
-		var email = $("#buEmail").val();		// 사용자가 입력한 이메일
+		let email = $("#buEmail").val();		// 사용자가 입력한 이메일
 		
 		// 인증코드 발송 ajax
 		$.ajax({
@@ -365,27 +411,35 @@ $(document).ready(function() {
 			success : function(msg) {
 				$("#checkCode").attr("disabled", false);		// 인증코드 전송 후 입력창 활성화
 				ranStr = msg;									// 전송한 인증코드 저장
-// 				console.log(email + "로 전송된 인증코드 : " + msg);
 				alert("인증코드가 전송되었습니다.");
 			},
 			error : function() {
-				alert("실패 ㅜㅜ");
+				alert("ajax Error");
 			}
 		});
 	});
 	
 	// 메일인증 버튼 클릭 시
 	$("#btnEmailCheck").click(function() {
-		var inputCode = $("#checkCode").val();		// 사용자가 입력한 인증코드
+		let inputCode = $("#checkCode").val();		// 사용자가 입력한 인증코드
 		
-		if (inputCode === ranStr) {		// 인증코드 일치
-			alert("이메일 인증이 완료되었습니다.");
+		// 인증코드 일치
+		if (inputCode === ranStr) {
+			isCodeChecked = true;
+			$('#authchk').html("이메일 인증이 완료되었습니다.");
+			$('#authchk').css('color', 'green');
+			$('#authchk').css('font-size', '10px');
+			
 			$("#btnEmailSend").attr("disabled", true);	// 재인증 제한
 			$("#btnEmailCheck").attr("disabled", true);
 			$("#checkCode").attr("readonly", true);		// 인증코드 수정 제한
 			$("#buEmail").attr("readonly", true);		// 인증 후 메일 변경 제한
-		} else {	// 인증코드 불일치
-			alert("인증코드가 일치하지 않습니다! 다시 확인해주세요.");
+		} 
+		// 인증코드 불일치
+		else {
+			$('#authchk').html("인증코드가 일치하지 않습니다! 다시 확인해 주세요.");
+			$('#authchk').css('color', 'red');
+			$('#authchk').css('font-size', '10px');
 			inputCode.focus();
 		}
 	});
@@ -440,11 +494,7 @@ $(document).ready(function() {
 				data : JSON.stringify(buserInfo),
 				success : function(msg) {
 					alert("회원가입이 완료되었습니다!");
-					if(confirm("입점 신청 페이지로 바로 이동하시겠습니까?\n취소 시, 추후 [마이페이지]에서 신청하실 수 있습니다.")) {
-						location.href = "${contextPath}/business/registration";
-					} else {
-						location.href = "${contextPath}/business/mypage";
-					}
+					location.href = "/user/login";
 				},
 				error : function() {
 					alert("실패 ㅜㅜ");
@@ -682,6 +732,7 @@ function showStep() {
 			<tr>
 				<td>이메일 인증</td>
 				<td><input type="text" id="checkCode" class="inputStyle" maxlength="10" placeholder="인증코드 입력" disabled></td>
+				<td id="authchk"></td>
 				<td class="space"><button type="button" id="btnEmailCheck">인증하기</button></td>
 			</tr>
 			<tr>

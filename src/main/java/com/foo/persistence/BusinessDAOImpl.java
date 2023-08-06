@@ -35,23 +35,25 @@ public class BusinessDAOImpl implements BusinessDAO {
 		sqlSession.insert(NAMESPACE + ".insertBusinessuser", buvo);
 	}
 	
-	// 1-1. 아이디 중복 체크
+	// 1-1. 사업자번호 중복 체크
 	@Override
-	public String idOverlap(String buId) throws Exception {
-		logger.debug("############### idOverlap 호출");
-		return sqlSession.selectOne(NAMESPACE + ".idOverlap", buId);
-	}
-	
-	// 1-2. 사업자번호 중복 체크
-	@Override
-	public String bnumOverlap(String buNum) throws Exception {
+	public BusinessusersVO bnumOverlap(String buNum) throws Exception {
 		logger.debug("############### bnumOverlap 호출");
 		return sqlSession.selectOne(NAMESPACE + ".bnumOverlap", buNum);
 	}
 	
 	
 	
-	// 2. 입점 신청
+	// 2. 로그인
+	@Override
+	public BusinessusersVO loginBUser(BusinessusersVO buvo) throws Exception {
+		logger.debug("############### loginBUser 호출");
+		return sqlSession.selectOne(NAMESPACE + ".loginBUser", buvo);
+	}
+	
+	
+	
+	// 3. 입점 신청
 	@Override
 	public void registRestaurant(RestaurantsVO revo) throws Exception {
 		logger.debug("############### registRestaurant 호출");
@@ -59,12 +61,34 @@ public class BusinessDAOImpl implements BusinessDAO {
 		
 	}
 	
-	// 2-1. 메뉴 등록
+	// 3-1. 메뉴 등록
 	@Override
 	public void insertMenu(RestaurantmenusVO rmvo) throws Exception {
 		logger.debug("############### insertMenu 호출");
 		
 	}
 	
+	
+	
+	// 4. 나의 가게 정보
+	@Override
+	public RestaurantsVO readMyRestaurantInfo(String restId) throws Exception {
+		logger.debug("############### readMyRestaurantInfo 호출");
+		return sqlSession.selectOne(NAMESPACE + ".readMyRestaurantInfo", restId);
+	}
+	
+	// 4-1. 가게 수정
+	@Override
+	public void updateRestaurant(RestaurantsVO revo) throws Exception {
+		logger.debug("############### updateRestaurant 호출");
+		sqlSession.update(NAMESPACE + ".updateRestaurant", revo);
+	}
+	
+	// 4-2. 가게 수정
+	@Override
+	public int deleteRestaurant(BusinessusersVO buvo) throws Exception {
+		logger.debug("############### deleteRestaurant 호출");
+		return sqlSession.update(NAMESPACE + ".deleteRestaurant", buvo);
+	}
 	
 }

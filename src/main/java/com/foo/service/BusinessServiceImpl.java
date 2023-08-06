@@ -89,45 +89,59 @@ public class BusinessServiceImpl implements BusinessService {
 		mailSender.send(message);
 	}
 
-	// 1-2. 아이디 중복 체크
+	// 1-2. 사업자번호 중복 체크
 	@Override
-	public String idOverlap(String buId) throws Exception {
-		String result = bdao.idOverlap(buId);
+	public String bnumOverlap(String buNum) throws Exception {
+		BusinessusersVO result = bdao.bnumOverlap(buNum);
 		
 		if (result == null) {
-			logger.debug("$$$$$$$$$$$$$$$ 아이디 중복 X");
+			logger.debug("$$$$$$$$$$$$$$$ 사업자번호 중복 X");
 			return "1";
 		} else {
-			logger.debug("$$$$$$$$$$$$$$$ 아이디 중복 O");
+			logger.debug("$$$$$$$$$$$$$$$ 사업자번호 중복 O");
 			return "0";
 		}
 	}
 	
-	// 1-3. 사업자번호 중복 체크
+	
+	
+	// 2. 로그인
 	@Override
-	public String bnumOverlap(String buNum) throws Exception {
-		String result = bdao.bnumOverlap(buNum);
-		
-		if (result == null) {
-			logger.debug("$$$$$$$$$$$$$$$ 사업자번호 중복 X");
-			return "3";
-		} else {
-			logger.debug("$$$$$$$$$$$$$$$ 사업자번호 중복 O");
-			return "2";
-		}
+	public BusinessusersVO loginBUser(BusinessusersVO buvo) throws Exception {
+		return bdao.loginBUser(buvo);
 	}
 	
 	
 	
-	// 2. 입점 신청
+	// 3. 입점 신청
 	@Override
 	public void registRestaurant(RestaurantsVO revo) throws Exception {
 		bdao.registRestaurant(revo);
 	}
 	
-	// 2-1. 메뉴 등록
+	// 3-1. 메뉴 등록
 	@Override
 	public void addMenu(RestaurantmenusVO rmvo) throws Exception {
+	}
+	
+	
+	
+	// 4. 나의 가게 정보
+	@Override
+	public RestaurantsVO readMyRestaurantInfo(String restId) throws Exception {
+		return bdao.readMyRestaurantInfo(restId);
+	}
+	
+	// 4-1. 가게 수정
+	@Override
+	public void modifyRestaurant(RestaurantsVO revo) throws Exception {
+		bdao.updateRestaurant(revo);
+	}
+	
+	// 4-2. 가게 삭제
+	@Override
+	public int deleteRestaurant(BusinessusersVO buvo) throws Exception {
+		return bdao.deleteRestaurant(buvo);
 	}
 
 }

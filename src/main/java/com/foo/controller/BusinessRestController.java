@@ -1,7 +1,10 @@
 package com.foo.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,26 +63,15 @@ public class BusinessRestController {
 		return ranStr;
 	}
 	
-	// 1-2. 아이디 중복 체크
-	@RequestMapping(value = "/idOverlap", method = RequestMethod.POST)
-	public String idOverlap(@RequestParam("buId") String buId) throws Exception {
-		logger.debug("@@@@@@@@@@@@@@@@@@@@@ idOverlap() 호출");
-		
-		String result1 = bService.idOverlap(buId);
-		logger.debug("아이디 중복 결과 : " + result1);
-		
-		return result1;
-	}
-	
-	// 1-3. 사업자번호 중복 체크
+	// 1-2. 사업자번호 중복 체크
 	@RequestMapping(value = "/bnumOverlap", method = RequestMethod.POST)
 	public String bnumOverlap(@RequestParam("buNum") String buNum) throws Exception {
 		logger.debug("@@@@@@@@@@@@@@@@@@@@@ bnumOverlap() 호출");
 		
-		String result2 = bService.bnumOverlap(buNum);
-		logger.debug("사업자번호 중복 결과 : " + result2);
+		String result = bService.bnumOverlap(buNum);
+		logger.debug("사업자번호 중복 결과 : " + result);
 		
-		return result2;
+		return result;
 	}
 	
 	
@@ -104,7 +96,9 @@ public class BusinessRestController {
 			
 			uploadFile += multi.getOriginalFilename() + "/";
 		}
-		revo.setRestFile(uploadFile.substring(0, uploadFile.length() - 1));
+		if (uploadFile != "") {
+			revo.setRestFile(uploadFile.substring(0, uploadFile.length() - 1));
+		}
 		
 		bService.registRestaurant(revo);
 		
@@ -123,26 +117,62 @@ public class BusinessRestController {
 	
 	
 	
-	// http://localhost:8088/business/mypage/dashboard
-	// 3. 사업자 회원 마이 페이지
-	// 3-1. 대시보드
-//	@RequestMapping(value = "/mypage/dashboard/{buNum}", method = RequestMethod.GET)
-//	public void getDashboard(@PathVariable("buNum") String buNum) throws Exception {
-//		logger.debug("@@@@@@@@@@@@@@@@@@@@@ getDashboard() 호출");
-//		logger.debug("buNum : " + buNum);
-//		
-//		// bnNum과 일치하는 restaurants 데이터가 있으면 대시보드 출력
-//	}
+	// 3. 사업자 회원 마이페이지
+	// 3-1. 사진 출력
+	@RequestMapping(value = "/showImg", method = RequestMethod.GET)
+	public byte[] showImg(@ModelAttribute("img") String img) throws Exception {
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@ showImg() 호출");
+		logger.debug("img : " + img);
+		
+		InputStream is = new FileInputStream("C:\\fooeating_upload\\" + img);
+		byte[] bArr = IOUtils.toByteArray(is);
+		is.close();
+		
+		return bArr;
+	}
 	
-	// 3-2. 나의 가게 정보
-//	@RequestMapping(value = "/mypage/restInfo/{buNum}")
-//	public List<RestaurantsVO> getRestInfo(@PathVariable("buNum") String buNum) throws Exception{
-//		logger.debug("@@@@@@@@@@@@@@@@@@@@@ getRestInfo() 호출");
-//		logger.debug("buNum : " + buNum);
-//		
-//		// bnNum과 일치하는 restaurants 데이터가 있으면 해당 데이터를 리스트로 넘기기 -> 없으면 null 리턴
-//		
-//		return null;
-//	}
+	// 3-2. 가게 정보 수정
+	@RequestMapping(value = "/infoModify", method = RequestMethod.POST)
+	public String updateRestaurant(@ModelAttribute RestaurantsVO revo, @RequestPart MultipartFile[] files) throws Exception {
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@ updateRestaurant() 호출");
+		logger.debug("revo : {}", revo);
+		logger.debug("files : {}", files);
+		
+		String uploadFolder = "C:\\fooeating_upload";
+		String uploadFile = ""; 
+		
+		for(MultipartFile multi : files) {
+			logger.debug("upload_file_name : " + multi.getOriginalFilename());
+			logger.debug("upload_file_size : " + multi.getSize());
+			
+			File savefile = new File(uploadFolder, multi.getOriginalFilename());
+			multi.transferTo(savefile);
+			
+			uploadFile += multi.getOriginalFilename() + "/";
+		}
+		if (uploadFile != "") {
+			revo.setRestFile(uploadFile.substring(0, uploadFile.length() - 1));
+		}
+		
+		bService.modifyRestaurant(revo);
+		
+		return "ok";
+	}
+	
+	// 3-3. 가게 삭제
+	@RequestMapping(value = "/infoDelete", method = RequestMethod.POST)
+	public String deleteRestaurant(@ModelAttribute BusinessusersVO buvo) throws Exception {
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@ deleteRestaurant() 호출");
+		logger.debug("buvo : {}", buvo);
+		
+		int result = bService.deleteRestaurant(buvo);
+		
+		if (result == 1) {
+			return "ok";
+		} else {
+			return "false";
+		}
+		
+	}
 	
 }

@@ -7,7 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.foo.domain.BusinessusersVO;
 import com.foo.domain.UserVO;
+import com.foo.service.BusinessService;
 import com.foo.service.UserService;
 
 
@@ -22,6 +25,8 @@ public class UserFrontController {
 	// 객체 주입 (DI)
 	@Autowired
 	private UserService uService;
+	@Autowired
+	private BusinessService bService;
 	
 
 	
@@ -54,7 +59,7 @@ public class UserFrontController {
 	
 	// 2-1. 회원 로그인
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
-	public void loginUserGET(UserVO vo) throws Exception {
+	public void loginUserGET(UserVO vo, BusinessusersVO bvo) throws Exception {
 		
 		logger.debug("@@@@@@@@@@@@@@@ loginUserGET_호출");
 	}
@@ -69,16 +74,30 @@ public class UserFrontController {
 		logger.debug(resultVO + "");
 		
 		// 로그인 성공 - 메인페이지 이동
-		if(resultVO != null) {
+		if(resultVO != null) {											// users 정보 O
 			session.setAttribute("userId", resultVO.getUserId());
 			session.setAttribute("userName", resultVO.getUserName());
-			logger.debug("@@@@@@@@@@@@@@@ 로그인 성공");
-			return "redirect:/main";			
-		}else {
-			logger.debug("@@@@@@@@@@@@@@@ 로그인 실패");
-			request.setAttribute("msg", "아이디 또는 비밀번호를 잘못 입력했습니다.");
-			request.setAttribute("url", "/user/login");
-			return "user/loginError";
+			logger.debug("@@@@@@@@@@@@@@@ 일반회원 로그인 성공");
+			return "redirect:/main";
+		}else {															// users 정보 X -> businessusers 확인
+			BusinessusersVO bvo = new BusinessusersVO();
+			bvo.setBuId(vo.getUserId());
+			bvo.setBuPw(vo.getUserPw());
+			BusinessusersVO bResultVO = bService.loginBUser(bvo);
+			logger.debug(bResultVO + "");
+			
+			if(bResultVO != null) {										// businessusers 정보 O
+				session.setAttribute("buId", bResultVO.getBuId());
+				session.setAttribute("buName", bResultVO.getBuName());
+				session.setAttribute("buNum", bResultVO.getBuNum());
+				logger.debug("@@@@@@@@@@@@@@@ 사업자회원 로그인 성공");
+				return "redirect:/main";
+			}else {														// users 정보 X && businessusers 정보 X
+				logger.debug("@@@@@@@@@@@@@@@ 로그인 실패");
+				request.setAttribute("msg", "아이디 또는 비밀번호를 잘못 입력했습니다.");
+				request.setAttribute("url", "/user/login");
+				return "user/loginError";
+			}
 		}
 	}
 	

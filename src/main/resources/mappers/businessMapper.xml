@@ -14,15 +14,6 @@
 
 
 
-<!-- 아이디 중복 체크 -->
-<select id="idOverlap" resultType="com.foo.domain.BusinessusersVO">
-	SELECT buId FROM businessusers 
-	WHERE buId = #{buId}
-</select>
-<!-- 아이디 중복 체크 -->
-
-
-
 <!-- 사업자번호 중복 체크 -->
 <select id="bnumOverlap" resultType="com.foo.domain.BusinessusersVO">
 	SELECT buNum FROM businessusers 
@@ -32,12 +23,21 @@
 
 
 
-<!-- 사업자 등록 -->
+<!-- 가게 등록 -->
 <insert id="insertRestaurant">
 	INSERT INTO restaurants (restId, restName, restTel, restAddr, restDescription, restRuntime, restCategory, restConvenience, restFile) 
 	VALUES (#{restId}, #{restName}, #{restTel}, #{restAddr}, #{restDescription}, #{restRuntime}, #{restCategory}, #{restConvenience}, #{restFile})
 </insert>
-<!-- 사업자 등록 -->
+<!-- 가게 등록 -->
+
+
+
+<!-- 로그인 -->
+<select id="loginBUser" resultType="com.foo.domain.BusinessusersVO">
+	SELECT * FROM businessusers 
+	WHERE buId = #{buId} AND buPw = #{buPw}
+</select>
+<!-- 로그인 -->
 
 
 
@@ -47,6 +47,27 @@
 	WHERE restId = #{restId}
 </select>
 <!-- 마이페이지 - 가게 정보 -->
+
+
+
+<!-- 가게 수정 -->
+<update id="updateRestaurant">
+	UPDATE restaurants 
+	SET restDescription = #{restDescription}, restRuntime = #{restRuntime}, restConvenience = #{restConvenience}, restNotice = #{restNotice}, restFile = #{restFile} 
+	WHERE restId = #{restId}
+</update>
+<!-- 가게 수정 -->
+
+
+
+<!-- 가게 삭제 -->
+<delete id="deleteRestaurant">
+	DELETE FROM restaurants 
+	WHERE restId = (
+		SELECT bu.buNum FROM businessusers bu 
+		WHERE bu.buNum = #{buNum} AND bu.buPw = #{buPw})
+</delete>
+<!-- 가게 삭제 -->
 
 
 
