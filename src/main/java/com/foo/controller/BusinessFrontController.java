@@ -72,24 +72,7 @@ public class BusinessFrontController {
 	}
 	
 	// http://localhost:8088/business/mypage/restInfo
-	// 3-2. 나의 가게 정보
-//	@RequestMapping(value = "/mypage/restInfo", method = RequestMethod.GET)
-//	public String businessusersRestInfo(Model model, @SessionAttribute("buNum") String buNum) throws Exception {
-//		logger.debug("@@@@@@@@@@@@@@@@사업자 마이페이지 나의 가게 정보 - businessusersRestInfo() 실행");
-//		logger.debug("buNum : " + buNum);
-//		
-//		if (buNum == null) {
-//			return "redriect:/main";
-//		}
-//		
-//		RestaurantsVO restInfo = bService.readMyRestaurantInfo(buNum);
-//		logger.debug("restInfo : {}", restInfo);
-//		model.addAttribute("restInfo", restInfo);
-//		
-//		return "/business/mypage/restInfo";
-//	}
-	
-	// 3-3. 가게 수정
+	// 3-2. 나의 가게 정보(restInfo) / 수정(restModify) / 삭제(restDelete)
 	@RequestMapping(value = "/mypage/{rest}", method = RequestMethod.GET)
 	public String businessusersRestModify(Model model, @SessionAttribute("buNum") String buNum, @PathVariable("rest") String rest) throws Exception {
 		logger.debug("@@@@@@@@@@@@@@@@사업자 마이페이지 - businessusersRest" + rest + "() 실행");

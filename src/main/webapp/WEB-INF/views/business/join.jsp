@@ -398,51 +398,51 @@ $(document).ready(function() {
 	
 	// 인증코드 저장 변수
 	let ranStr;
-	let isCodeChecked = false;
+// 	let isCodeChecked = false;
 	
 	// 인증코드발송 버튼 클릭 시
-	$("#btnEmailSend").click(function() {
-		let email = $("#buEmail").val();		// 사용자가 입력한 이메일
+// 	$("#btnEmailSend").click(function() {
+// 		let email = $("#buEmail").val();		// 사용자가 입력한 이메일
 		
-		// 인증코드 발송 ajax
-		$.ajax({
-			url : "${contextPath}/business/emailCheck?email=" + email,
-			type : 'GET',
-			success : function(msg) {
-				$("#checkCode").attr("disabled", false);		// 인증코드 전송 후 입력창 활성화
-				ranStr = msg;									// 전송한 인증코드 저장
-				alert("인증코드가 전송되었습니다.");
-			},
-			error : function() {
-				alert("ajax Error");
-			}
-		});
-	});
+// 		// 인증코드 발송 ajax
+// 		$.ajax({
+// 			url : "${contextPath}/business/emailCheck?email=" + email,
+// 			type : 'GET',
+// 			success : function(msg) {
+// 				$("#checkCode").attr("disabled", false);		// 인증코드 전송 후 입력창 활성화
+// 				ranStr = msg;									// 전송한 인증코드 저장
+// 				alert("인증코드가 전송되었습니다.");
+// 			},
+// 			error : function() {
+// 				alert("ajax Error");
+// 			}
+// 		});
+// 	});
 	
 	// 메일인증 버튼 클릭 시
-	$("#btnEmailCheck").click(function() {
-		let inputCode = $("#checkCode").val();		// 사용자가 입력한 인증코드
+// 	$("#btnEmailCheck").click(function() {
+// 		let inputCode = $("#checkCode").val();		// 사용자가 입력한 인증코드
 		
-		// 인증코드 일치
-		if (inputCode === ranStr) {
-			isCodeChecked = true;
-			$('#authchk').html("이메일 인증이 완료되었습니다.");
-			$('#authchk').css('color', 'green');
-			$('#authchk').css('font-size', '10px');
+// 		// 인증코드 일치
+// 		if (inputCode === ranStr) {
+// 			isCodeChecked = true;
+// 			$('#authchk').html("이메일 인증이 완료되었습니다.");
+// 			$('#authchk').css('color', 'green');
+// 			$('#authchk').css('font-size', '10px');
 			
-			$("#btnEmailSend").attr("disabled", true);	// 재인증 제한
-			$("#btnEmailCheck").attr("disabled", true);
-			$("#checkCode").attr("readonly", true);		// 인증코드 수정 제한
-			$("#buEmail").attr("readonly", true);		// 인증 후 메일 변경 제한
-		} 
-		// 인증코드 불일치
-		else {
-			$('#authchk').html("인증코드가 일치하지 않습니다! 다시 확인해 주세요.");
-			$('#authchk').css('color', 'red');
-			$('#authchk').css('font-size', '10px');
-			inputCode.focus();
-		}
-	});
+// 			$("#btnEmailSend").attr("disabled", true);	// 재인증 제한
+// 			$("#btnEmailCheck").attr("disabled", true);
+// 			$("#checkCode").attr("readonly", true);		// 인증코드 수정 제한
+// 			$("#buEmail").attr("readonly", true);		// 인증 후 메일 변경 제한
+// 		} 
+// 		// 인증코드 불일치
+// 		else {
+// 			$('#authchk').html("인증코드가 일치하지 않습니다! 다시 확인해 주세요.");
+// 			$('#authchk').css('color', 'red');
+// 			$('#authchk').css('font-size', '10px');
+// 			inputCode.focus();
+// 		}
+// 	});
 	
 	// 회원가입 버튼 클릭 시
 	$("#btn-submit").click(function() {
@@ -471,14 +471,14 @@ $(document).ready(function() {
 			alert("이름을 입력해주세요.");
 			$("#buName").focus();
 			return false;
-		} else if ($("#buEmail").val() === "") {
-			alert("이메일을 입력해주세요.");
-			$("#buEmail").focus();
-			return false;
-		} else if (!$("#checkCode").attr("readonly")) {
-			alert("이메일 인증을 완료해주세요.");
-			$("#buEmail").focus();
-			return false;
+// 		} else if ($("#buEmail").val() === "") {
+// 			alert("이메일을 입력해주세요.");
+// 			$("#buEmail").focus();
+// 			return false;
+// 		} else if (!$("#checkCode").attr("readonly")) {
+// 			alert("이메일 인증을 완료해주세요.");
+// 			$("#buEmail").focus();
+// 			return false;
 		} else if ($("#buTel").val() === "") {
 			alert("전화번호를 입력해주세요.");
 			$("#buTel").focus();
@@ -497,7 +497,7 @@ $(document).ready(function() {
 					location.href = "/user/login";
 				},
 				error : function() {
-					alert("실패 ㅜㅜ");
+					alert("ajax Error");
 				}
 			});
 		}
@@ -727,14 +727,14 @@ function showStep() {
 				<td>이메일</td>
 				<td><input type="text" id="buEmail" class="inputStyle" placeholder="이메일"></td>
 				<td id="emailchk"></td>
-				<td class="space"><button type="button" id="btnEmailSend">코드발송</button></td>
+<!-- 				<td class="space"><button type="button" id="btnEmailSend">코드발송</button></td> -->
 			</tr>
-			<tr>
-				<td>이메일 인증</td>
-				<td><input type="text" id="checkCode" class="inputStyle" maxlength="10" placeholder="인증코드 입력" disabled></td>
-				<td id="authchk"></td>
-				<td class="space"><button type="button" id="btnEmailCheck">인증하기</button></td>
-			</tr>
+<!-- 			<tr> -->
+<!-- 				<td>이메일 인증</td> -->
+<!-- 				<td><input type="text" id="checkCode" class="inputStyle" maxlength="10" placeholder="인증코드 입력" disabled></td> -->
+<!-- 				<td id="authchk"></td> -->
+<!-- 				<td class="space"><button type="button" id="btnEmailCheck">인증하기</button></td> -->
+<!-- 			</tr> -->
 			<tr>
 				<td>전화번호</td>
 				<td><input type="text" id="buTel" class="inputStyle" placeholder="ex) 000-0000-0000"></td>

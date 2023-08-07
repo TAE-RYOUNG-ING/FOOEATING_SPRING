@@ -52,16 +52,16 @@ public class BusinessRestController {
 	}
 	
 	// 1-1. 이메일 인증
-	@RequestMapping(value = "/emailCheck", method = RequestMethod.GET)
-	@ResponseBody
-	public String emailCheck(@ModelAttribute("email") String email) throws Exception {
-		logger.debug("@@@@@@@@@@@@@@@@@@@@@ emailCheck() 호출");
-		
-		String ranStr = bService.writeEmail(email);		// 해당 메일로 전송된 인증 번호 저장
-		logger.debug("인증번호를 보낼 email : " + email + " / 생성된 인증코드 : " + ranStr);
-		
-		return ranStr;
-	}
+//	@RequestMapping(value = "/emailCheck", method = RequestMethod.GET)
+//	@ResponseBody
+//	public String emailCheck(@ModelAttribute("email") String email) throws Exception {
+//		logger.debug("@@@@@@@@@@@@@@@@@@@@@ emailCheck() 호출");
+//		
+//		String ranStr = bService.writeEmail(email);		// 해당 메일로 전송된 인증 번호 저장
+//		logger.debug("인증번호를 보낼 email : " + email + " / 생성된 인증코드 : " + ranStr);
+//		
+//		return ranStr;
+//	}
 	
 	// 1-2. 사업자번호 중복 체크
 	@RequestMapping(value = "/bnumOverlap", method = RequestMethod.POST)
