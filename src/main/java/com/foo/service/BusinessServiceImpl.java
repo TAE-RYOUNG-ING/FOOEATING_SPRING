@@ -136,7 +136,7 @@ public class BusinessServiceImpl implements BusinessService {
 		Message message = new Message();
 		message.setFrom("01039805026");;	// 발신번호
 		message.setTo(toTel);				// 수신번호
-		message.setText("본인확인 인증번호는 [" + ranStr + "]를 입력하세요.");
+		message.setText("[FOOEATING] 본인확인 인증번호 (" + ranStr + ")를 입력하세요.");
 		
 		logger.debug("전송 response : " + this.messageService.sendOne(new SingleMessageSendingRequest(message)));
 		
