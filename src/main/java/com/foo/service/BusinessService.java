@@ -22,6 +22,9 @@ public interface BusinessService {
 	// 1-2. 사업자번호 중복 체크
 	public String bnumOverlap(String buNum) throws Exception;
 	
+	// 1-3. 휴대폰 인증
+	public String sendSMS(String buTel) throws Exception;
+	
 	
 	
 	// 2. 로그인

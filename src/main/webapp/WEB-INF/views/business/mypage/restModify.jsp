@@ -174,21 +174,21 @@ $(document).ready(function() {
 
 
 
-<!-- 상단 탭 -->
-	<div class="nav-tab">
-		<ul>
-			<li id="restInfoTab" onclick="location.href = '${contextPath}/business/mypage//restInfo';">나의 가게 정보</li>
-			<li id="restModifyTab" onclick="location.href = '${contextPath}/business/mypage/restModify';">정보 수정</li>
-			<li id="restDeleteTab" onclick="location.href = '${contextPath}/business/mypage/restDelete';">가게 삭제</li>
-		</ul>
-	</div>
-<!-- 상단 탭 -->
-
-
-
 <!-- 입점신청 O -->
 	<c:if test="${restInfo != null}">
 		
+	<!-- 상단 탭 -->
+		<div class="nav-tab">
+			<ul>
+				<li id="restInfoTab" onclick="location.href = '${contextPath}/business/mypage/restInfo';">나의 가게 정보</li>
+				<li id="restModifyTab" onclick="location.href = '${contextPath}/business/mypage/restModify';">정보 수정</li>
+				<li id="restDeleteTab" onclick="location.href = '${contextPath}/business/mypage/restDelete';">가게 삭제</li>
+			</ul>
+		</div>
+	<!-- 상단 탭 -->
+	
+	
+	
 		<div id="myRestModify">
 			
 			<div id="myRestFile">
