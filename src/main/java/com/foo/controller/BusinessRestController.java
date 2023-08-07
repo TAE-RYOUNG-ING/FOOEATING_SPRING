@@ -62,6 +62,17 @@ public class BusinessRestController {
 		return result;
 	}
 	
+	// 1-3. 휴대폰 인증
+	@RequestMapping(value = "/sendSMS", method = RequestMethod.POST)
+	public String sendSMS(@ModelAttribute("buTel") String buTel) throws Exception {
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@ sendSMS() 호출");
+		
+		String ranStr = bService.sendSMS(buTel);
+		logger.debug("인증번호를 보낼 buTel : " + buTel + " / 생성된 인증코드 : " + ranStr);
+		
+		return ranStr;
+	}
+	
 	
 	
 	// http://localhost:8088/business/registration
