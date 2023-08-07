@@ -16,6 +16,11 @@ import com.foo.domain.RestaurantmenusVO;
 import com.foo.domain.RestaurantsVO;
 import com.foo.persistence.BusinessDAO;
 
+import net.nurigo.sdk.NurigoApp;
+import net.nurigo.sdk.message.model.Message;
+import net.nurigo.sdk.message.request.SingleMessageSendingRequest;
+import net.nurigo.sdk.message.service.DefaultMessageService;
+
 @Service
 public class BusinessServiceImpl implements BusinessService {
 	
@@ -27,6 +32,8 @@ public class BusinessServiceImpl implements BusinessService {
 	private BusinessDAO bdao;
 	@Autowired
 	private JavaMailSender mailSender;
+	@Autowired
+	private DefaultMessageService messageService;
 
 
 	
@@ -47,17 +54,28 @@ public class BusinessServiceImpl implements BusinessService {
 		Random ran = new Random();
 		StringBuffer buf = new StringBuffer();
 		
-		for (int i = 0; i < strLength; i++) {
-			if (ran.nextInt(3) == 0) {	// 랜덤으로 뽑은 값이 0면 숫자 하나를 buffer에 추가
-				buf.append(ran.nextInt(10));						// 0 ~ 9 까지 숫자 랜덤
-			} else if (ran.nextInt(3) == 1) {
-				buf.append((char)(ran.nextInt(26) + 65));		// A ~ Z 까지 소문자 랜덤
-			} else {	// 랜덤으로 뽑은 boolean 값이 false면 숫자 하나를 buffer에 추가
-				buf.append((char)(ran.nextInt(26) + 97));		// a ~ z 까지 소문자 랜덤
+		// 문자 인증
+		if (strLength == 6) {
+			String ranStr = "";
+			for (int i = 0; i < strLength; i++) {
+				ranStr += Integer.toString(ran.nextInt(10));
 			}
+			return ranStr;
+		} 
+		// 이메일 인증 (10자 이상)
+		else {
+			for (int i = 0; i < strLength; i++) {
+				if (ran.nextInt(3) == 0) {	// 랜덤으로 뽑은 값이 0면 숫자 하나를 buffer에 추가
+					buf.append(ran.nextInt(10));						// 0 ~ 9 까지 숫자 랜덤
+				} else if (ran.nextInt(3) == 1) {
+					buf.append((char)(ran.nextInt(26) + 65));		// A ~ Z 까지 소문자 랜덤
+				} else {	// 랜덤으로 뽑은 boolean 값이 false면 숫자 하나를 buffer에 추가
+					buf.append((char)(ran.nextInt(26) + 97));		// a ~ z 까지 소문자 랜덤
+				}
+			}
+			
+			return buf.toString();
 		}
-		
-		return buf.toString();
 	}
 	
 	// 1-1-2. 이메일 양식
@@ -101,6 +119,29 @@ public class BusinessServiceImpl implements BusinessService {
 			logger.debug("$$$$$$$$$$$$$$$ 사업자번호 중복 O");
 			return "0";
 		}
+	}
+	
+	// 1-3. 휴대폰 번호 인증
+	@Override
+	public String sendSMS(String buTel) throws Exception {
+		String apiKey = "NCSJ0F6Y6HYQUGGK";
+		String apiSecretKey = "XHDVOHUQEFGXC2AY86PKGUQ1SWMJGM7Y";
+		this.messageService = NurigoApp.INSTANCE.initialize(apiKey, apiSecretKey, "https://api.coolsms.co.kr");
+		
+		String[] originTel = buTel.split("-");
+		String toTel = originTel[0] + originTel[1] + originTel[2];
+		logger.debug("$$$$$$$$$$$$$$$ totel : " + toTel);
+		
+		String ranStr = randomString(6);	// 문자 인증번호
+		
+		Message message = new Message();
+		message.setFrom("01039805026");;	// 발신번호
+		message.setTo(toTel);				// 수신번호
+		message.setText("본인확인 인증번호는 [" + "" + "]를 입력하세요.");
+		
+		logger.debug("전송 response : " + this.messageService.sendOne(new SingleMessageSendingRequest(message)));
+		
+		return ranStr;
 	}
 	
 	
