@@ -22,7 +22,6 @@ $(function(){
 		success : function(data){
 			// ID 없음
 			if(data === 1){ 
-				alert("회원가입 진행해야지용");
 				$.ajax({
 					url: '/user/join',
 					type: 'post',
@@ -31,11 +30,14 @@ $(function(){
 						"userName" : userName,
 					},
 					success: function(){
-						alert("회원가입 및 로그인 완료! 메인페이지로 이동할까나?!");
-						location.href = "/main/main";
+						alert("찐성공 kakaoLogin.jsp line34 고치세용");
 					},
 					error: function(){
-						alert("ajax Error");
+						alert("join ajax Error / 실패지만 진행한다");
+						// 세션에 데이터 저장, 메인페이지 이동
+						sessionStorage.setItem("userId", userId);
+						sessionStorage.setItem("userName", userName);
+						location.href = "/main";
 					}
 				}); // join_ajax
 				
@@ -45,11 +47,11 @@ $(function(){
 				// 세션에 데이터 저장, 메인페이지 이동
 				sessionStorage.setItem("userId", userId);
 				sessionStorage.setItem("userName", userName);
-				location.href = "/main/main";
+				location.href = "/main";
 			}
 		},
 		error : function(){
-			alert("ajax Error");
+			alert("idOverlap ajax Error");
 		}
 	}); // idOverlap_ajax
 	
