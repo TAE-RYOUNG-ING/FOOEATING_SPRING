@@ -201,13 +201,23 @@ public class UserServiceImpl implements UserService {
 
 				Map<String, Object> properties = (Map<String, Object>) jsonMap.get("properties");
 				Map<String, Object> kakao_account = (Map<String, Object>) jsonMap.get("kakao_account");
-
-				logger.debug("############### nickname : " + properties.get("nickname"));
-				logger.debug("############### email : " + kakao_account.get("email"));
-
+				
+				
+				// nickname & email 정보 저장
 				String nickname = properties.get("nickname").toString();
-				String email = kakao_account.get("email").toString();
+				String email = null;
+				
+				// email 동의하지 않았을 경우
+				if(kakao_account.get("email") == null) {
+					email = "noData";
+				}
+				else {
+					email = kakao_account.get("email").toString();
+				}
 
+				logger.debug("############### nickname : " + nickname);
+				logger.debug("############### email : " + email);
+				
 				userInfo.put("nickname", nickname);
 				userInfo.put("email", email);
 

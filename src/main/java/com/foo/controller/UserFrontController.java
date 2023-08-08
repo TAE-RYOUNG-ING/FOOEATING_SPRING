@@ -127,9 +127,11 @@ public class UserFrontController {
 		UserVO vo = new UserVO();
 		vo.setUserId((String)userInfo.get("email"));
 		vo.setUserName((String)userInfo.get("nickname"));
+		vo.setUserEmail((String)userInfo.get("email"));
 		
 		logger.debug("@@@@@@@@@@@@@@@ 아이디 : " + vo.getUserId());
 		logger.debug("@@@@@@@@@@@@@@@ 이름 : " + vo.getUserName());
+		logger.debug("@@@@@@@@@@@@@@@ 이메일 : " + vo.getUserEmail());
 		
 		request.setAttribute("vo", vo);
 	}

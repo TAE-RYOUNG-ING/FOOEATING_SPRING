@@ -12,6 +12,7 @@ $(function(){
 	
 	let userId = "${vo.userId}";
 	let userName = "${vo.userName}";
+	let userEmail = "${vo.userEmail}";
 	
 	// DB 비교해서 ID 있으면 로그인, 없으면 회원가입 후 로그인
 	$.ajax({
@@ -28,6 +29,7 @@ $(function(){
 					data: {
 						"userId" : userId,
 						"userName" : userName,
+						"userEmail" : userEmail
 					},
 					success: function(){
 						alert("찐성공 kakaoLogin.jsp line34 고치세용");
@@ -37,6 +39,7 @@ $(function(){
 						// 세션에 데이터 저장, 메인페이지 이동
 						sessionStorage.setItem("userId", userId);
 						sessionStorage.setItem("userName", userName);
+						sessionStorage.setItem("userEmail", userEmail);
 						location.href = "/main";
 					}
 				}); // join_ajax
@@ -47,6 +50,7 @@ $(function(){
 				// 세션에 데이터 저장, 메인페이지 이동
 				sessionStorage.setItem("userId", userId);
 				sessionStorage.setItem("userName", userName);
+				sessionStorage.setItem("userEmail", userEmail);
 				location.href = "/main";
 			}
 		},
