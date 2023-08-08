@@ -121,7 +121,7 @@ $RECYCLE.BIN/
 
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,java,windows
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,java,windows
-target*
+target/*
 */target/*
 *.classpath
 *.settings
