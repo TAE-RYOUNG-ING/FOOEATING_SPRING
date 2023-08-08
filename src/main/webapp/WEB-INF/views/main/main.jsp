@@ -22,6 +22,20 @@
 }
 
 </style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+<script>
+
+let userId = sessionStorage.getItem("userId");
+let userName = sessionStorage.getItem("userName");
+
+document.getElementById('kakaoId').innerHTML(userId);
+document.getElementById('kakaoName').innerHTML(userName);
+
+alert(userId);
+alert(userName);
+
+</script>
 </head>
 <body>
 
@@ -34,6 +48,9 @@
 	<h1>FOOEATING_Main</h1>
 </div>
 
+<!-- 카카오 로그인 사용자 아이디 및 이름 가져오기 -->
+<div id="kakaoId"></div>
+<div id="kakaoName"></div>
 
 
 <!-- 로그인 여부에 따른 버튼 활성화 -->
