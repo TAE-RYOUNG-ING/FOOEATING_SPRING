@@ -120,13 +120,14 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,java,windows
-# End of https://www.toptal.com/developers/gitignore/api/eclipse,java,windows
-target/
-classes/
-test-classes
-m2e-wtp/
-target
+target/classes/mappers
+target/test-classes
+target/m2e-wtp/*
+target/classes/*
+*/target/*
+
 .classpath
 .settings
 .gitignore
 .project
+*.MF
