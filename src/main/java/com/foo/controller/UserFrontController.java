@@ -55,7 +55,8 @@ public class UserFrontController {
 		uService.joinUser(vo);
 		logger.debug("@@@@@@@@@@@@@@@ 회원가입 완료");
 		
-//		return "redirect:/user/login";
+		// 회원 상태 저장
+//		bService.insertUserstatus(vo.getUserId(), null);
 	}
 	
 	
