@@ -178,7 +178,23 @@ public class BusinessRestController {
 			logger.debug("result : 삭제 실패");
 			return "fail";
 		}
+	}
+	
+	// 3-4. 가게 영업 상태 변경
+	@RequestMapping(value = "/onoff", method = RequestMethod.GET)
+	public String modifyRestOnoff(@ModelAttribute RestaurantsVO revo) throws Exception {
+		logger.debug("@@@@@@@@@@@@@@@@@@@@@ modifyRestOnoff() 호출");
+		logger.debug("restId : " + revo.getRestId() + ", restOnoff : " + revo.getRestOnoff());
 		
+		if (revo.getRestOnoff() == 0) {		// 현재 입점 상태가 0(close) 일 때 open으로 변경
+			revo.setRestOnoff(1);
+			bService.modifyRestaurantOnoff(revo);
+		} else {							// 현재 입점 상태가 1(open) 일 때 close로 변경
+			revo.setRestOnoff(0);
+			bService.modifyRestaurantOnoff(revo);
+		}
+		
+		return "ok";
 	}
 	
 	

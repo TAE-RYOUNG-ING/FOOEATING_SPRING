@@ -52,4 +52,7 @@ public interface BusinessService {
 	// 4-2. 가게 삭제
 	public int deleteRestaurant(BusinessusersVO buvo) throws Exception;
 	
+	// 4-3. 가게 영업 상태 변경
+	public void modifyRestaurantOnoff(RestaurantsVO revo) throws Exception;
+	
 }

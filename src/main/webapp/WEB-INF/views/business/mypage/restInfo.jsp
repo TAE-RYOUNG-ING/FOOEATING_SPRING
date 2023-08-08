@@ -41,6 +41,55 @@ td {
 	box-sizing: border-box;
 }
 
+.space {
+	text-align: right;
+}
+
+.tabs { 
+ 	display: flex;
+ 	justify-content: left;
+ 	width: 100%;
+ 	background-color: #fff;
+ 	margin-bottom: 30px;
+}
+
+.tabs>* {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	box-sizing: border-box;
+}
+
+.tab-nav {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+}
+
+.tab {
+	position: relative;
+	padding: 10px 15px;
+	color: #151b26;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.tab::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 0;
+	height: 2px;
+	background-color: #1ede9e;
+	transition: width 300ms ease-out;
+}
+
+.tab:hover::after {
+	width: 100%;
+}
+
 </style>
 
 
@@ -50,7 +99,47 @@ td {
 
 $(document).ready(function() {
 	
-	
+	// 영업 open / close 버튼
+	$("#btn-onoff").click(function() {
+		var restOnoff = ${restInfo.restOnoff};
+		var restId = "${sessionScope.buNum}";
+		
+		// 영업 전 -> 영업 중으로 변경
+		if (restOnoff === 0) {
+			if (confirm("가게를 OPEN 하시겠습니까?")) {
+				$.ajax({
+					url : "${contextPath}/business/onoff",
+					type : "GET",
+					data : { "restId" : restId, "restOnoff" : restOnoff },
+					success : function(msg) {
+						alert("영업 상태가 <영업 중>으로 변경되었습니다.");
+						location.reload();
+					}, 
+					error : function() {
+						alert("ajax Error");
+					}
+				});		// ajax
+			}		// confrim if문
+		} 
+		
+		// 영업 중 -> 영업 전으로 변경
+		else {
+			if (confirm("가게를 CLOSE 하시겠습니까?\n영업 전에는 대기를 받을 수 없습니다.")) {
+				$.ajax({
+					url : "${contextPath}/business/onoff",
+					type : "GET",
+					data : { "restId" : restId, "restOnoff" : restOnoff },
+					success : function(msg) {
+						alert("영업 상태가 <영업 전>으로 변경되었습니다.");
+						location.reload();
+					}, 
+					error : function() {
+						alert("ajax Error");
+					}
+				});		// ajax
+			}		// confrim if문
+		}
+	});
 	
 });
 
@@ -102,11 +191,11 @@ $(document).ready(function() {
 	<c:if test="${restInfo != null}">
 		
 	<!-- 상단 탭 -->
-		<div class="nav-tab">
-			<ul>
-				<li id="restInfoTab" onclick="location.href = '${contextPath}/business/mypage/restInfo';">나의 가게 정보</li>
-				<li id="restModifyTab" onclick="location.href = '${contextPath}/business/mypage/restModify';">정보 수정</li>
-				<li id="restDeleteTab" onclick="location.href = '${contextPath}/business/mypage/restDelete';">가게 삭제</li>
+		<div class="tabs">
+			<ul class="tab-nav">
+				<li class="tab" onclick="location.href = '${contextPath}/business/mypage/restInfo';">나의 가게 정보</li>
+				<li class="tab" onclick="location.href = '${contextPath}/business/mypage/restModify';">정보 수정</li>
+				<li class="tab" onclick="location.href = '${contextPath}/business/mypage/restDelete';">가게 삭제</li>
 			</ul>
 		</div>
 	<!-- 상단 탭 -->
@@ -116,9 +205,11 @@ $(document).ready(function() {
 		<div id="myRestInfo">
 			
 			<div id="myRestFile">
-				<c:forEach var="restImg" items="${fn:split(restInfo.restFile, '/')}">
-					<img src="/business/showImg?img=${restImg}" width="200px" height="200px"> 
-				</c:forEach>
+				<c:if test="${restInfo.restFile != null}">
+					<c:forEach var="restImg" items="${fn:split(restInfo.restFile, '/')}">
+						<img src="/business/showImg?img=${restImg}" width="200px" height="200px"> 
+					</c:forEach>
+				</c:if>
 			</div>
 			
 			<table>
@@ -173,7 +264,12 @@ $(document).ready(function() {
 						<c:choose>
 							<c:when test="${restInfo.restStatus == 0}">입점 승인 대기 중입니다.</c:when>
 							<c:when test="${restInfo.restStatus == 1}">
-								${restInfo.restOnoff == 0 ? '영업 전<button type="button" id="btn-onoff">OPEN</button>' : '영업 중<button type="button" id="btn-onoff">CLOSE</button>'}
+								<c:if test="${restInfo.restOnoff == 0}">
+									<span style="color: red; font-weight: bold;">영업 전</span> <button type="button" id="btn-onoff" class="space">OPEN</button>
+								</c:if>
+								<c:if test="${restInfo.restOnoff != 0}">
+									<span style="color: blue; font-weight: bold;">영업 중</span> <button type="button" id="btn-onoff" class="space">CLOSE</button>
+								</c:if>
 							</c:when>
 							<c:when test="${restInfo.restStatus == 2}">관리자에 의해 제한되어있습니다. 문의 부탁드립니다.</c:when>
 						</c:choose>

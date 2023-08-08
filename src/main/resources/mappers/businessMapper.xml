@@ -79,4 +79,13 @@
 
 
 
+<!-- 가게 영업 상태 변경 -->
+<update id="updateRestaurantOnoff">
+	UPDATE restaurants SET restOnoff = #{restOnoff}
+	WHERE restId = #{restId}
+</update>
+<!-- 가게 영업 상태 변경 -->
+
+
+
 </mapper>

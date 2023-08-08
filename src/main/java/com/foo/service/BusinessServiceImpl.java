@@ -189,5 +189,11 @@ public class BusinessServiceImpl implements BusinessService {
 	public int deleteRestaurant(BusinessusersVO buvo) throws Exception {
 		return bdao.deleteRestaurant(buvo);
 	}
+	
+	// 4-3. 가게 영업 상태 변경
+	@Override
+	public void modifyRestaurantOnoff(RestaurantsVO revo) throws Exception {
+		bdao.updateRestaurantOnoff(revo);
+	}
 
 }

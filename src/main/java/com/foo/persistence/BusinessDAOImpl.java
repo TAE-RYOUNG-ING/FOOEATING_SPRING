@@ -106,4 +106,11 @@ public class BusinessDAOImpl implements BusinessDAO {
 		return sqlSession.update(NAMESPACE + ".deleteRestaurant", buvo);
 	}
 	
+	// 4-3. 가게 영업 상태 변경
+	@Override
+	public void updateRestaurantOnoff(RestaurantsVO revo) throws Exception {
+		logger.debug("############### updateRestaurantOnoff 호출");
+		sqlSession.update(NAMESPACE + ".updateRestaurantOnoff", revo);
+	}
+	
 }
