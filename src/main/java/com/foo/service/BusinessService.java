@@ -25,6 +25,9 @@ public interface BusinessService {
 	// 1-3. 휴대폰 인증
 	public String sendSMS(String buTel) throws Exception;
 	
+	// 1-4. 회원 상태 저장
+	public void insertUserstatus(String userId, String buId) throws Exception;
+	
 	
 	
 	// 2. 로그인

@@ -46,7 +46,12 @@ public class BusinessRestController {
 		logger.debug("@@@@@@@@@@@@@@@@@@@@@ joinBusinessuser() 호출");
 		logger.debug("buvo : {}", buvo);
 		
+		// 회원 가입
 		bService.joinBuser(buvo);
+		logger.debug("@@@@@@@@@@@@@@@ 회원가입 완료");
+		
+		// 회원 상태 저장
+		bService.insertUserstatus(null, buvo.getBuId());
 		
 		return "ok";
 	}

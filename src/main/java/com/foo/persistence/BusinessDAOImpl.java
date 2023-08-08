@@ -1,5 +1,8 @@
 package com.foo.persistence;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,6 +43,18 @@ public class BusinessDAOImpl implements BusinessDAO {
 	public BusinessusersVO bnumOverlap(String buNum) throws Exception {
 		logger.debug("############### bnumOverlap 호출");
 		return sqlSession.selectOne(NAMESPACE + ".bnumOverlap", buNum);
+	}
+	
+	// 1-2. 회원 상태 저장
+	@Override
+	public void insertUserstatus(String userId, String buId) throws Exception {
+		logger.debug("############### insertUserstatus 호출");
+		
+		Map<String, String> paramMap = new HashMap<String, String>();
+		paramMap.put("userId", userId);
+		paramMap.put("buId", buId);
+		
+		sqlSession.insert(NAMESPACE + ".insertUserstatus", paramMap);
 	}
 	
 	

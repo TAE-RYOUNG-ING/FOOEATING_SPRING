@@ -12,6 +12,9 @@ public interface BusinessDAO {
 	// 1-1. 사업자번호 중복 체크
 	public BusinessusersVO bnumOverlap(String buNum) throws Exception;
 	
+	// 1-2. 회원 상태 저장
+	public void insertUserstatus(String userId, String buId) throws Exception;
+	
 	
 	
 	// 2. 로그인

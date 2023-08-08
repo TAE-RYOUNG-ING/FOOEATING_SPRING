@@ -143,6 +143,12 @@ public class BusinessServiceImpl implements BusinessService {
 		return ranStr;
 	}
 	
+	// 1-4. 회원 상태 저장
+	@Override
+	public void insertUserstatus(String userId, String buId) throws Exception {
+		bdao.insertUserstatus(userId, buId);
+	}
+	
 	
 	
 	// 2. 로그인
