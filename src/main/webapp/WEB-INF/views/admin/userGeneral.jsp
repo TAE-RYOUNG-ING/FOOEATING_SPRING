@@ -98,7 +98,7 @@ $(document).ready(function() {
 	
 	
 	
-<c:if test="${empty sessionScope.buId && sessionScope.buId('admin000')}">
+<c:if test="${empty sessionScope.userId || sessionScope.userId != 'admin000'}">
 	<c:redirect url="/main"/>
 </c:if>
 
@@ -136,6 +136,18 @@ $(document).ready(function() {
 			<td>REGIST DATE</td>
 			<td>BLACKLIST</td>
 		</tr>
+		
+		<c:forEach var="user" items="${userList}" varStatus="no">
+			<tr>
+				<td>${no.count}</td>
+				<td>${user.userId}</td>
+				<td>${user.userName}</td>
+				<td>${user.userEmail}</td>
+				<td>${user.userTel}</td>
+				<td>${user.regdate}</td>
+				<td>블랙리스트 유무</td>
+			</tr>
+		</c:forEach>
 	</table>
 	
 </div>

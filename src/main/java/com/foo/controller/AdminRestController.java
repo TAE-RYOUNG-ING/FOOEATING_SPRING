@@ -16,8 +16,8 @@ public class AdminRestController {
 	private static final Logger logger = LoggerFactory.getLogger(AdminRestController.class);
 	
 	// 의존성 주입
-	@Autowired
-	private AdminService aService;
+//	@Autowired
+//	private AdminService aService;
 	
 
 	

@@ -52,7 +52,7 @@ $(document).ready(function() {
 
 
 
-<c:if test="${empty sessionScope.buId && sessionScope.buId('admin000')}">
+<c:if test="${empty sessionScope.userId || sessionScope.userId != 'admin000'}">
 	<c:redirect url="/main"/>
 </c:if>
 

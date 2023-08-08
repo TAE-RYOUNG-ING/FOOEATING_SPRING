@@ -5,7 +5,47 @@
 
 
 
-<!--  -->
+<!-- 일반회원 목록 -->
+<select id="getUsersList" resultType="com.foo.domain.UserVO">
+	SELECT * FROM users 
+	WHERE userId != 'admin000'
+</select>
+<!-- 일반회원 목록 -->
+
+
+
+<!-- 사업자회원 목록 -->
+<select id="getBusinessusersList" resultType="com.foo.domain.UserVO">
+	SELECT * FROM businessusers
+</select>
+<!-- 사업자회원 목록 -->
+
+
+
+<!-- 입점 가게 목록 -->
+<select id="getRegistList" resultType="com.foo.domain.UserVO">
+	SELECT * FROM restaurants 
+	WHERE restStatus = 1
+</select>
+<!-- 입점 가게 목록 -->
+
+
+
+<!-- 입점 대기 가게 목록 -->
+<select id="getNonregistList" resultType="com.foo.domain.UserVO">
+	SELECT * FROM restaurants 
+	WHERE restStatus = 0
+</select>
+<!-- 입점 대기 가게 목록 -->
+
+
+
+<!-- 블랙리스트 가게 목록 -->
+<select id="getBlackList" resultType="com.foo.domain.UserVO">
+	SELECT * FROM restaurants 
+	WHERE restStatus = 2
+</select>
+<!-- 블랙리스트 가게 목록 -->
 
 
 

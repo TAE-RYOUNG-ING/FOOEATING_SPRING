@@ -60,7 +60,7 @@ alert(userName);
 			<input type="button" class="btnstyle" value="로그인" onclick="location.href='/user/login';">
 			<input type="button" class="btnstyle" value="회원가입" onclick="location.href='/user/join';">
 		</c:when>
-		<c:when test="${!empty sessionScope.userId && empty sessionScope.buId }">
+		<c:when test="${!empty sessionScope.userId && empty sessionScope.buId && !sessionScope.userId.equals('admin000') }">
 			<h3>${sessionScope.userName }님, 안녕하세요 :)</h3>
 			<input type="button" class="btnstyle" value="로그아웃" onclick="location.href='/user/logout';">
 		</c:when>
@@ -68,6 +68,11 @@ alert(userName);
 			<h3>${sessionScope.buName }(사업자)님, 안녕하세요 :)</h3>
 			<input type="button" class="btnstyle" value="로그아웃" onclick="location.href='/user/logout';">
 			<input type="button" class="btnstyle" value="마이페이지" onclick="location.href='/business/mypage/dashboard';">
+		</c:when>
+		<c:when test="${!empty sessionScope.userId && empty sessionScope.buId && sessionScope.userId.equals('admin000')}">
+			<h3>${sessionScope.userName } 님</h3>
+			<input type="button" class="btnstyle" value="로그아웃" onclick="location.href='/user/logout';">
+			<input type="button" class="btnstyle" value="관리자페이지" onclick="location.href='/admin/dashboard';">
 		</c:when>
 	</c:choose>
 </div>
