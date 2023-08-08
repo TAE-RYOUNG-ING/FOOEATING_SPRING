@@ -41,6 +41,51 @@ td {
 	box-sizing: border-box;
 }
 
+.tabs { 
+ 	display: flex;
+ 	justify-content: left;
+ 	width: 100%;
+ 	background-color: #fff;
+ 	margin-bottom: 30px;
+}
+
+.tabs>* {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+	box-sizing: border-box;
+}
+
+.tab-nav {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin-top: 20px;
+}
+
+.tab {
+	position: relative;
+	padding: 10px 15px;
+	color: #151b26;
+	background-color: transparent;
+	cursor: pointer;
+}
+
+.tab::after {
+	content: "";
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	width: 0;
+	height: 2px;
+	background-color: #1ede9e;
+	transition: width 300ms ease-out;
+}
+
+.tab:hover::after {
+	width: 100%;
+}
+
 </style>
 
 
@@ -178,11 +223,11 @@ $(document).ready(function() {
 	<c:if test="${restInfo != null}">
 		
 	<!-- 상단 탭 -->
-		<div class="nav-tab">
-			<ul>
-				<li id="restInfoTab" onclick="location.href = '${contextPath}/business/mypage/restInfo';">나의 가게 정보</li>
-				<li id="restModifyTab" onclick="location.href = '${contextPath}/business/mypage/restModify';">정보 수정</li>
-				<li id="restDeleteTab" onclick="location.href = '${contextPath}/business/mypage/restDelete';">가게 삭제</li>
+		<div class="tabs">
+			<ul class="tab-nav">
+				<li class="tab" onclick="location.href = '${contextPath}/business/mypage/restInfo';">나의 가게 정보</li>
+				<li class="tab" onclick="location.href = '${contextPath}/business/mypage/restModify';">정보 수정</li>
+				<li class="tab" onclick="location.href = '${contextPath}/business/mypage/restDelete';">가게 삭제</li>
 			</ul>
 		</div>
 	<!-- 상단 탭 -->

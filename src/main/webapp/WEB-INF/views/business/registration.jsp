@@ -174,8 +174,6 @@ $(document).ready(function() {
 	// --------------------- 신청 버튼 ----------------------------
 	
 	$("#btn-submit").click(function() {
-		console.log(registInfo);
-		
 		// 가게 정보 저장
 		$.ajax({
 			url : "${contextPath}/business/registration",
@@ -385,7 +383,7 @@ function kakaoPostcodeAPI() {
 	<div class="form-element">
 		편의시설 <br>
 		<c:forEach var="con" items="${fn:split('와이파이/화장실분리/노키즈존/단체석/반려동물/주차/포장', '/')}" varStatus="no">
-			<input type="checkbox" name="restConv" id="chkCon${con}"> ${con}
+			<input type="checkbox" name="restConv" id="chkCon${con}" value="${con}"> ${con}
 			<img src="${pageContext.request.contextPath}/resources/img/${con}.png" width="70px"> 
 			<c:if test="${no.count % 2 == 0}"><br></c:if>
 		</c:forEach>

@@ -13,6 +13,14 @@
 <!-- 사업자 회원가입 -->
 
 
+<!-- 회원 상태 저장 -->
+<insert id="insertUserstatus">
+	INSERT INTO userstatus (userId, buId, userStatus) 
+	VALUES (#{userId}, #{buId}, 1)
+</insert>
+<!-- 회원 상태 저장 -->
+
+
 
 <!-- 사업자번호 중복 체크 -->
 <select id="bnumOverlap" resultType="com.foo.domain.BusinessusersVO">
@@ -68,6 +76,15 @@
 		WHERE bu.buNum = #{buNum} AND bu.buPw = #{buPw})
 </delete>
 <!-- 가게 삭제 -->
+
+
+
+<!-- 가게 영업 상태 변경 -->
+<update id="updateRestaurantOnoff">
+	UPDATE restaurants SET restOnoff = #{restOnoff}
+	WHERE restId = #{restId}
+</update>
+<!-- 가게 영업 상태 변경 -->
 
 
 

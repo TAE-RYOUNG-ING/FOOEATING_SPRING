@@ -120,5 +120,15 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/eclipse,java,windows
-target/m2e-wtp/web-resources/META-INF/maven/com.foo/controller/pom.properties
-target/classes/mappers/adminMapper.xml
+target/classes/mappers
+target/test-classes
+target/m2e-wtp/*
+target/classes/*
+*/target/*
+
+.classpath
+.settings
+.gitignore
+.project
+*.MF
+/target/
