@@ -52,7 +52,7 @@ $(document).ready(function() {
 
 
 
-<c:if test="${empty sessionScope.buId}">
+<c:if test="${empty sessionScope.buId && sessionScope.buId('admin000')}">
 	<c:redirect url="/main"/>
 </c:if>
 
@@ -63,7 +63,7 @@ $(document).ready(function() {
 	<a href="/main">
 		<img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200px" height="200px">
 	</a>
-	<h1>FOOEATING_Mypage_Dashboard</h1>
+	<h1>FOOEATING_Admin</h1>
 </div>
 <!-- 헤더 -->
 
@@ -71,36 +71,17 @@ $(document).ready(function() {
 
 <!-- 사이드바_사업자 -->
 <div class="sidebar">
-	<c:import url="sidebarB.jsp" />
+	<c:import url="sidebarA.jsp" />
 </div>
 <!-- 사이드바_사업자 -->
 
 
 
-<c:if test="${restInfo == null}">
-	<div class="main" id="notRegistRest">
-	
-		등록된 가게가 없습니다. <br>
-		<button type="button" id="goRegistration" onclick="location.href = '/business/registration';">&gt; 입점 신청하기</button>
-		
-	</div>
-</c:if>
-
-
-
-<c:if test="${restInfo != null}">
-	<div class="main" id="restInfo">
-	
-		<div id="simpleReviews">
-			간단 리뷰 목록
-		</div>
-		
-		<div id="visitorChart">
-			일일 방문자 그래프
-		</div>
-	
-	</div>
-</c:if>
+<!-- main -->
+<div class="main">
+	관리자 대시보드
+</div>
+<!-- main -->
 
 
 
