@@ -131,3 +131,4 @@ target/classes/*
 .gitignore
 .project
 *.MF
+/target/
