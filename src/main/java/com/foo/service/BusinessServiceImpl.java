@@ -143,6 +143,12 @@ public class BusinessServiceImpl implements BusinessService {
 		return ranStr;
 	}
 	
+	// 1-4. 회원 상태 저장
+	@Override
+	public void insertUserstatus(String userId, String buId) throws Exception {
+		bdao.insertUserstatus(userId, buId);
+	}
+	
 	
 	
 	// 2. 로그인
@@ -182,6 +188,12 @@ public class BusinessServiceImpl implements BusinessService {
 	@Override
 	public int deleteRestaurant(BusinessusersVO buvo) throws Exception {
 		return bdao.deleteRestaurant(buvo);
+	}
+	
+	// 4-3. 가게 영업 상태 변경
+	@Override
+	public void modifyRestaurantOnoff(RestaurantsVO revo) throws Exception {
+		bdao.updateRestaurantOnoff(revo);
 	}
 
 }
