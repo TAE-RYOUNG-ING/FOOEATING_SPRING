@@ -12,6 +12,7 @@
 
 table {
 	text-align: center;
+	width: 100%;
 }
 
 .center {
@@ -37,51 +38,6 @@ table {
 	float: right;
 }
 
-.tabs { 
- 	display: flex;
- 	justify-content: left;
- 	width: 100%;
- 	background-color: #fff;
- 	margin-bottom: 30px;
-}
-
-.tabs>* {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
-	box-sizing: border-box;
-}
-
-.tab-nav {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-top: 20px;
-}
-
-.tab {
-	position: relative;
-	padding: 10px 15px;
-	color: #151b26;
-	background-color: transparent;
-	cursor: pointer;
-}
-
-.tab::after {
-	content: "";
-	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 0;
-	height: 2px;
-	background-color: #1ede9e;
-	transition: width 300ms ease-out;
-}
-
-.tab:hover::after {
-	width: 100%;
-}
-
 #modal-popup {
 	position: absolute;
 	width: 100%; height: 100%;
@@ -90,7 +46,7 @@ table {
 	display: none;
 }
 
-#modal-content{
+#modal-content {
 	width:600px; height:500px;
 	background-color:#fff; border-radius:10px;
 	position:relative; top:50%; left:50%;
@@ -120,9 +76,45 @@ $(document).ready(function() {
 
 // 행 클릭 시 모달창 띄우기
 function modalOpen(buNum) {
+	// buNum에 해당하는 가게 정보 조회 ajax
+	$.ajax({
+		url : "${contextPath}/admin/detailB",
+		type : "GET",
+		data : { "buNum" : buNum },
+		success : function(info) {
+			console.log(info);
+			// 입점한 가게가 없을 경우
+			if (info === null) {
+				$("#modal-info").remove();
+			}
+			
+			// 입점한 가게가 있는 경우
+			else {
+				$("#restName").html(info.restName);
+				$("#restTel").html(info.restTel);
+				$("#restId").html(info.restId);
+				// 영업 상태
+				if (info.restStatus === 0) {
+					$("#restStatus").html("입점 대기");
+					$("#btnBlacklist").html("블랙리스트 처리");
+				} else if (info.restStatus === 2) {
+					$("#restStatus").html("영업 정지");
+					$("#btnBlacklist").html("블랙리스트 해제");
+				} else if (info.restStatus === 1 && info.restOnoff === 0) {
+					$("#restStatus").html("영업 전");
+					$("#btnBlacklist").html("블랙리스트 처리");
+				} else if (info.restStatus === 1 && info.restOnoff === 1) {
+					$("#restStatus").html("영업 중");
+					$("#btnBlacklist").html("블랙리스트 처리");
+				}
+			}
+		},
+		error : function() {
+			alert("ajax Error");
+		}
+	});		// ajax
+	
 	$("#modal-popup").fadeIn();
-	
-	
 }
 
 </script>
@@ -132,7 +124,7 @@ function modalOpen(buNum) {
 	
 	
 	
-<c:if test="${empty sessionScope.userId || sessionScope.userId != 'admin000'}">
+<c:if test="${empty sessionScope.userId || sessionScope.userId != 'admin'}">
 	<c:redirect url="/main"/>
 </c:if>
 
@@ -160,7 +152,7 @@ function modalOpen(buNum) {
 <!-- 회원 목록 -->
 <div class="main">
 	
-	<table style="width: 100%;">
+	<table>
 		<tr>
 			<th>No.</th>
 			<th>ID</th>
@@ -191,72 +183,31 @@ function modalOpen(buNum) {
 
 
 
-<!-- 특정 사업자의 가게 상세 정보 -->
+<!-- 특정 사업자의 가게 정보 -->
 <div id="modal-popup">
 	<div id="modal-content">
 		<div id="modal-close" style="text-align: right;"> ❌ </div>
 		
 		
 		
-		<c:if test="${restInfo.restFile != null}">
-			<c:forEach var="restImg" items="${fn:split(restInfo.restFile, '/')}">
-				<img src="/business/showImg?img=${restImg}" width="200px" height="200px"> 
-			</c:forEach>
-		</c:if>
-	
-		<table>
-			<tr>
-				<td>상호명</td>
-				<td>${restInfo.restName}</td>
-			</tr>
-			<tr>
-				<td>업종</td>
-				<td>${restInfo.restCategory}</td>
-			</tr>
-			<tr>
-				<td>주소</td>
-				<td>${fn:split(restInfo.restAddr, '/')[0]} ${fn:split(restInfo.restAddr, '/')[1]} ${fn:split(restInfo.restAddr, '/')[2]}</td>
-			</tr>
-			<tr>
-				<td>전화번호</td>
-				<td>${restInfo.restTel}</td>
-			</tr>
-			<tr>
-				<td>사업자번호</td>
-				<td>${restInfo.restId}</td>
-			</tr>
-			<tr>
-			<tr>
-				<td>영업 상태</td>
-				<td>
-					<c:choose>
-						<c:when test="${restInfo.restStatus == 0}">입점 승인 대기 중입니다.</c:when>
-						<c:when test="${restInfo.restStatus == 1}">
-							<c:if test="${restInfo.restOnoff == 0}">
-								<span style="color: red; font-weight: bold;">영업 전</span>
-							</c:if>
-							<c:if test="${restInfo.restOnoff != 0}">
-								<span style="color: blue; font-weight: bold;">영업 중</span>
-							</c:if>
-						</c:when>
-						<c:when test="${restInfo.restStatus == 2}">영업 정지</c:when>
-					</c:choose>
-				</td>
-			</tr>
-			<tr>
-				<td>별점</td>
-				<td>해당 가게 별점</td>
-			</tr>
-			<tr>
-				<td>최근 리뷰</td>
-				<td>리뷰1</td>
-				<td>리뷰2</td>
-			</tr>
-		</table>
+		<div id="modal-info">
+			<div id="restName"></div>
+			<div id="restTel"></div>
+			<div id="restId"></div>
+			<div id="restStatus"></div>
+			<div id="restGrade">해당 가게 별점</div>
+			<div id="restReview">리뷰</div>
+		</div>
+		
+		
+		
+		<div id="modal-btn">
+			<button type="button" id="btnBlacklist"></button>
+		</div>
 		
 	</div>
 </div>
-<!-- 가게 상세 정보 -->
+<!-- 가게 정보 -->
 	
 	
 	

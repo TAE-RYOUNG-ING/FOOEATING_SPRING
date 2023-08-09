@@ -37,49 +37,22 @@ table {
 	float: right;
 }
 
-.tabs { 
- 	display: flex;
- 	justify-content: left;
- 	width: 100%;
- 	background-color: #fff;
- 	margin-bottom: 30px;
-}
-
-.tabs>* {
-	margin: 0;
-	padding: 0;
-	list-style-type: none;
-	box-sizing: border-box;
-}
-
-.tab-nav {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-top: 20px;
-}
-
-.tab {
-	position: relative;
-	padding: 10px 15px;
-	color: #151b26;
-	background-color: transparent;
-	cursor: pointer;
-}
-
-.tab::after {
-	content: "";
+#modal-popup {
 	position: absolute;
-	bottom: 0;
-	left: 0;
-	width: 0;
-	height: 2px;
-	background-color: #1ede9e;
-	transition: width 300ms ease-out;
+	width: 100%; height: 100%;
+	background-color: rgba(0,0,0,0.6);
+	top: 0; left: 0;
+	display: none;
 }
 
-.tab:hover::after {
-	width: 100%;
+#modal-content {
+	width:600px; height:500px;
+	background-color:#fff; border-radius:10px;
+	position:relative; top:50%; left:50%;
+	margin-top:-220px; margin-left:-270px;
+ 	text-align:center;
+	box-sizing:border-box; padding:50px;
+	line-height:23px; cursor:pointer;
 }
 
 </style>
@@ -91,9 +64,32 @@ table {
 
 $(document).ready(function() {
 	
-	
+	// 모달창 닫기
+	$("#modal-close").click(function() {
+		$("#modal-popup").fadeOut();
+	});
 	
 });
+
+
+
+//행 클릭 시 모달창 띄우기
+function modalOpen(userId) {
+	// buNum에 해당하는 가게 정보 조회 ajax
+	$.ajax({
+		url : "${contextPath}/admin/detailU",
+		type : "GET",
+		data : { "userId" : userId },
+		success : function(info) {
+			console.log(info);
+		},
+		error : function() {
+			alert("ajax Error");
+		}
+	});		// ajax
+	
+	$("#modal-popup").fadeIn();
+}
 
 </script>
 
@@ -102,7 +98,7 @@ $(document).ready(function() {
 	
 	
 	
-<c:if test="${empty sessionScope.userId || sessionScope.userId != 'admin000'}">
+<c:if test="${empty sessionScope.userId || sessionScope.userId != 'admin'}">
 	<c:redirect url="/main"/>
 </c:if>
 
@@ -142,7 +138,7 @@ $(document).ready(function() {
 		</tr>
 		
 		<c:forEach var="user" items="${userList}" varStatus="no">
-			<tr>
+			<tr onclick="modalOpen('${user.userId}');">
 				<td>${no.count}</td>
 				<td>${user.userId}</td>
 				<td>${user.userName}</td>
@@ -156,6 +152,31 @@ $(document).ready(function() {
 	
 </div>
 <!-- 회원 목록 -->
+
+
+
+<!-- 회원 상세 정보 -->
+<div id="modal-popup">
+	<div id="modal-content">
+		<div id="modal-close" style="text-align: right;"> ❌ </div>
+		
+		
+		
+		<div id="modal-info">
+			<div id="restName"></div>
+			<div id="restGrade"></div>
+			<div id="restReview"></div>
+		</div>
+		
+		
+		
+		<div id="modal-btn">
+			<button type="button" id="btnBlacklist"></button>
+		</div>
+		
+	</div>
+</div>
+<!-- 회원 상세 정보 -->
 	
 	
 	

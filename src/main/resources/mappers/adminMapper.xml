@@ -38,7 +38,7 @@
 <select id="getUsersList" resultMap="UserVO">
 	SELECT u.userId, userName, userEmail, userTel, regdate, userStatus FROM users u 
 	LEFT JOIN userstatus us ON u.userId = us.userId 
-	WHERE u.userId != 'admin000' ORDER BY regdate desc
+	WHERE u.userId != 'admin' ORDER BY regdate desc
 </select>
 <!-- 일반회원 목록 -->
 
@@ -48,7 +48,7 @@
 <select id="getBusinessusersList" resultMap="BusinessusersVO">
 	SELECT bu.buId, buNum, buName, buEmail, buTel, regdate, userStatus FROM businessusers bu 
 	LEFT JOIN userstatus us ON bu.buId = us.buId 
-	WHERE bu.buId != 'admin000' ORDER BY regdate desc
+	ORDER BY regdate desc
 </select>
 <!-- 사업자회원 목록 -->
 
