@@ -49,7 +49,8 @@ public class AdminFrontController {
 		logger.debug("@@@@@@@@@@@@@@@@관리자 페이지 - adminManagementUser() 실행");
 		
 		List<UserVO> userList = aService.getUsersList();
-		model.addAttribute(userList);
+		model.addAttribute("userList", userList);
+		logger.debug("userList : {}", userList);
 		
 		return "/admin/userGeneral";
 	}
@@ -62,7 +63,7 @@ public class AdminFrontController {
 		logger.debug("@@@@@@@@@@@@@@@@관리자 페이지 - adminManagementBUser() 실행");
 
 		List<BusinessusersVO> buList = aService.getBusinessusersList();
-		model.addAttribute(buList);
+		model.addAttribute("buList", buList);
 		
 		return "/admin/userBusiness";
 	}
@@ -75,7 +76,7 @@ public class AdminFrontController {
 		logger.debug("@@@@@@@@@@@@@@@@관리자 페이지 - adminManagementRegist() 실행");
 
 		List<RestaurantsVO> registList = aService.getRegistList();
-		model.addAttribute(registList);
+		model.addAttribute("registList", registList);
 		
 		return "/admin/restaurants/regist";
 	}
@@ -88,7 +89,7 @@ public class AdminFrontController {
 		logger.debug("@@@@@@@@@@@@@@@@관리자 페이지 - adminManagementNonregist() 실행");
 
 		List<RestaurantsVO> nonregistList = aService.getNonregistList();
-		model.addAttribute(nonregistList);
+		model.addAttribute("nonregistList", nonregistList);
 		
 		return "/admin/restaurants/nonregist";
 	}
@@ -101,7 +102,7 @@ public class AdminFrontController {
 		logger.debug("@@@@@@@@@@@@@@@@관리자 페이지 - adminManagementBlacklistRest() 실행");
 
 		List<RestaurantsVO> blackList = aService.getBlackList();
-		model.addAttribute(blackList);
+		model.addAttribute("blackList", blackList);
 		
 		return "/admin/restaurants/blacklist";
 	}
