@@ -125,8 +125,10 @@ $(document).ready(function() {
 
 <!-- 회원 목록 -->
 <div class="main">
+
+${userList}	<hr>
 	
-	<table border="1">
+	<table>
 		<tr>
 			<td>No.</td>
 			<td>ID</td>
@@ -134,7 +136,7 @@ $(document).ready(function() {
 			<td>E-MAIL</td>
 			<td>TEL</td>
 			<td>REGIST DATE</td>
-			<td>BLACKLIST</td>
+			<td>STATE</td>
 		</tr>
 		
 		<c:forEach var="user" items="${userList}" varStatus="no">
@@ -145,7 +147,7 @@ $(document).ready(function() {
 				<td>${user.userEmail}</td>
 				<td>${user.userTel}</td>
 				<td>${user.regdate}</td>
-				<td>블랙리스트 유무</td>
+<%-- 				<td>${user.userstatusVO.userStatus == 0 ? "탈퇴" : (user.userstatusVO.userStatus == 2 ? "블랙리스트" : "")}</td> --%>
 			</tr>
 		</c:forEach>
 	</table>

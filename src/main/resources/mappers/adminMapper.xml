@@ -5,45 +5,69 @@
 
 
 
+<!-- join 관련 resultMap -->
+<resultMap type="UserVO" id="users">
+	<result column="userId" property="userId"/>
+	<collection property="userstatusVO" resultMap="userstatusVO" />
+</resultMap>
+<resultMap type="BusinessusersVO" id="busers">
+	<result column="buId" property="buId"/>
+	<collection property="userstatusVO" resultMap="userstatusVO" />
+</resultMap>
+<resultMap type="UserstatusVO" id="userstatus">
+	<result column="userId" property="userId"/>
+	<result column="buId" property="buId"/>
+	<result column="userStatus" property="userStatus"/>
+</resultMap>
+<!-- join 관련 resultMap -->
+
+
+
 <!-- 일반회원 목록 -->
-<select id="getUsersList" resultType="com.foo.domain.UserVO">
-	SELECT * FROM users 
-	WHERE userId != 'admin000'
+<select id="getUsersList" resultType="users">
+	SELECT u.userId, userName, userEmail, userTel, regdate, userStatus FROM users u 
+	LEFT JOIN userstatus us ON u.userId = us.userId 
+	WHERE u.userId != 'admin000' ORDER BY regdate desc
 </select>
 <!-- 일반회원 목록 -->
 
 
 
 <!-- 사업자회원 목록 -->
-<select id="getBusinessusersList" resultType="com.foo.domain.UserVO">
-	SELECT * FROM businessusers
+<select id="getBusinessusersList" resultType="busers">
+	SELECT bu.buId, buNum, buName, buEmail, buTel, regdate, userStatus FROM businessusers bu 
+	LEFT JOIN userstatus us ON bu.buId = us.buId 
+	WHERE bu.buId != 'admin000' ORDER BY regdate desc
 </select>
 <!-- 사업자회원 목록 -->
 
 
 
 <!-- 입점 가게 목록 -->
-<select id="getRegistList" resultType="com.foo.domain.UserVO">
+<select id="getRegistList" resultType="RestaurantsVO">
 	SELECT * FROM restaurants 
-	WHERE restStatus = 1
+	WHERE restStatus = 1 
+	ORDER BY regdate desc
 </select>
 <!-- 입점 가게 목록 -->
 
 
 
 <!-- 입점 대기 가게 목록 -->
-<select id="getNonregistList" resultType="com.foo.domain.UserVO">
+<select id="getNonregistList" resultType="RestaurantsVO">
 	SELECT * FROM restaurants 
-	WHERE restStatus = 0
+	WHERE restStatus = 0 
+	ORDER BY regdate desc
 </select>
 <!-- 입점 대기 가게 목록 -->
 
 
 
 <!-- 블랙리스트 가게 목록 -->
-<select id="getBlackList" resultType="com.foo.domain.UserVO">
+<select id="getBlackList" resultType="RestaurantsVO">
 	SELECT * FROM restaurants 
-	WHERE restStatus = 2
+	WHERE restStatus = 2 
+	ORDER BY regdate desc
 </select>
 <!-- 블랙리스트 가게 목록 -->
 

@@ -10,6 +10,9 @@ public class BusinessusersVO {
 	private String buTel;
 	private String regdate;
 	
+	// 회원 상태 정보 객체
+	private UserstatusVO userstatusVO;
+	
 	
 	
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ Getter & Setter ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -37,6 +40,9 @@ public class BusinessusersVO {
 	public String getRegdate() {
 		return regdate;
 	}
+	public UserstatusVO getUserstatusVO() {
+		return userstatusVO;
+	}
 	public void setBuId(String buId) {
 		this.buId = buId;
 	}
@@ -58,6 +64,9 @@ public class BusinessusersVO {
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
 	}
+	public void setUserstatusVO(UserstatusVO userstatusVO) {
+		this.userstatusVO = userstatusVO;
+	}
 
 	
 	
@@ -68,7 +77,7 @@ public class BusinessusersVO {
 	@Override
 	public String toString() {
 		return "BusinessusersVO [buId=" + buId + ", buPw=" + buPw + ", buNum=" + buNum + ", buName=" + buName
-				+ ", buEmail=" + buEmail + ", buTel=" + buTel + ", regdate=" + regdate + "]";
+				+ ", buEmail=" + buEmail + ", buTel=" + buTel + ", regdate=" + regdate + " / (" + userstatusVO + ")]";
 	}
 	
 }
