@@ -105,11 +105,10 @@ public class UserFrontController {
 	
 	
 	
-	// 3. 카카오 간편 로그인 및 회원가입
+	// 3-1. 카카오 간편 로그인 및 회원가입
 	@RequestMapping(value = "/kakaoLogin", method = RequestMethod.GET)
 	public void kakaoLogin(@RequestParam(value = "code", required = false) String code, 
 							               HttpServletRequest request) throws Exception {
-
 		// 1번
 		// 카카오톡에 사용자 코드 받기 (jsp의 a태그 href에 경로 있음)
 		logger.debug("@@@@@@@@@@@@@@@ code : " + code);
@@ -134,6 +133,20 @@ public class UserFrontController {
 		logger.debug("@@@@@@@@@@@@@@@ 이메일 : " + vo.getUserEmail());
 		
 		request.setAttribute("vo", vo);
+	}
+	
+	// 3-2. 카카오 로그인 회원 정보 저장
+	@RequestMapping(value = "/getInfoKuser",method = RequestMethod.POST)
+	public String getInfoKuser(@RequestParam("userId") String userId, 
+						     @RequestParam("userName") String userName,
+						     HttpSession session) {
+		
+		logger.debug("@@@@@@@@@@@@@@@ getInfoKuser_호출");
+		
+		session.setAttribute("userId", userId);
+		session.setAttribute("userName", userName);
+		
+		return "redirect:/main";
 	}
 	
 	

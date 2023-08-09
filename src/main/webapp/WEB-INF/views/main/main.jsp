@@ -26,17 +26,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
 
-let userId = sessionStorage.getItem("userId");
-let userName = sessionStorage.getItem("userName");
-let userEmail = sessionStorage.getItem("userEmail");
-
-// document.getElementById('kakaoId').innerHTML(userId);
-// document.getElementById('kakaoName').innerHTML(userName);
-
-alert("아이디 : " + userId);
-alert("이름/닉네임 : " + userName);
-alert("이메일 : " + userEmail);
-
 </script>
 </head>
 <body>

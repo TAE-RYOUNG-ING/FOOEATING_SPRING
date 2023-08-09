@@ -22,7 +22,7 @@ public class MainFrontController {
 	
 	
 	
-	// 메인 페이지
+	// 1. 메인 페이지
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(HttpServletRequest request, Model model) throws Exception {
 		
@@ -31,9 +31,11 @@ public class MainFrontController {
 		// 세션에서 ID값 가져오기
 		HttpSession session = request.getSession();
 		String userId = (String)session.getAttribute("userId");
+		String userName = (String)session.getAttribute("userName");
 		
 		// model에 ID값 저장
 		model.addAttribute("userId", userId);
+		model.addAttribute("userName", userName);
 		return "main/main";
 	}
 
