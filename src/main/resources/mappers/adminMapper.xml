@@ -6,25 +6,36 @@
 
 
 <!-- join 관련 resultMap -->
-<resultMap type="UserVO" id="users">
-	<result column="userId" property="userId"/>
-	<collection property="userstatusVO" resultMap="userstatusVO" />
+<resultMap type="UserstatusVO" id="UserstatusVO">
+	<result property="userId" column="userId"/>
+	<result property="buId" column="buId"/>
+	<result property="userStatus" column="userStatus"/>
 </resultMap>
-<resultMap type="BusinessusersVO" id="busers">
-	<result column="buId" property="buId"/>
-	<collection property="userstatusVO" resultMap="userstatusVO" />
+<resultMap type="UserVO" id="UserVO">
+	<id property="userId" column="userId" />
+	<id property="userName" column="userName" />
+	<id property="userEmail" column="userEmail" />
+	<id property="userTel" column="userTel" />
+	<id property="regdate" column="regdate" />
+	
+	<collection property="userstatusVO" resultMap="UserstatusVO" />
 </resultMap>
-<resultMap type="UserstatusVO" id="userstatus">
-	<result column="userId" property="userId"/>
-	<result column="buId" property="buId"/>
-	<result column="userStatus" property="userStatus"/>
+<resultMap type="BusinessusersVO" id="BusinessusersVO">
+	<id property="buId" column="buId" />
+	<id property="buName" column="buName" />
+	<id property="buNum" column="buNum" />
+	<id property="buEmail" column="buEmail" />
+	<id property="buTel" column="buTel" />
+	<id property="regdate" column="regdate" />
+	
+	<collection property="userstatusVO" resultMap="UserstatusVO" />
 </resultMap>
 <!-- join 관련 resultMap -->
 
 
 
 <!-- 일반회원 목록 -->
-<select id="getUsersList" resultType="users">
+<select id="getUsersList" resultMap="UserVO">
 	SELECT u.userId, userName, userEmail, userTel, regdate, userStatus FROM users u 
 	LEFT JOIN userstatus us ON u.userId = us.userId 
 	WHERE u.userId != 'admin000' ORDER BY regdate desc
@@ -34,7 +45,7 @@
 
 
 <!-- 사업자회원 목록 -->
-<select id="getBusinessusersList" resultType="busers">
+<select id="getBusinessusersList" resultMap="BusinessusersVO">
 	SELECT bu.buId, buNum, buName, buEmail, buTel, regdate, userStatus FROM businessusers bu 
 	LEFT JOIN userstatus us ON bu.buId = us.buId 
 	WHERE bu.buId != 'admin000' ORDER BY regdate desc

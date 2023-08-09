@@ -72,7 +72,7 @@ public class UserVO {
 	@Override
 	public String toString() {
 		return "UserVO [userId=" + userId + ", userPw=" + userPw + ", userName=" + userName + ", userEmail=" + userEmail
-				+ ", userTel=" + userTel + ", regdate=" + regdate + " / (" + userstatusVO + ")]";
+				+ ", userTel=" + userTel + ", regdate=" + regdate + " / (userstatusVO=" + userstatusVO + ")]";
 	}
 	
 }

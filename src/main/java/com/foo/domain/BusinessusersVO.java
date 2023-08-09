@@ -77,7 +77,7 @@ public class BusinessusersVO {
 	@Override
 	public String toString() {
 		return "BusinessusersVO [buId=" + buId + ", buPw=" + buPw + ", buNum=" + buNum + ", buName=" + buName
-				+ ", buEmail=" + buEmail + ", buTel=" + buTel + ", regdate=" + regdate + " / (" + userstatusVO + ")]";
+				+ ", buEmail=" + buEmail + ", buTel=" + buTel + ", regdate=" + regdate + " / (userstatusVO=" + userstatusVO + ")]";
 	}
 	
 }

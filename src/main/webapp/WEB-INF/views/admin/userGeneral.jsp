@@ -10,6 +10,10 @@
 
 <style>
 
+table {
+	text-align: center;
+}
+
 .center {
 	text-align: center;
 }
@@ -125,18 +129,16 @@ $(document).ready(function() {
 
 <!-- 회원 목록 -->
 <div class="main">
-
-${userList}	<hr>
 	
-	<table>
+	<table style="width: 100%;">
 		<tr>
-			<td>No.</td>
-			<td>ID</td>
-			<td>NAME</td>
-			<td>E-MAIL</td>
-			<td>TEL</td>
-			<td>REGIST DATE</td>
-			<td>STATE</td>
+			<th>No.</th>
+			<th>ID</th>
+			<th>NAME</th>
+			<th>E-MAIL</th>
+			<th>TEL</th>
+			<th>REGIST DATE</th>
+			<th>STATE</th>
 		</tr>
 		
 		<c:forEach var="user" items="${userList}" varStatus="no">
@@ -147,7 +149,7 @@ ${userList}	<hr>
 				<td>${user.userEmail}</td>
 				<td>${user.userTel}</td>
 				<td>${user.regdate}</td>
-<%-- 				<td>${user.userstatusVO.userStatus == 0 ? "탈퇴" : (user.userstatusVO.userStatus == 2 ? "블랙리스트" : "")}</td> --%>
+				<td>${user.userstatusVO.userStatus == 0 ? "탈퇴" : (user.userstatusVO.userStatus == 2 ? "블랙리스트" : "정상")}</td>
 			</tr>
 		</c:forEach>
 	</table>
