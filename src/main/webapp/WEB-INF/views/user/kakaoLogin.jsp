@@ -24,7 +24,7 @@ $(function(){
 			// ID 없음 & 추가정보 입력
 			if(data === 1){ 
 				$.ajax({
-					url: '/user/join',
+					url: '/user/kakaoInsertInfo',
 					type: 'post',
 					data: {
 						"userId" : userId,
@@ -32,21 +32,20 @@ $(function(){
 						"userEmail" : userEmail
 					},
 					success: function(){
-						alert("찐성공 kakaoLogin.jsp line34 수정");
+						location.href = "/user/kakaoInsertInfo";
 					},
 					error: function(){
-						alert("join ajax Error / 실패지만 진행한다");						
-						location.href = "/main";
+						alert("insertInfoKuser ajax Error");
 					}
-				}); // join_ajax
-				
+				});
 			}
+			
 			// ID 있음 & 로그인
 			else if(data === 0){
 				// 세션에 데이터 저장, 메인페이지 이동
 				$.ajax({
 					url: '/user/getInfoKuser',
-					type: 'post',
+					type: 'get',
 					data: {
 					"userId" : userId,
 					"userName" : userName,

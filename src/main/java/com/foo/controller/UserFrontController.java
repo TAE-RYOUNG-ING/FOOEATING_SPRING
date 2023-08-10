@@ -51,10 +51,11 @@ public class UserFrontController {
 		logger.debug("@@@@@@@@@@@@@@@ joinUserPOST_호출");
 		
 		uService.joinUser(vo);
-		logger.debug("@@@@@@@@@@@@@@@ 회원가입 완료");
 		
 		// 회원 상태 저장
 		bService.insertUserstatus(vo.getUserId(), null);
+		
+		logger.debug("@@@@@@@@@@@@@@@ 회원가입 완료");
 	}
 	
 	
@@ -108,7 +109,7 @@ public class UserFrontController {
 	// 3-1. 카카오 간편 로그인 및 회원가입
 	@RequestMapping(value = "/kakaoLogin", method = RequestMethod.GET)
 	public void kakaoLogin(@RequestParam(value = "code", required = false) String code, 
-							               HttpServletRequest request) throws Exception {
+										 HttpServletRequest request) throws Exception {
 		// 1번
 		// 카카오톡에 사용자 코드 받기 (jsp의 a태그 href에 경로 있음)
 		logger.debug("@@@@@@@@@@@@@@@ code : " + code);
@@ -125,21 +126,45 @@ public class UserFrontController {
 		
 		UserVO vo = new UserVO();
 		vo.setUserId((String)userInfo.get("email"));
-		vo.setUserName((String)userInfo.get("nickname"));
 		vo.setUserEmail((String)userInfo.get("email"));
+		vo.setUserName((String)userInfo.get("nickname"));
 		
 		logger.debug("@@@@@@@@@@@@@@@ 아이디 : " + vo.getUserId());
-		logger.debug("@@@@@@@@@@@@@@@ 이름 : " + vo.getUserName());
 		logger.debug("@@@@@@@@@@@@@@@ 이메일 : " + vo.getUserEmail());
+		logger.debug("@@@@@@@@@@@@@@@ 이름 : " + vo.getUserName());
 		
 		request.setAttribute("vo", vo);
 	}
 	
-	// 3-2. 카카오 로그인 회원 정보 저장
-	@RequestMapping(value = "/getInfoKuser",method = RequestMethod.POST)
+	// 3-2. 카카오 회원 추가 정보 입력받기
+	@RequestMapping(value = "/kakaoInsertInfo", method = RequestMethod.GET)
+	public void insertInfoKuserGET() throws Exception {
+		
+		logger.debug("@@@@@@@@@@@@@@@ insertInfoKuserGET_호출");
+	}
+	
+	// 3-3. 카카오 회원 추가 정보 입력받기 - 데이터 처리
+	@RequestMapping(value = "/kakaoInsertInfo", method = RequestMethod.POST)
+	public void insertInfoKuserPOST(@RequestParam("userId") String userId, 
+		     					  	@RequestParam("userEmail") String userEmail,
+		     					  	@RequestParam("userName") String userName,
+		     					  	HttpSession session) throws Exception {
+		
+		logger.debug("@@@@@@@@@@@@@@@ insertInfoKuserPOST_호출");
+		logger.debug("@@@@@@@@@@@@@@@ userId : " + userId);
+		logger.debug("@@@@@@@@@@@@@@@ userEmail : " + userEmail);
+		logger.debug("@@@@@@@@@@@@@@@ userName : " + userName);
+		
+		session.setAttribute("userId", userId);
+		session.setAttribute("userName", userName);
+		session.setAttribute("userEmail", userEmail);
+	}
+	
+	// 3-3. 카카오 로그인 회원 정보 저장 // -> 3-2로 충분할지도?
+	@RequestMapping(value = "/getInfoKuser", method = RequestMethod.GET)
 	public String getInfoKuser(@RequestParam("userId") String userId, 
-						     @RequestParam("userName") String userName,
-						     HttpSession session) {
+						       @RequestParam("userName") String userName,
+						       HttpSession session) {
 		
 		logger.debug("@@@@@@@@@@@@@@@ getInfoKuser_호출");
 		
@@ -152,7 +177,7 @@ public class UserFrontController {
 	
 	
 	// 4. 아이디 & 비밀번호 찾기
-	@RequestMapping(value = "/searchInfo",method = RequestMethod.GET)
+	@RequestMapping(value = "/searchInfo", method = RequestMethod.GET)
 	public void searchInfoGET() {
 		
 		logger.debug("@@@@@@@@@@@@@@@ searchInfoGET_호출");
@@ -161,7 +186,7 @@ public class UserFrontController {
 	
 	
 	// 5. 회원 로그아웃
-	@RequestMapping(value = "/logout",method = RequestMethod.GET)
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logoutGET(HttpSession session) {
 		logger.debug("@@@@@@@@@@@@@@@ logoutGET_호출");
 		
