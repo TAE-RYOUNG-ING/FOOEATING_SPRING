@@ -14,15 +14,19 @@ $(function(){
 	let userName = "${vo.userName}";
 	let userEmail = "${vo.userEmail}";
 	
-	// DB에서 ID값 비교
+	alert("userId : " + userId);		// noData
+	alert("userName : " + userName);	// 링링
+	alert("userEmail : " + userEmail);	// noData
+	
+	// DB에서 비교
 	$.ajax({
-		url :'/user/idOverlap',
+		url :'/user/kUserOverlap',
 		type : 'post',
-		data : {"userId" : userId},
+		data : {"userName" : userName},
 		dataType : "json",
 		success : function(data){
-			// ID 없음 & 추가정보 입력
-			if(data === 1){ 
+			// 신규 유저 & 추가정보 입력
+			if(data === 0){ 
 				$.ajax({
 					url: '/user/kakaoInsertInfo',
 					type: 'post',
@@ -40,8 +44,8 @@ $(function(){
 				});
 			}
 			
-			// ID 있음 & 로그인
-			else if(data === 0){
+			// 기존 유저 & 로그인
+			else if(data === 1){
 				// 세션에 데이터 저장, 메인페이지 이동
 				$.ajax({
 					url: '/user/getInfoKuser',

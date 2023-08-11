@@ -23,4 +23,9 @@ public interface UserDAO {
 	public UserVO loginUser(UserVO vo) throws Exception;
 	
 	
+	
+	// 3. 카카오 유저 정보 비교
+	public UserVO kUserOverlap(String userName) throws Exception;
+	
+	
 }

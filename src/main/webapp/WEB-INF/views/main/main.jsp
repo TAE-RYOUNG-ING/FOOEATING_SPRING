@@ -53,6 +53,7 @@
 		</c:when>
 		<c:when test="${!empty sessionScope.userId && empty sessionScope.buId }">
 			<h3>${sessionScope.userName }님, 안녕하세요 :)</h3>
+			<h3>${sessionScope.userId }님, 안녕하세요 :)</h3>
 			<input type="button" class="btnstyle" value="로그아웃" onclick="location.href='/user/logout';">
 		</c:when>
 		<c:when test="${empty sessionScope.userId && !empty sessionScope.buId }">

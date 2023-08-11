@@ -65,7 +65,19 @@ public class UserDAOImpl implements UserDAO {
 		return sqlSession.selectOne(NAMESPACE + ".loginUser", vo);
 	}
 
+	
+	
+	// 3. 카카오 유저 정보 비교
+	@Override
+	public UserVO kUserOverlap(String userName) throws Exception {
+		logger.debug("############### kUserOverlap_호출");
+		return sqlSession.selectOne(NAMESPACE + ".kUserOverlap", userName);
+	}
 
+
+	
+	
+	
 
 
 

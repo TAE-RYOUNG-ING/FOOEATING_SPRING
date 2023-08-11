@@ -1,4 +1,6 @@
 package com.foo.controller;
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -6,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.foo.domain.UserVO;
 import com.foo.service.UserService;
 
 
@@ -58,6 +62,19 @@ public class UserRestController {
 		logger.debug("@@@@@@@@@@@@@@@ telOverlapPOST_호출");
 		
 		String result = uService.telOverlap(userTel);
+		
+		return result;
+	}
+	
+	
+
+	// 3. 카카오 유저 정보 비교
+	@RequestMapping(value = "/kUserOverlap", method = RequestMethod.POST)
+	public String kUserOverlapPOST(@RequestParam("userName") String userName) throws Exception {
+		
+		logger.debug("@@@@@@@@@@@@@@@ kUserOverlapPOST_호출");
+		
+		String result = uService.kUserOverlap(userName);
 		
 		return result;
 	}

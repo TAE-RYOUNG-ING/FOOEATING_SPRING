@@ -230,11 +230,21 @@ public class UserServiceImpl implements UserService {
 		}
 		return userInfo;
 	}
-	
-	
 
-
-
+	// 3-2. 유저 정보 비교하기
+	@Override
+	public String kUserOverlap(String userName) throws Exception {
+		UserVO resultVO = new UserVO();
+		resultVO = udao.kUserOverlap(userName);
+		
+		if(resultVO == null) {
+			logger.debug("$$$$$$$$$$$$$$$ 신규 유저");
+			return "0";
+		}else {
+			logger.debug("$$$$$$$$$$$$$$$ 기존 유저");
+			return "1";
+		}
+	}
 	
 	
 

@@ -56,15 +56,25 @@ img{
 <script type="text/javascript">
 
 $(function(){
+	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 전달 정보 저장 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+	let userName = "${sessionScope.userName}";
+	let userEmail = "${sessionScope.userEmail}";
+	let userPw = "noData";
+
+		
 	
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ 정규 표현식 & 중복 체크 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-	// 0. 조건 부합 상태를 저장하는 변수
+	// 1. 조건 부합 상태를 저장하는 변수
 	let isIdChecked = false;
 	let isTelChecked = false;
 	
+	if(userId != "noData"){
+		isIdChecked = true;
+	}
+
 	
 	
-	// 1. 아이디 조건 및 중복 체크
+	// 2. 아이디 조건 및 중복 체크
 	$('#userId').keyup(function(){
 		let userId = $('#userId').val();
 		let trueId = /^(?=.*\d)(?=.*[a-zA-Z])[0-9a-zA-Z]{8,12}$/;
@@ -113,7 +123,7 @@ $(function(){
 	
 	
 	
-	// 2. 전화번호 조건 체크
+	// 3. 전화번호 조건 체크
 	$('#userTel').keyup(function(){
 		let userTel = $('#userTel').val();
 		let trueTel = /^01(?:0|1|[6-9])-(?:\d{3}|\d{4})-\d{4}$/;
@@ -161,7 +171,7 @@ $(function(){
 	
 	
 	
-	// 3. 제출 시 유효성 체크
+	// 4. 제출 시 유효성 체크
 	$('#submit').click(function(e) {
 		if($('#userId').val() === ""){
 			$('#userId').focus();
@@ -188,24 +198,25 @@ $(function(){
 				type: 'post',
 				data: {
 					"userId" : $('#userId').val(),
-					"userTel" : $('#userTel').val(),
+					"userPw" : userPw,
+					"userName" : userName,
+					"userEmail" : userEmail,
+					"userTel" : $('#userTel').val()
 				},
 				success: function(){
-					alert("회원가입이 완료되었습니다.");
-					location.href = "/user/main";
-					// 세션에 아이디 & 이름 저장되어 있나..? 체크
+					alert("찐성공 kakaoInsertInfo_line208");
 				},
 				error: function(){
-					alert("ajax Error");
+					alert("join_ajax Error");
+					alert("회원가입이 완료되었습니다.");
+					alert("다음부터는 간편 로그인이 바로 가능합니다.");
+					location.href = "/main";
 				}
-			}); // ajax
+			}); //join_ajax
 
 	    } // else
 
 	}); // submit.click
-	
-	
-	
 	
 });
 

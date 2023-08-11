@@ -32,6 +32,9 @@ public interface UserService {
 	// 3-1. 유저 정보 가져오기
 	public HashMap<String, Object> getUserInfo(String access_Token) throws Exception;
 	
+	// 3-2. 유저 정보 비교하기
+	public String kUserOverlap(String userName) throws Exception;
+	
 	
 	
 	

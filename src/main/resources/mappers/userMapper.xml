@@ -59,4 +59,13 @@
 
 
 
+<!-- 카카오 유저 정보 비교 -->
+<select id="kUserOverlap" resultType="com.foo.domain.UserVO">
+	SELECT userId FROM users
+	WHERE userName = #{userName};
+</select>
+<!-- 카카오 유저 정보 비교 -->
+
+
+
 </mapper>
