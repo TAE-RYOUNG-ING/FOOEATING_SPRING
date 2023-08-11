@@ -128,6 +128,9 @@
 		<div class="tab"> 
 			<input type="text" name="search" placeholder="상호명 또는 메뉴를 입력하세요.">
 		</div>
+		<div>
+			<button type="button" id="btnSearch">검색</button>
+		</div>
 	</div>
 </div>
 <!-- 검색 -->
