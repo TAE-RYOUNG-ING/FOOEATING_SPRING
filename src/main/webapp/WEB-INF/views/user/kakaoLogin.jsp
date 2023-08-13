@@ -14,10 +14,6 @@ $(function(){
 	let userName = "${vo.userName}";
 	let userEmail = "${vo.userEmail}";
 	
-	alert("userId : " + userId);		// noData
-	alert("userName : " + userName);	// 링링
-	alert("userEmail : " + userEmail);	// noData
-	
 	// DB에서 비교
 	$.ajax({
 		url :'/user/kUserOverlap',
