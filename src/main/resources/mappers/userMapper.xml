@@ -68,4 +68,13 @@
 
 
 
+<!-- 카카오 유저 정보 가져오기 -->
+<select id="getKUserInfo" resultType="com.foo.domain.UserVO">
+	SELECT * FROM users
+	WHERE userName = #{userName};
+</select>
+<!-- 카카오 유저 정보 가져오기 -->
+
+
+
 </mapper>

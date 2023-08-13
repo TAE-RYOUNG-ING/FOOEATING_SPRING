@@ -174,10 +174,19 @@ public class UserFrontController {
 	@RequestMapping(value = "/getInfoKuser", method = RequestMethod.GET)
 	public String getInfoKuser(@RequestParam("userId") String userId, 
 						       @RequestParam("userName") String userName,
-						       HttpSession session) {
+						       HttpSession session) throws Exception {
 		
 		logger.debug("@@@@@@@@@@@@@@@ getInfoKuser_호출");
 		
+		UserVO resultVO = new UserVO();
+		resultVO = uService.getKUserInfo(userName);
+		
+		// 기존유저가 카카오 로그인 이메일 비동의일 경우
+		if(userId.equals("noData")) {
+			userId = resultVO.getUserId();
+		}
+		
+		// 세션 저장 & main페이지 이동
 		session.setAttribute("userId", userId);
 		session.setAttribute("userName", userName);
 		
