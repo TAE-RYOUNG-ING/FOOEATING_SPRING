@@ -101,56 +101,18 @@ $(document).ready(function() {
 		let selectedCity = $(this).val();		// 선택된 시도 값
 		let addrSiGunGu = $("#addrSiGunGu");	// 시군구 박스
 		addrSiGunGu.empty();					// 기존의 선택된 시군구 값 제거
-		addrSiGunGu.append('<option value="all">' + (selectedCity !== 'all' ? selectedCity + ' 전체' : '지역을 선택해주세요.') + '</option>');
+		addrSiGunGu.append('<option value="">' + (selectedCity !== '' ? selectedCity + ' 전체' : '지역을 선택해주세요.') + '</option>');
 		
 		let selectedCityData = cityData[selectedCity];	// 선택된 시도에 해당하는 시군구 배열 가져오기
 		
 		// 선택된 시군구 배열을 반복하며 옵션 추가
-		if (selectedCity !== 'all') {
+		if (selectedCity !== '') {
 			for (var i = 0; i < selectedCityData.length; i++) {
 				let siGunGu = selectedCityData[i];
 				addrSiGunGu.append('<option value="' + siGunGu + '">' + siGunGu + '</option>');
 			}
 		}
 	});
-	
-	
-	
-	// 검색 버튼 클릭
-	$("#btnSearch").click(function() {
-		let query = $("#query").val().split(' ');		// 검색어
-		var query2 = '';
-		if (query.length >= 1) {
-			for (let i = 0; i < query.length; i++) {
-				query2 += query[i] + "+";
-			}
-			query2 = query2.slice(0, -1);
-		}
-		let searchData = {
-						"category" : $("#category").val() === 'all' ? '' : $("#category").val(),
-						"city" : $("#addrSiDo").val() === 'all' ? '' : 
-							$("#addrSiDo").val() + ($("#addrSiGunGu").val() !== 'all' ? '+' + $("#addrSiGunGu").val() : ''),
-						"query" : query2
-					};
-		
-		console.log(searchData);
-		
-		// ajax
-		$.ajax({
-			url : "${contextPath}/restaurant/search",
-			type : "GET",
-			data : searchData,
-			contentType : "application/json; charset=UTF-8;",
-			data : JSON.stringify(searchData),
-			success : function(msg) {
-				alert("성공");
-				console.log(msg);
-			},
-			error : function() {
-				alert("ajax Error");
-			}
-		});		// ajax
-	});		// btnSearch
 	
 });
 
@@ -172,59 +134,61 @@ $(document).ready(function() {
 
 
 <!-- 검색 -->
-<div class="tabs">
-	<div class="tab-nav">
-		<div class="tab">업종
-			<select id="category">
-				<option value="all">업종을 선택해주세요.</option>
-				<option value="한식">한식</option>
-				<option value="중식">중식</option>
-				<option value="양식">양식</option>
-				<option value="일식">일식</option>
-				<option value="기타">기타</option>
-				<option value="디저트">디저트</option>
-			</select>
-		</div>
-		<div class="tab">
-			시/도
-			<select id="addrSiDo" name="city">
-				<option value="all">지역을 선택해주세요.</option>
-				<option value="서울">서울특별시</option>
-				<option value="인천">인천광역시</option>
-				<option value="부산">부산광역시</option>
-				<option value="대전">대전광역시</option>
-				<option value="대구">대구광역시</option>
-				<option value="울산">울산광역시</option>
-				<option value="광주">광주광역시</option>
-				<option value="제주">제주특별자치도</option>
-				<option value="세종">세종특별자치시</option>
-				<option value="경기">경기도</option>
-				<option value="강원">강원도</option>
-				<option value="경북">경상북도</option>
-				<option value="경남">경상남도</option>
-				<option value="전북">전라북도</option>
-				<option value="전남">전라남도</option>
-				<option value="충북">충청북도</option>
-				<option value="충남">충청남도</option>
-			</select>
-			시/군/구
-			<select id="addrSiGunGu" name="city">
-				<option value="all">지역을 선택해주세요.</option>
-			</select>
-		</div>
-		<div class="tab"> 
-			<input type="text" name="search" id="query" placeholder="상호명 또는 메뉴를 입력하세요.">
-		</div>
-		<div>
-			<button type="button" id="btnSearch">검색</button>
+<form id="searchForm" action="/restaurant/list" method="get">
+	<div class="tabs">
+		<div class="tab-nav">
+			<div class="tab">업종
+				<select name="category">
+					<option value="">업종을 선택해주세요.</option>
+					<option value="한식">한식</option>
+					<option value="중식">중식</option>
+					<option value="양식">양식</option>
+					<option value="일식">일식</option>
+					<option value="기타">기타</option>
+					<option value="디저트">디저트</option>
+				</select>
+			</div>
+			<div class="tab">
+				시/도
+				<select id="addrSiDo" name="sido">
+					<option value="">지역을 선택해주세요.</option>
+					<option value="서울">서울특별시</option>
+					<option value="인천">인천광역시</option>
+					<option value="부산">부산광역시</option>
+					<option value="대전">대전광역시</option>
+					<option value="대구">대구광역시</option>
+					<option value="울산">울산광역시</option>
+					<option value="광주">광주광역시</option>
+					<option value="제주">제주특별자치도</option>
+					<option value="세종">세종특별자치시</option>
+					<option value="경기">경기도</option>
+					<option value="강원">강원도</option>
+					<option value="경북">경상북도</option>
+					<option value="경남">경상남도</option>
+					<option value="전북">전라북도</option>
+					<option value="전남">전라남도</option>
+					<option value="충북">충청북도</option>
+					<option value="충남">충청남도</option>
+				</select>
+				시/군/구
+				<select id="addrSiGunGu" name="sigungu">
+					<option value="">지역을 선택해주세요.</option>
+				</select>
+			</div>
+			<div class="tab"> 
+				<input type="text" name="query" placeholder="상호명 또는 메뉴를 입력하세요.">
+			</div>
+			<div>
+				<input type="submit" id="btnSearch" value="검색">
+			</div>
 		</div>
 	</div>
-</div>
+</form>
 <!-- 검색 -->
 
 
 
-<%-- ${restList} --%>
+${restList}
 
 
 

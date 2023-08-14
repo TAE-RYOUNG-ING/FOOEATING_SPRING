@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -33,10 +34,27 @@ public class RestaurantFrontController {
 	// http://localhost:8088/restaurant/list
 	// 1. 입점 가게 목록
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String getRestaurantList(Model model) throws Exception {
+	public String getRestaurantList(Model model, @ModelAttribute("category") String category, @ModelAttribute("sido") String sido, 
+			@ModelAttribute("sigungu") String sigungu, @ModelAttribute("query") String query) throws Exception {
 		logger.debug("@@@@@@@@@@@@@@@@ getRestaurantList() 실행");
+		logger.debug("category : " + category + " / sido : " + sido + " / sigungu : " + sigungu + " / query : " + query);
 		
-		List<RestaurantsVO> restList = rService.getRestaurantList();
+		List<RestaurantsVO> restList = null;
+		
+		// 검색 키워드가 하나라도 있을 경우
+		if (category != null || sido != null || sigungu != null || query != null) {
+			logger.debug("category : " + category + " / sido : " + sido + " / sigungu : " + sigungu + " / query : " + query);
+			
+			String city = sido + (sigungu != null ? " " + sigungu : "");
+			restList = rService.getRestaurantList(category, city, query);
+		}
+		
+		// 검색어 없을 경우
+		else {
+			logger.debug("all restaurant list");
+			restList = rService.getRestaurantList();
+		}
+		
 		model.addAttribute("restList", restList);
 		
 		return "/restaurant/list";

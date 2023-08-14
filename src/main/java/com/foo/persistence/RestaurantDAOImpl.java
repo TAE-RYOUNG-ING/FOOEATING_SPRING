@@ -1,6 +1,8 @@
 package com.foo.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.slf4j.Logger;
@@ -34,6 +36,19 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 	public List<RestaurantsVO> getRestaurantList() throws Exception {
 		logger.debug("############### getRestaurantList 호출");
 		return sqlSession.selectList(NAMESPACE + ".getRestaurantList");
+	}
+	
+	// 1-1. 가게 검색
+	@Override
+	public List<RestaurantsVO> getRestaurantList(String category, String city, String query) throws Exception {
+		logger.debug("############### getRestaurantList(검색) 호출");
+		
+		Map<String, Object> paramMap = new HashMap<String, Object>();
+		paramMap.put("category", category);
+		paramMap.put("city", city);
+		paramMap.put("query", query);
+		
+		return sqlSession.selectList(NAMESPACE + ".getRestaurantList", paramMap);
 	}
 	
 }
