@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.foo.mappers.RestaurantMapper">
+
+
+
+<!-- 입점 중인 가게 목록 (검색 포함) -->
+<select id="getRestaurantList" resultType="RestaurantsVO">
+	SELECT * FROM restaurants 
+	WHERE restStatus = 1
+	<if test="category != ''">
+		AND restCategory like CONCAT('%', #{category}, '%') 
+	</if>
+	<if test="city != ''">
+		AND restAddr like CONCAT('%', #{city}, '%') 
+	</if>
+	<if test="query != ''">
+		AND restName like CONCAT('%', #{query}, '%') 
+	</if>
+</select>
+<!-- 입점 중인 가게 목록 (검색 포함) -->
+
+
+
+</mapper>

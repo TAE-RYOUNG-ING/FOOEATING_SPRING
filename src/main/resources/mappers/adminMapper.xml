@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.foo.mappers.AdminMapper">
+
+
+
+<!-- join 관련 resultMap -->
+<resultMap type="UserstatusVO" id="UserstatusVO">
+	<result property="userId" column="userId"/>
+	<result property="buId" column="buId"/>
+	<result property="userStatus" column="userStatus"/>
+</resultMap>
+<resultMap type="UserVO" id="UserVO">
+	<id property="userId" column="userId" />
+	<id property="userName" column="userName" />
+	<id property="userEmail" column="userEmail" />
+	<id property="userTel" column="userTel" />
+	<id property="regdate" column="regdate" />
+	
+	<collection property="userstatusVO" resultMap="UserstatusVO" />
+</resultMap>
+<resultMap type="BusinessusersVO" id="BusinessusersVO">
+	<id property="buId" column="buId" />
+	<id property="buName" column="buName" />
+	<id property="buNum" column="buNum" />
+	<id property="buEmail" column="buEmail" />
+	<id property="buTel" column="buTel" />
+	<id property="regdate" column="regdate" />
+	
+	<collection property="userstatusVO" resultMap="UserstatusVO" />
+</resultMap>
+<!-- join 관련 resultMap -->
+
+
+
+<!-- 일반회원 목록 -->
+<select id="getUsersList" resultMap="UserVO">
+	SELECT u.userId, userName, userEmail, userTel, regdate, userStatus FROM users u 
+	LEFT JOIN userstatus us ON u.userId = us.userId 
+	WHERE u.userId != 'admin' ORDER BY regdate desc
+</select>
+<!-- 일반회원 목록 -->
+
+
+
+<!-- 사업자회원 목록 -->
+<select id="getBusinessusersList" resultMap="BusinessusersVO">
+	SELECT bu.buId, buNum, buName, buEmail, buTel, regdate, userStatus FROM businessusers bu 
+	LEFT JOIN userstatus us ON bu.buId = us.buId 
+	ORDER BY regdate desc
+</select>
+<!-- 사업자회원 목록 -->
+
+
+
+<!-- 입점 가게 목록 -->
+<select id="getRegistList" resultType="RestaurantsVO">
+	SELECT * FROM restaurants 
+	WHERE restStatus = 1 
+	ORDER BY regdate desc
+</select>
+<!-- 입점 가게 목록 -->
+
+
+
+<!-- 입점 대기 가게 목록 -->
+<select id="getNonregistList" resultType="RestaurantsVO">
+	SELECT * FROM restaurants 
+	WHERE restStatus = 0 
+	ORDER BY regdate desc
+</select>
+<!-- 입점 대기 가게 목록 -->
+
+
+
+<!-- 블랙리스트 가게 목록 -->
+<select id="getBlackList" resultType="RestaurantsVO">
+	SELECT * FROM restaurants 
+	WHERE restStatus = 2 
+	ORDER BY regdate desc
+</select>
+<!-- 블랙리스트 가게 목록 -->
+
+
+
+</mapper>

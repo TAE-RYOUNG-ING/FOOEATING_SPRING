@@ -11,6 +11,9 @@ public class UserVO {
 	private String userTel;
 	private String regdate;
 	
+	// 회원 상태 정보 객체
+	private UserstatusVO userstatusVO;
+	
 	
 	
 	// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ Getter & Setter ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
@@ -53,6 +56,12 @@ public class UserVO {
 	public void setRegdate(String regdate) {
 		this.regdate = regdate;
 	}
+	public UserstatusVO getUserstatusVO() {
+		return userstatusVO;
+	}
+	public void setUserstatusVO(UserstatusVO userstatusVO) {
+		this.userstatusVO = userstatusVO;
+	}
 	
 	
 	
@@ -63,7 +72,7 @@ public class UserVO {
 	@Override
 	public String toString() {
 		return "UserVO [userId=" + userId + ", userPw=" + userPw + ", userName=" + userName + ", userEmail=" + userEmail
-				+ ", userTel=" + userTel + ", regdate=" + regdate + "]";
+				+ ", userTel=" + userTel + ", regdate=" + regdate + " / (userstatusVO=" + userstatusVO + ")]";
 	}
 	
 }
