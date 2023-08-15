@@ -35,13 +35,15 @@ public class UserServiceImpl implements UserService {
 	
 	
 	
-	// 1-1. 회원 가입
+	// 1. 회원 가입
 	@Override
 	public void joinUser(UserVO vo) throws Exception {
 		udao.insertUser(vo);
 	}
 
-	// 1-2. 아이디 중복 체크
+	
+	
+	// 2-1. 아이디 중복 체크
 	@Override
 	public String idOverlap(String userId) throws Exception {
 		UserVO resultVO = new UserVO();
@@ -56,7 +58,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 	
-	// 1-3. 이메일 중복 체크
+	// 2-2. 이메일 중복 체크
 	@Override
 	public String emailOverlap(String userEmail) throws Exception {
 		UserVO resultVO = new UserVO();
@@ -71,7 +73,7 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 	
-	// 1-4. 전화번호 중복 체크
+	// 2-3. 전화번호 중복 체크
 	@Override
 	public String telOverlap(String userTel) throws Exception {
 		UserVO resultVO = new UserVO();
@@ -88,7 +90,7 @@ public class UserServiceImpl implements UserService {
 
 	
 	
-	// 2. 로그인
+	// 3. 로그인
 	@Override
 	public UserVO loginUser(UserVO vo) throws Exception {
 		return udao.loginUser(vo);
@@ -96,7 +98,7 @@ public class UserServiceImpl implements UserService {
 	
 	
 	
-	// 3. 카카오 간편 로그인
+	// 4. 카카오 간편 로그인
 	@Override
 	public String getAccessToken(String authorize_code) throws Exception {
 		String access_Token = "";
@@ -160,7 +162,7 @@ public class UserServiceImpl implements UserService {
 		return access_Token;
 	}
 	
-	// 3-1. 유저 정보 가져오기
+	// 4-1. 로그인한 유저 정보 가져오기
 	@SuppressWarnings("unchecked")
 	@Override
 	public HashMap<String, Object> getUserInfo(String access_Token) throws Exception {
@@ -201,13 +203,23 @@ public class UserServiceImpl implements UserService {
 
 				Map<String, Object> properties = (Map<String, Object>) jsonMap.get("properties");
 				Map<String, Object> kakao_account = (Map<String, Object>) jsonMap.get("kakao_account");
-
-				logger.debug("############### nickname : " + properties.get("nickname"));
-				logger.debug("############### email : " + kakao_account.get("email"));
-
+				
+				
+				// nickname & email 정보 저장
 				String nickname = properties.get("nickname").toString();
-				String email = kakao_account.get("email").toString();
+				String email = null;
+				
+				// email 동의하지 않았을 경우
+				if(kakao_account.get("email") == null) {
+					email = "noData";
+				}
+				else {
+					email = kakao_account.get("email").toString();
+				}
 
+				logger.debug("############### nickname : " + nickname);
+				logger.debug("############### email : " + email);
+				
 				userInfo.put("nickname", nickname);
 				userInfo.put("email", email);
 
@@ -220,14 +232,28 @@ public class UserServiceImpl implements UserService {
 		}
 		return userInfo;
 	}
+
+	// 4-2. 유저 정보 비교하기
+	@Override
+	public String kUserOverlap(String userName) throws Exception {
+		UserVO resultVO = new UserVO();
+		resultVO = udao.kUserOverlap(userName);
+		
+		if(resultVO == null) {
+			logger.debug("$$$$$$$$$$$$$$$ 신규 유저");
+			return "0";
+		}else {
+			logger.debug("$$$$$$$$$$$$$$$ 기존 유저");
+			return "1";
+		}
+	}
+
+	// 4-3. 기존 유저 정보 가져오기
+	@Override
+	public UserVO getKUserInfo(String userName) throws Exception {
+		return udao.getKUserInfo(userName);
+	}
 	
 	
-
-
-
-	
-	
-
-
 
 }
