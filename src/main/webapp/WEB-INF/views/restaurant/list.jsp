@@ -31,6 +31,15 @@
 	float: right;
 }
 
+.space {
+	text-align: right;
+}
+
+.space>img {
+	width: 70px;
+	margin-right: 20px;
+}
+
 .tabs { 
  	display: flex;
  	justify-content: left;
@@ -114,6 +123,23 @@ $(document).ready(function() {
 		}
 	});
 	
+	
+	
+	// 기본 - 갤러리형 리스트 (지도형 숨기기)
+	$("#map").hide();
+	
+	// 갤러리형 탭 클릭
+	$("#galleryTab").click(function() {
+		$("#gallery").show();
+		$("#map").hide();
+	});
+	
+	// 지도형 탭 클릭
+	$("#mapTab").click(function() {
+		$("#map").show();
+		$("#gallery").hide();
+	});
+	
 });
 
 </script>
@@ -188,7 +214,32 @@ $(document).ready(function() {
 
 
 
-${restList}
+<!-- 갤러리형 / 지도형 선택 탭 -->
+<div class="space">
+	<img src="${pageContext.request.contextPath}/resources/img/menu.png" id="galleryTab">
+	<img src="${pageContext.request.contextPath}/resources/img/map.png" id="mapTab">
+</div>
+<!-- 갤러리형 / 지도형 선택 탭 -->
+
+
+
+<!-- 갤러리형 리스트 -->
+<div class="listDiv" id="gallery">
+	갤러리형<br>
+	${restList}<br>
+	갤러리형<br>
+</div>
+<!-- 갤러리형 리스트 -->
+
+
+
+<!-- 지도형 리스트 -->
+<div class="listDiv" id="map">
+	지도형<br>
+	${restList}<br>
+	지도형<br>
+</div>
+<!-- 지도형 리스트 -->
 
 
 
