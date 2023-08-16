@@ -254,20 +254,21 @@ $(document).ready(function() {
 
 <!-- 지도형 리스트 -->
 <div class="listDiv" id="map">
-	<div id="map" style="width:100%; height:400px;"></div>
+	<div id="map" style="width:100%; height:500px;"></div>
 </div>
 <!-- 지도형 리스트 -->
 
 
 
 <!-- 카카오맵 api -->
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=02702b58782cdab139188ebec921d82e&libraries=services"></script>
+<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=02702b58782cdab139188ebec921d82e&libraries=services"></script> -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=02702b58782cdab139188ebec921d82e&libraries=services,clusterer,drawing"></script>
 <script>
 
 var mapContainer = document.getElementById('map'),	// 지도를 표시할 div  
 	mapOption = {
-		center : new kakao.maps.LatLng(35.1584952142483, 129.06199399191797),	// 지도의 중심좌표
-		level : 3		// 지도의 확대 레벨
+		center : new kakao.maps.LatLng(35.1795543, 129.0756416),	// 지도의 중심좌표
+		level : 8		// 지도의 확대 레벨
 	};
 
 var map = new kakao.maps.Map(mapContainer, mapOption);	// 지도 생성
@@ -289,7 +290,7 @@ for (let i = 0; i < listData.length; i++) {
 	// 주소로 좌표 검색
 	geocoder.addressSearch(listData[i].addr, function(result, status) {
 		// 검색 성공
-		if (status === kakao.maps.service.Status.OK) {
+// 		if (status === kakao.maps.service.Status.OK) {
 			var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 			listData[i].addr = coords;
 			
@@ -308,7 +309,7 @@ for (let i = 0; i < listData.length; i++) {
 		 	// 이벤트 리스너로 클로저를 만들어 등록, for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트
 		 	kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
 		 	kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-		}
+// 		}
 	});
 }
 
