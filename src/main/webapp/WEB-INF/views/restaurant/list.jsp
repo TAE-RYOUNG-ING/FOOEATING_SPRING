@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -74,6 +76,14 @@
 	left: 0;
 	width: 0;
 	height: 2px;
+}
+
+#gallery {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 20px;
+	justify-items: center;
+	align-items: center;
 }
 
 </style>
@@ -225,9 +235,18 @@ $(document).ready(function() {
 
 <!-- 갤러리형 리스트 -->
 <div class="listDiv" id="gallery">
-	갤러리형<br>
-	${restList}<br>
-	갤러리형<br>
+	
+	<c:forEach var="gall" items="${restList}">
+		<div class="galleryDiv">
+			<c:if test="${gall.restFile != null}">
+				<c:set var="gallFile" value="${fn:split(gall.restFile, '/')}"/>
+				<img src="/business/showImg?img=${gallFile[0]}" width="200px" height="200px"> 
+			</c:if>
+			<br>
+			${gall.restName}
+		</div>
+	</c:forEach>
+	
 </div>
 <!-- 갤러리형 리스트 -->
 
@@ -235,11 +254,79 @@ $(document).ready(function() {
 
 <!-- 지도형 리스트 -->
 <div class="listDiv" id="map">
-	지도형<br>
-	${restList}<br>
-	지도형<br>
+	<div id="map" style="width:100%; height:400px;"></div>
 </div>
 <!-- 지도형 리스트 -->
+
+
+
+<!-- 카카오맵 api -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=02702b58782cdab139188ebec921d82e&libraries=services"></script>
+<script>
+
+var mapContainer = document.getElementById('map'),	// 지도를 표시할 div  
+	mapOption = {
+		center : new kakao.maps.LatLng(35.1584952142483, 129.06199399191797),	// 지도의 중심좌표
+		level : 3		// 지도의 확대 레벨
+	};
+
+var map = new kakao.maps.Map(mapContainer, mapOption);	// 지도 생성
+
+// 가게 데이터
+var listData = [];
+
+<c:forEach var="rlist" items="${restList}" varStatus="no">
+	var data = {};
+	data.name = "${rlist.restName}";
+	data.addr = "${fn:split(rlist.restAddr, '/')[1]}";
+	listData.push(data);
+</c:forEach>
+
+// 주소-좌표 변환 객체 생성
+var geocoder = new kakao.maps.services.Geocoder();
+
+for (let i = 0; i < listData.length; i++) {
+	// 주소로 좌표 검색
+	geocoder.addressSearch(listData[i].addr, function(result, status) {
+		// 검색 성공
+		if (status === kakao.maps.service.Status.OK) {
+			var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+			listData[i].addr = coords;
+			
+			// 마커 생성
+			var marker = new kakao.maps.Marker({
+				map : map,						// 마커를 표시할 지도
+				position : listData[i].addr		// 마커의 위치
+			});
+			
+			// 마커에 표시할 인포윈도우 생성
+			var infowindow = new kakao.maps.InfoWindow({
+				content : listData[i].name		// 인포윈도우에 표시할 내용
+			});
+
+		 	// 마커에 mouseover 이벤트와 mouseout 이벤트 등록
+		 	// 이벤트 리스너로 클로저를 만들어 등록, for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트
+		 	kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
+		 	kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+		}
+	});
+}
+
+// 인포윈도우를 표시하는 클로저 생성 함수
+function makeOverListener(map, marker, infowindow) {
+	return function() {
+		infowindow.open(map, marker);
+	};
+}
+
+// 인포윈도우를 닫는 클로저 생성 함수
+function makeOutListener(infowindow) {
+	return function() {
+		infowindow.close();
+	};
+}
+
+</script>
 
 
 
