@@ -243,7 +243,7 @@ $(function(){
 			alert("전화번호를 입력해 주세요.");
 			return false;
 		}
-		else if($('#userTel2').val() === ""){
+		else if($('#userTel2').val() === "" && userId !== "noData"){
 			$('#userTel2').focus();
 			alert("전화번호를 입력해 주세요.");
 			return false;
