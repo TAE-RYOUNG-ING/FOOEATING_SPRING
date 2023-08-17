@@ -267,7 +267,7 @@ $(document).ready(function() {
 
 var mapContainer = document.getElementById('map'),	// 지도를 표시할 div  
 	mapOption = {
-		center : new kakao.maps.LatLng(35.1795543, 129.0756416),	// 지도의 중심좌표
+		center : new kakao.maps.LatLng(35.1795543, 129.0756416),	// 지도의 중심좌표 (부산시청)
 		level : 8		// 지도의 확대 레벨
 	};
 
