@@ -195,16 +195,25 @@ public class UserFrontController {
 	
 	
 	
-	// 4. 아이디 & 비밀번호 찾기
-	@RequestMapping(value = "/searchInfo", method = RequestMethod.GET)
-	public void searchInfoGET() {
+	// 4. 아이디 찾기
+	@RequestMapping(value = "/searchID", method = RequestMethod.GET)
+	public void searchIdGET() {
 		
-		logger.debug("@@@@@@@@@@@@@@@ searchInfoGET_호출");
+		logger.debug("@@@@@@@@@@@@@@@ searchIdGET_호출");
 	}
 	
 	
 	
-	// 5. 회원 로그아웃
+	// 5. 비밀번호 찾기
+	@RequestMapping(value = "/searchPW", method = RequestMethod.GET)
+	public void searchPwGET() {
+		
+		logger.debug("@@@@@@@@@@@@@@@ searchPwGET_호출");
+	}
+	
+	
+	
+	// 6. 회원 로그아웃
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
 	public String logoutGET(HttpSession session) {
 		logger.debug("@@@@@@@@@@@@@@@ logoutGET_호출");
