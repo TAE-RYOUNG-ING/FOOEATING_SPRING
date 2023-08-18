@@ -7,7 +7,7 @@
 <title>Insert title here</title>
 <style>
 
-h1{
+h1, h3{
 	text-align: center;
 }
 
@@ -39,8 +39,8 @@ tr>td:nth-child(2), span {
 }
 
 .btn {
-	width: 100px;
-	height: 30px;
+	width: 290px;
+	height: 40px;
 	margin: auto;
 	display: block;
 }
@@ -220,53 +220,37 @@ $(function(){
 </head>
 <body>
 
-<h1>헤헷 &gt;&lt; </h1>
-<!-- !!!!! 아이디 찾기 & 비밀번호 찾기 버튼 2개 띄워서   -->
-
-
-
 <div class="step-form">
+
+	<h1>FOOEATING</h1>
+	<h3>비밀번호를 찾고자하는 아이디와 <br>
+	    회원정보에 등록된 이메일을 입력해 주세요.</h3>
+    
+    <!-- 임시비밀번호가 메일로 발급됨과 동시에 alert창 띄우고(임시비번 발급완료)
+         팝업창 꺼지고 로그인 페이지로 이동 (비밀번호 == 임시비밀번호) -->
+
 	<table style="margin: 40px auto;">
 		<tr>
 			<td>아이디</td>
-			<td><input type="text" name="userId" id="userId" class="inputStyle" placeholder="영문과 숫자 조합하여 8~12자"></td>
+			<td><input type="text" name="userId" id="userId" class="inputStyle" ></td>
 			<td id="idchk"></td>
 		</tr>
 		<tr>
-			<td>비밀번호</td>
-			<td><input type="password" name="userPw" id="userPw" class="inputStyle" value="" placeholder="영문, 숫자, 특수문자 조합하여 8~12자"></td>
-			<td id="pwchk1"></td>
-		</tr>
-		<tr>	
-			<td>비밀번호 확인</td>
-			<td><input type="password" name="userPwChk" id="userPwChk" class="inputStyle" value=""></td>
-			<td id="pwchk2"></td>
-		</tr>
-		<tr>
-			<td>이름</td>
-			<td><input type="text" name="userName" id="userName" class="inputStyle"></td>
-			<td id="namechk"></td>
-		</tr>
-		<tr>
 			<td>이메일</td>
-			<td><input type="email" name="userEmail" id="userEmail" class="inputStyle"></td>
+			<td><input type="email" name="userEmail" id="userEmail" class="inputStyle" ></td>
 			<td id="emailchk"></td>
-			<td class="space"><input type="button" id="btnEmailSend" value="코드발송" disabled></td>
+			<td class="space"><input type="button" id="btnEmailSend" value="인증코드발송" disabled></td>
 		<tr>	
 			<td>이메일 인증</td>
 			<td><input type="text" id="checkCode" class="inputStyle" maxlength="10" placeholder="인증코드 입력" disabled></td>
 			<td id="authchk"></td>
 			<td class="space"><input type="button" id="btnEmailCheck" value="인증하기"></td>
 		</tr>	
-		<tr>
-			<td>전화번호</td>
-			<td><input type="tel" name="userTel" id="userTel" class="inputStyle" placeholder="ex) 000-0000-0000"></td>
-			<td id="telchk"></td>
-		</tr>
 	</table>
+	
+	<input type="button" id="submit" class="btn" value="다음" >
+	
 </div>
-
-	<input type="button" id="submit" class="btn" value="회원가입" style="width: 290px; height: 40px;">
 
 </body>
 </html>
