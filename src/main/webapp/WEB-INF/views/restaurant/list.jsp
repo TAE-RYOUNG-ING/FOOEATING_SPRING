@@ -135,6 +135,28 @@ $(document).ready(function() {
 	
 	
 	
+	// 검색 후 유지
+	let urlParams = new URLSearchParams(window.location.search);
+	let category = urlParams.get('category');
+	let sido = urlParams.get('sido');
+	let sigungu = urlParams.get('sigungu');
+	let query = urlParams.get('query');
+	
+	if (category) {
+		$("#category").val(category);
+	}
+	if (sido) {
+		$("#addrSiDo").val(sido);
+	}
+	if (sigungu) {
+		$("#addrSiGunGu").val(sigungu);
+	}
+	if (query) {
+		$("#query").val(query);
+	}
+	
+	
+	
 	// 기본 - 갤러리형 리스트 (지도형 숨기기)
 	$("#map").hide();
 	
@@ -174,7 +196,7 @@ $(document).ready(function() {
 	<div class="tabs">
 		<div class="tab-nav">
 			<div class="tab">업종
-				<select name="category">
+				<select id="category" name="category">
 					<option value="">업종을 선택해주세요.</option>
 					<option value="한식">한식</option>
 					<option value="중식">중식</option>
@@ -212,7 +234,7 @@ $(document).ready(function() {
 				</select>
 			</div>
 			<div class="tab"> 
-				<input type="text" name="query" placeholder="상호명 또는 메뉴를 입력하세요.">
+				<input type="text" id="query" name="query" placeholder="상호명 또는 메뉴를 입력하세요.">
 			</div>
 			<div>
 				<input type="submit" id="btnSearch" value="검색">
