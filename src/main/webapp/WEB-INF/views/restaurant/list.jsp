@@ -147,9 +147,29 @@ $(document).ready(function() {
 	}
 	if (sido) {
 		$("#addrSiDo").val(sido);
-	}
-	if (sigungu) {
-		$("#addrSiGunGu").val(sigungu);
+		
+		$("#addrSiDo").on("change", function() {
+			let selectedCity = $(this).val();		// 선택된 시도 값
+			console.log(selectedCity);
+			let addrSiGunGu = $("#addrSiGunGu");	// 시군구 박스
+			addrSiGunGu.empty();					// 기존의 선택된 시군구 값 제거
+			addrSiGunGu.append('<option value="">' + (selectedCity !== '' ? selectedCity + ' 전체' : '지역을 선택해주세요.') + '</option>');
+			
+			let selectedCityData = cityData[selectedCity];	// 선택된 시도에 해당하는 시군구 배열 가져오기
+			
+			// 선택된 시군구 배열을 반복하며 옵션 추가
+			if (selectedCity !== '') {
+				for (var i = 0; i < selectedCityData.length; i++) {
+					let siGunGu = selectedCityData[i];
+					addrSiGunGu.append('<option value="' + siGunGu + '">' + siGunGu + '</option>');
+				}
+			}
+		});
+		if (sigungu) {
+			$("#addrSiGunGu").val(sigungu);
+		} else {
+			$("#addrSiGunGu").val();
+		}
 	}
 	if (query) {
 		$("#query").val(query);
@@ -158,21 +178,36 @@ $(document).ready(function() {
 	
 	
 	// 기본 - 갤러리형 리스트 (지도형 숨기기)
-	$("#map").hide();
+	if (sessionStorage.getItem('listView') === 'mapTab') {
+		$("#map").show();
+		$("#gallery").hide();
+	} else {
+		$("#gallery").show();
+		$("#map").hide();
+	}
 	
 	// 갤러리형 탭 클릭
 	$("#galleryTab").click(function() {
 		$("#gallery").show();
 		$("#map").hide();
+		sessionStorage.setItem('listView', 'galleryTab');
 	});
 	
 	// 지도형 탭 클릭
 	$("#mapTab").click(function() {
 		$("#map").show();
 		$("#gallery").hide();
+		sessionStorage.setItem('listView', 'mapTab');
 	});
 	
 });
+
+
+
+// 갤러리형 리스트에서 가게 클릭 시 상세 페이지 이동
+function clickRest(restId) {
+	alert(restId + ' 가게 클릭!');
+}
 
 </script>
 
@@ -186,7 +221,7 @@ $(document).ready(function() {
 	<a href="/main">
 		<img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200px" height="200px">
 	</a>
-	<h1>FOOEATING_Admin</h1>
+	<h1>FOOEATING_Restaurant_List</h1>
 </div>
 <!-- 헤더 -->
 
@@ -259,7 +294,7 @@ $(document).ready(function() {
 <div class="listDiv" id="gallery">
 	
 	<c:forEach var="gall" items="${restList}">
-		<div class="galleryDiv">
+		<div class="galleryDiv" onclick="clickRest('${gall.restId}');">
 			<c:if test="${gall.restFile != null}">
 				<c:set var="gallFile" value="${fn:split(gall.restFile, '/')}"/>
 				<img src="/business/showImg?img=${gallFile[0]}" width="200px" height="200px"> 
@@ -300,6 +335,7 @@ var listData = [];
 
 <c:forEach var="rlist" items="${restList}" varStatus="no">
 	var data = {};
+	data.id = "${rlist.restId}";
 	data.name = "${rlist.restName}";
 	data.addr = "${fn:split(rlist.restAddr, '/')[1]}";
 	listData.push(data);
@@ -331,6 +367,12 @@ for (let i = 0; i < listData.length; i++) {
 		 	// 이벤트 리스너로 클로저를 만들어 등록, for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트
 		 	kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
 		 	kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
+		 	
+		 	// 마커 클릭 이벤트
+		 	kakao.maps.event.addListener(marker, 'click', function (){
+		 	    var position = this.getPosition();
+		 	    alert(listData[i].id);
+		 	});
 // 		}
 	});
 }
