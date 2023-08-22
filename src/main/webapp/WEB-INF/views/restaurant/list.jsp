@@ -207,6 +207,7 @@ $(document).ready(function() {
 // 갤러리형 리스트에서 가게 클릭 시 상세 페이지 이동
 function clickRest(restId) {
 	alert(restId + ' 가게 클릭!');
+	location.href = '${contextPath}/restaurant/information/' + restId;
 }
 
 </script>
@@ -318,7 +319,6 @@ function clickRest(restId) {
 
 
 <!-- 카카오맵 api -->
-<!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=02702b58782cdab139188ebec921d82e&libraries=services"></script> -->
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=02702b58782cdab139188ebec921d82e&libraries=services,clusterer,drawing"></script>
 <script>
 
