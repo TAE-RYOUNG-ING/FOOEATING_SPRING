@@ -38,4 +38,12 @@ public class RestaurantServiceImpl implements RestaurantService {
 		return rdao.getRestaurantList(category, city, query);
 	}
 	
+	
+	
+	// 2. 가게 상세 페이지
+	@Override
+	public RestaurantsVO getRestaurantInfo(String restId) throws Exception {
+		return rdao.getRestaurantInfo(restId);
+	}
+	
 }

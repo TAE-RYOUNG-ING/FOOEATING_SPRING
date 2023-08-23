@@ -23,4 +23,13 @@
 
 
 
+<!-- 가게 상세 페이지 -->
+<select id="getRestaurantInfo" resultType="RestaurantsVO">
+	SELECT * FROM restaurants 
+	WHERE restId = #{restId}
+</select>
+<!-- 가게 상세 페이지 -->
+
+
+
 </mapper>

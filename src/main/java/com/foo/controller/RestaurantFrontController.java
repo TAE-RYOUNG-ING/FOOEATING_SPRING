@@ -60,4 +60,23 @@ public class RestaurantFrontController {
 		return "/restaurant/list";
 	}
 	
+	
+	
+	// http://localhost:8088/restaurant/information
+	// 2. 가게 상세 페이지
+	@RequestMapping(value = "/information", method = RequestMethod.GET)
+	public String getRestaurantInfo(Model model, @ModelAttribute("rest") String rest) throws Exception {
+		logger.debug("@@@@@@@@@@@@@@@@ getRestaurantInfo() 실행");
+		logger.debug(rest + " : 상세 페이지");
+		
+		if (rest == null || rest == "") {
+			return "redirect:/restaurant/list";
+		}
+		
+		RestaurantsVO restInfo = rService.getRestaurantInfo(rest);
+		model.addAttribute("restInfo", restInfo);
+		
+		return "/restaurant/information";
+	}
+	
 }

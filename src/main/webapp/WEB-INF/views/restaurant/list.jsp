@@ -206,8 +206,7 @@ $(document).ready(function() {
 
 // 갤러리형 리스트에서 가게 클릭 시 상세 페이지 이동
 function clickRest(restId) {
-	alert(restId + ' 가게 클릭!');
-	location.href = '${contextPath}/restaurant/information/' + restId;
+	location.href = '${contextPath}/restaurant/information?rest=' + restId;
 }
 
 </script>
@@ -225,6 +224,7 @@ function clickRest(restId) {
 	<h1>FOOEATING_Restaurant_List</h1>
 </div>
 <!-- 헤더 -->
+
 
 
 <!-- 검색 -->
@@ -348,7 +348,7 @@ for (let i = 0; i < listData.length; i++) {
 	// 주소로 좌표 검색
 	geocoder.addressSearch(listData[i].addr, function(result, status) {
 		// 검색 성공
-// 		if (status === kakao.maps.service.Status.OK) {
+// 		if (status === kakao.maps.service.Status.OK) {								// Status -> undefined 되어 에러 발생 (주석 처리)
 			var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
 			listData[i].addr = coords;
 			
@@ -363,17 +363,11 @@ for (let i = 0; i < listData.length; i++) {
 				content : listData[i].name		// 인포윈도우에 표시할 내용
 			});
 
-		 	// 마커에 mouseover 이벤트와 mouseout 이벤트 등록
-		 	// 이벤트 리스너로 클로저를 만들어 등록, for문에서 클로저를 만들어 주지 않으면 마지막 마커에만 이벤트
+		 	// mouseover 이벤트, mouseout 이벤트, 페이지 이동 이벤트
 		 	kakao.maps.event.addListener(marker, 'mouseover', makeOverListener(map, marker, infowindow));
 		 	kakao.maps.event.addListener(marker, 'mouseout', makeOutListener(infowindow));
-		 	
-		 	// 마커 클릭 이벤트
-		 	kakao.maps.event.addListener(marker, 'click', function (){
-		 	    var position = this.getPosition();
-		 	    alert(listData[i].id);
-		 	});
-// 		}
+		 	kakao.maps.event.addListener(marker, 'click', makeClickListener(listData[i].id));
+// 		}																			// Status -> undefined 되어 에러 발생 (주석 처리)
 	});
 }
 
@@ -389,6 +383,13 @@ function makeOutListener(infowindow) {
 	return function() {
 		infowindow.close();
 	};
+}
+
+// 페이지 이동 이벤트
+function makeClickListener(restId) {
+	return function() {
+		window.location.href = '${contextPath}/restaurant/information?rest=' + restId;
+	}
 }
 
 </script>

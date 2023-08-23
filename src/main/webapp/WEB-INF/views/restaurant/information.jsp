@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -56,7 +58,19 @@ td {
 
 
 
+<!-- 헤더 -->
+<div class="center">
+	<a href="/main">
+		<img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200px" height="200px">
+	</a>
+	<h1>FOOEATING_Restaurant_Info</h1>
+</div>
+<!-- 헤더 -->
+
+
+
 <!--  -->
+${restInfo}
 
 
 
