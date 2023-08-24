@@ -93,7 +93,8 @@
 	margin-left: -144px;
 	text-align: left;
 	overflow: hidden; 
-	font-size: 12px; font-family: 'Malgun Gothic', dotum, '돋움', sans-serif;
+	font-size: 12px;
+/* 	font-family: 'Malgun Gothic', dotum, '돋움', sans-serif; */
 	line-height: 1.5;
 }
 
@@ -115,11 +116,16 @@
 	font-size: 18px; font-weight: bold;
 }
 
+.info .close {
+	position: absolute; color: #888;
+	top: 4px; right: 15px; width: 23px; height: 23px;
+}
+
 .info .close:hover { cursor: pointer; }
 
 .info .body { position: relative; overflow: hidden; }
 
-.info .desc { position: relative; margin: 13px 0 0 90px; height: 75px; }
+.info .desc { position: relative; margin: 5px 0 0 90px; height: 75px; }
 
 .desc .ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
@@ -388,7 +394,9 @@ var listData = [];
 	var data = {};
 	data.id = "${rlist.restId}";
 	data.name = "${rlist.restName}";
-	data.addr = "${fn:split(rlist.restAddr, '/')[1]}";
+	data.addr1 = "${fn:split(rlist.restAddr, '/')[0]}";
+	data.addr2 = "${fn:split(rlist.restAddr, '/')[1]}";
+	data.addr3 = "${fn:split(rlist.restAddr, '/')[2]}";
 	data.file = "${fn:split(rlist.restFile, '/')[0]}";
 	listData.push(data);
 </c:forEach>
@@ -398,7 +406,7 @@ var geocoder = new kakao.maps.services.Geocoder();
 
 for (let i = 0; i < listData.length; i++) {
 	// 주소로 좌표 검색
-	geocoder.addressSearch(listData[i].addr, function(result, status) {
+	geocoder.addressSearch(listData[i].addr2, function(result, status) {
 		// 검색 성공
 // 		if (status === kakao.maps.service.Status.OK) {								// Status -> undefined 되어 에러 발생 (주석 처리)
 			var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
@@ -415,45 +423,40 @@ for (let i = 0; i < listData.length; i++) {
 							'<div class="info">' +
 								'<div class="title">' +
 									'<a href="${contextPath}/restaurant/information?rest="' + listData[i].id + '>' + listData[i].name + '</a>' +
-									'<div class="close" onclick="closeOverlay()" title="닫기">✖️</div>' +
+									'<div class="close" onclick="colseOverlay(maker);" title="닫기">✖️</div>' +
 								'</div>' +
-							'</div>' +
-							'<div class="body">' +
-								'<div class="img">' +
-								'<img src="/business/showImg?img=' + listData[i].file + '" width="73" height="70">' + 
+								'<div class="body">' +
+									'<div class="img">' +
+									'<img src="/business/showImg?img=' + listData[i].file + '" width="73" height="70">' + 
+									'</div>' +
+									'<div class="desc">' +
+										'<div class="ellipsis">' + listData[i].addr1 + '<br>' + 
+											listData[i].addr2 + '<br>' + listData[i].addr3 + '</div>' +
+										'<div>' + '길찾기</div>' +
+									'</div>' +
 								'</div>' +
-								'<div class="desc">' +
-									'<div class="ellipsis">' + listData[i].addr + '</div>' +
-									'<div>' + '길찾기</div>' +
-								'</div>' +
-							'</div>' +
-						'</div>';
+							'</div>';
 			
 			// 마커에 커스텀 오버레이 표시
 			var overlay = new kakao.maps.CustomOverlay({
 				content : content,
-				map : map,
 				position : marker.getPosition()
 			});
 			
 			// 클릭 이벤트
-		 	kakao.maps.event.addListener(marker, 'click', openOverlay(map));
+		 	kakao.maps.event.addListener(marker, 'click', function() {
+		 		if (this.clickedOveray) {
+		 			this.clickedOveray.setMap(null);
+		 		}
+		 		overlay.setMap(map);
+		 		this.clickedOveray = overlay;
+			});
+			
+			kakao.maps.event.addListener(map, 'click', function() {
+				overlay.setMap(null);
+			})
 // 		}																			// Status -> undefined 되어 에러 발생 (주석 처리)
 	});
-}
-
-// 커스텀 오버레이를 여는 클로저 생성 함수
-function openOverlay(map) {
-	return function() {
-		overlay.setMap(map);
-	}
-}
-
-// 커스텀 오버레이를 닫는 클로저 생성 함수
-function closeOverlay() {
-	return function() {
-		overlay.setMap(null);
-	}
 }
 
 </script>
