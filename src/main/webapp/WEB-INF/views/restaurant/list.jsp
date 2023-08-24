@@ -410,40 +410,84 @@ for (let i = 0; i < listData.length; i++) {
 		// 검색 성공
 // 		if (status === kakao.maps.service.Status.OK) {								// Status -> undefined 되어 에러 발생 (주석 처리)
 			var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
-			listData[i].coder = coords;
+			listData[i].coder = coords.Ma + "," + coords.La;
 			
 			// 마커 생성
 			var marker = new kakao.maps.Marker({
 				map : map,						// 마커를 표시할 지도
-				position : listData[i].coder	// 마커의 위치
+				position : coords	// 마커의 위치
 			});
-			
-			// 커스텀 오버레이 컨텐츠
-			var content = '<div class="wrap">' +
-							'<div class="info">' +
-								'<div class="title">' +
-									'<a href="${contextPath}/restaurant/information?rest="' + listData[i].id + '>' + listData[i].name + '</a>' +
-									'<div class="close" onclick="colseOverlay(maker);" title="닫기">✖️</div>' +
-								'</div>' +
-								'<div class="body">' +
-									'<div class="img">' +
-									'<img src="/business/showImg?img=' + listData[i].file + '" width="73" height="70">' + 
-									'</div>' +
-									'<div class="desc">' +
-										'<div class="ellipsis">' + listData[i].addr1 + '<br>' + 
-											listData[i].addr2 + '<br>' + listData[i].addr3 + '</div>' +
-										'<div>' + '길찾기</div>' +
-									'</div>' +
-								'</div>' +
-							'</div>';
 			
 			// 마커에 커스텀 오버레이 표시
 			var overlay = new kakao.maps.CustomOverlay({
-				content : content,
 				position : marker.getPosition()
 			});
 			
-			// 클릭 이벤트
+			// 커스텀 오버레이 컨텐츠
+			let customContent = document.createElement("div");									// 오버레이 컨텐츠 시작
+			customContent.className = "wrap";
+			
+			let customInfo = document.createElement("div");										// 오버레이 컨텐츠 내용
+			customInfo.className = "info";
+			customContent.appendChild(customInfo);
+			
+			let customTitle = document.createElement("div");									// 오버레이 컨텐츠 타이틀
+			customTitle.className = "title";
+			customInfo.appendChild(customTitle);
+			
+			let customLink1 = document.createElement("a");
+			customLink1.setAttribute("href", "${contextPath}/restaurant/information?rest=" + listData[i].id);
+			customLink1.className = "link";
+			customLink1.appendChild(document.createTextNode(listData[i].name));
+			customTitle.appendChild(customLink1);
+			
+			let customClose = document.createElement("div");									// 오버레이 컨텐츠 닫기
+			customClose.className = "close";
+			customClose.setAttribute("title", "닫기");
+			customClose.appendChild(document.createTextNode("✖️"));
+			customClose.onclick = function() { overlay.setMap(null); };
+			customTitle.appendChild(customClose);
+			
+			let customBody = document.createElement("div");										// 오버레이 컨텐츠 바디 시작
+			customBody.className = "body";
+			customInfo.appendChild(customBody);
+			
+			let customImgDiv = document.createElement("div");									// 오버레이 컨텐츠 이미지 div
+			customImgDiv.className = "img";
+			customBody.appendChild(customImgDiv);
+			
+			let customImg = document.createElement("img");										// 오버레이 컨텐츠 이미지 출력
+			customImg.setAttribute("src", "/business/showImg?img=" + listData[i].file);
+			customImg.setAttribute("width", "73");
+			customImg.setAttribute("heigth", "70");
+			customImgDiv.appendChild(customImg);
+			
+			let customDesc = document.createElement("div");										// 오버레이 컨텐츠 주소 시작
+			customDesc.className = "desc";
+			customBody.appendChild(customDesc);
+			
+			let customAddr = document.createElement("div");										// 오버레이 컨텐츠 주소 출력
+			customAddr.className = "ellipsis";
+			customAddr.appendChild(document.createTextNode(listData[i].addr1));
+			customAddr.appendChild(document.createElement("br"));
+			customAddr.appendChild(document.createTextNode(listData[i].addr2));
+			customAddr.appendChild(document.createElement("br"));
+			customAddr.appendChild(document.createTextNode(listData[i].addr3));
+			customDesc.appendChild(customAddr);
+			
+			let customLink2Div = document.createElement("div");									// 오버레이 컨텐츠 길찾기
+			customDesc.appendChild(customLink2Div);
+			
+			let customLink2 = document.createElement("a");										// 오버레이 컨텐츠 길찾기 링크
+			customLink2.setAttribute("href", "https://map.kakao.com/link/to/" + listData[i].name + "," + listData[i].coder);
+			customLink2.setAttribute("target", "_blank");
+			customLink2.className = "link";
+			customLink2.appendChild(document.createTextNode("길찾기"));
+			customLink2Div.appendChild(customLink2);
+			
+			overlay.setContent(customContent);
+			
+			// 마커 클릭 시 해당 가게 오버레이
 		 	kakao.maps.event.addListener(marker, 'click', function() {
 		 		if (this.clickedOveray) {
 		 			this.clickedOveray.setMap(null);
@@ -452,9 +496,7 @@ for (let i = 0; i < listData.length; i++) {
 		 		this.clickedOveray = overlay;
 			});
 			
-			kakao.maps.event.addListener(map, 'click', function() {
-				overlay.setMap(null);
-			})
+		 	overlay.setMap(null);
 // 		}																			// Status -> undefined 되어 에러 발생 (주석 처리)
 	});
 }
