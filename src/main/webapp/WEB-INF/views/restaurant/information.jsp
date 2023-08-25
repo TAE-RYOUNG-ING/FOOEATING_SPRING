@@ -51,6 +51,9 @@ td {
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script type="text/javascript">
+$(document).ready(function() {
+	
+});
 </script>
 
 </head>
@@ -69,8 +72,18 @@ td {
 
 
 
-<!-- 상단 : 가게 이름, 별점, 찜 -->
+<!-- 상단 : 가게 사진, 가게 이름, 별점, 찜 -->
 <div>
+	<div class="slideshow">
+		<c:if test="${restInfo.restFile != null}">
+			<div class="mySlides fade">
+				<c:forEach var="file" items="${fn:split(restInfo.restFile, '/')}">
+					<img src="/business/showImg?img=${file}" height="400px" class="slideshow-image">
+				</c:forEach>
+			</div>
+		</c:if>
+	</div>
+	
 	<h2>${restInfo.restName}</h2>
 	<div>
 		<div>별점 ⭐⭐⭐⭐⭐</div>
@@ -81,7 +94,7 @@ td {
 
 <hr>
 
-<!-- 중단 : 가게 정보, 메뉴/리뷰/공지사항 탭 -->
+<!-- 중단 : 가게 정보, 편의시설, 메뉴, 가게소개/리뷰/공지사항 -->
 <div>
 	<div>
 		<div>${restInfo.restCategory}</div>
@@ -91,8 +104,18 @@ td {
 	</div>
 	
 	<div>
+		<p>CONVENIENCE</p>
+		<div>${restInfo.restConvenience}</div>
+	</div>
+	
+	<div>
+		<p>MENU</p>
+		<div>메뉴들...</div>
+	</div>
+	
+	<div>
 		<ul>
-			<li>MENU</li>
+			<li>INTRO</li>
 			<li>REVIEW</li>
 			<li>NOTICE</li>
 		</ul>
@@ -104,7 +127,8 @@ td {
 
 <!-- 하단 : 지도 -->
 <div>
-	<div id="map" style="width:100%; height:300px;"></div>
+	<p>LOCATION</p>
+	<div id="map" style="width:80%; height:300px; display: flex; justify-content: center;"></div>
 </div>
 <!-- 하단 -->
 
