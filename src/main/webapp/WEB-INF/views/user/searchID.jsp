@@ -64,7 +64,7 @@ $(function(){
 		
 		// 인증코드 발송
 		$.ajax({
-			url : '${contextPath}/business/emailCheck?email=' + userEmail,
+			url : '${contextPath}/user/emailCheck?email=' + userEmail,
 			type : 'get',
 			success : function(msg) {
 				$('#checkCode').attr('disabled', false);	// 인증코드 전송 후 입력창 활성화
@@ -124,40 +124,20 @@ $(function(){
 		
 		if(userEmail === ""){
 			$('#emailchk').html("");
+			$('#btnEmailSend').attr('disabled', true);
 		}
 		// 조건 O
 		else if(trueEmail.test(userEmail)){
-			$('#emailchk').html("");
-			
-			// 중복 체크
-			$.ajax({
-				url :'/user/emailOverlap',
-				type : 'post',
-				data : {"userEmail" : userEmail},
-				dataType : "json",
-				success : function(data){
-					if(data === 1){
-						isEmailChecked = true;
-						$('#btnEmailSend').attr('disabled', false);
-						$('#emailchk').html("사용 가능한 이메일 입니다.");
-						$('#emailchk').css('color', 'green');
-						$('#emailchk').css('font-size', '10px');
-					}else if(data === 0){
-						isEmailChecked = false;
-						$('#emailchk').html("이미 존재하는 이메일 입니다.");
-						$('#emailchk').css('color', 'red');
-						$('#emailchk').css('font-size', '10px');
-						$('#emailchk').focus();
-					}
-				},
-				error : function(){
-					alert("ajax Error");
-				}
-			}); // ajax
+			isEmailChecked = true;
+			$('#btnEmailSend').attr('disabled', false);
+			$('#emailchk').html("사용 가능한 이메일 입니다.");
+			$('#emailchk').css('color', 'green');
+			$('#emailchk').css('font-size', '10px');
 		}
 		// 조건 X
 		else if(!trueEmail.test(userEmail)){
 			isEmailChecked = false;
+			$('#btnEmailSend').attr('disabled', true);
 			$('#emailchk').html("잘못된 이메일 형식입니다.");
 			$('#emailchk').css('color', 'red');
 			$('#emailchk').css('font-size', '10px');
@@ -175,7 +155,7 @@ $(function(){
 		}
         else if($('#checkCode').val() === ""){
 			$('#checkCode').focus();
-			alert("이메일 인증 코드를 입력해 주세요.");
+			$('#authchk').html("이메일 인증 코드를 입력해 주세요.");
 			return false;
 		}
 		else if(!isEmailChecked){
@@ -190,25 +170,28 @@ $(function(){
 			return false;
 		}
 		else{
-			// 모든 조건 통과 시 데이터 전송
-// 			$.ajax({
-// 				url: '/user/join',
-// 				type: 'post',
-// 				data: {
-// 					"userId" : $('#userId').val(),
-// 					"userPw" : $('#userPw').val(),
-// 					"userName" : $('#userName').val(),
-// 					"userEmail" : $('#userEmail').val(),
-// 					"userTel" : $('#userTel').val(),
-// 				},
-// 				success: function(){
-// 					alert("회원가입이 완료되었습니다.");
-// 					location.href = "/user/login";
-// 				},
-// 				error: function(){
-// 					alert("ajax Error");
-// 				}
-// 			}); // ajax
+			// 모든 조건 통과
+			let checkData = "ID";
+			let userEmail = $('#userEmail').val();
+			
+			$.ajax({
+				url: '/user/noticeInfo',
+				type: 'post',
+				data: {
+					"userEmail" : userEmail,
+					"checkData" : checkData
+				},
+				success: function(data){
+					alert("이메일 인증 성공!");
+					alert("data = " + data);
+					// 자식창 닫으면서 부모창 이동
+					opener.document.location.href="/user/noticeInfo?data=" + data;
+					self.close();
+				},
+				error: function(){
+					alert("ajax Error");
+				}
+			}); // ajax
 
 	    } // else
 

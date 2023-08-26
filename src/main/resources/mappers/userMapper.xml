@@ -77,4 +77,13 @@
 
 
 
+<!-- ID & PW 찾기 -->
+<select id="searchIDPW" resultType="com.foo.domain.UserVO">
+	SELECT * FROM users
+	WHERE userEmail = #{userEmail};
+</select>
+<!-- ID & PW 찾기 -->
+
+
+
 </mapper>

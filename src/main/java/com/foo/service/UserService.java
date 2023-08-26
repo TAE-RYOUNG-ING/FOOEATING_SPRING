@@ -42,6 +42,22 @@ public interface UserService {
 	
 	
 	
+	// 5-1. 이메일 인증_랜덤 문자열 생성
+	public String randomString(int strLength) throws Exception;
+	
+	// 5-2. 이메일 인증_양식 설정
+	public void sendEmail(String fromEmail, String toEmail, String title, String content) throws Exception;
+	
+	// 5-3. 이메일 인증_전송
+	public String writeEmail(String email) throws Exception;
+	
+	
+	
+	// 6. ID & PW 찾기
+	public UserVO searchIDPW(String userEmail) throws Exception;
+	
+	
+	
 	
 	
 }
