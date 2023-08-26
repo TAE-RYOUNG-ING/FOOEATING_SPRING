@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,6 +31,15 @@
 .main {
 	width: 75%;
 	float: right;
+}
+
+.space {
+	text-align: right;
+}
+
+.space>img {
+	width: 70px;
+	margin-right: 20px;
 }
 
 .tabs { 
@@ -66,6 +77,71 @@
 	width: 0;
 	height: 2px;
 }
+
+#gallery {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	grid-gap: 20px;
+	justify-items: center;
+	align-items: center;
+}
+
+/* 마커 커스텀 오버레이 CSS */
+.wrap {
+	position: absolute;
+	left: 0; bottom: 40px; width: 288px; height: 132px;
+	margin-left: -144px;
+	text-align: left;
+	overflow: hidden; 
+	font-size: 12px;
+/* 	font-family: 'Malgun Gothic', dotum, '돋움', sans-serif; */
+	line-height: 1.5;
+}
+
+.wrap * { padding: 0; margin: 0; }
+
+.wrap .info {
+	width: 286px; height: 120px;
+	border-radius: 5px; border-bottom: 2px solid #ccc;
+	border-right: 1px solid #ccc;
+	overflow: hidden;
+	background: #fff;
+}
+
+.wrap .info:nth-child(1) { border: 0; box-shadow: 0px 1px 2px #888; }
+
+.info .title {
+	padding: 5px 0 0 10px; height: 30px;
+	background: #eee; border-bottom: 1px solid #ddd;
+	font-size: 18px; font-weight: bold;
+}
+
+.info .close {
+	position: absolute; color: #888;
+	top: 4px; right: 15px; width: 23px; height: 23px;
+}
+
+.info .close:hover { cursor: pointer; }
+
+.info .body { position: relative; overflow: hidden; }
+
+.info .desc { position: relative; margin: 5px 0 0 90px; height: 75px; }
+
+.desc .ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+.info .img {
+	position: absolute;
+	top: 6px; left: 5px; width: 73px; height: 71px;
+	border: 1px solid #ddd; color: #888; overflow: hidden;
+}
+
+.info:after {
+	content: ''; position: absolute; margin-left: -12px;
+	left: 50%; bottom: 0; width: 22px; height: 12px;
+	background: url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')
+}
+
+.info .link { color: #5085BB; }
 
 </style>
 
@@ -114,7 +190,81 @@ $(document).ready(function() {
 		}
 	});
 	
+	
+	
+	// 검색 후 유지
+	let urlParams = new URLSearchParams(window.location.search);
+	let category = urlParams.get('category');
+	let sido = urlParams.get('sido');
+	let sigungu = urlParams.get('sigungu');
+	let query = urlParams.get('query');
+	
+	if (category) {
+		$("#category").val(category);
+	}
+	if (sido) {
+		$("#addrSiDo").val(sido);
+		
+		$("#addrSiDo").on("change", function() {
+			let selectedCity = $(this).val();		// 선택된 시도 값
+			console.log(selectedCity);
+			let addrSiGunGu = $("#addrSiGunGu");	// 시군구 박스
+			addrSiGunGu.empty();					// 기존의 선택된 시군구 값 제거
+			addrSiGunGu.append('<option value="">' + (selectedCity !== '' ? selectedCity + ' 전체' : '지역을 선택해주세요.') + '</option>');
+			
+			let selectedCityData = cityData[selectedCity];	// 선택된 시도에 해당하는 시군구 배열 가져오기
+			
+			// 선택된 시군구 배열을 반복하며 옵션 추가
+			if (selectedCity !== '') {
+				for (var i = 0; i < selectedCityData.length; i++) {
+					let siGunGu = selectedCityData[i];
+					addrSiGunGu.append('<option value="' + siGunGu + '">' + siGunGu + '</option>');
+				}
+			}
+		});
+		if (sigungu) {
+			$("#addrSiGunGu").val(sigungu);
+		} else {
+			$("#addrSiGunGu").val();
+		}
+	}
+	if (query) {
+		$("#query").val(query);
+	}
+	
+	
+	
+	// 기본 - 갤러리형 리스트 (지도형 숨기기)
+	if (sessionStorage.getItem('listView') === 'mapTab') {
+		$("#map").show();
+		$("#gallery").hide();
+	} else {
+		$("#gallery").show();
+		$("#map").hide();
+	}
+	
+	// 갤러리형 탭 클릭
+	$("#galleryTab").click(function() {
+		$("#gallery").show();
+		$("#map").hide();
+		sessionStorage.setItem('listView', 'galleryTab');
+	});
+	
+	// 지도형 탭 클릭
+	$("#mapTab").click(function() {
+		$("#map").show();
+		$("#gallery").hide();
+		sessionStorage.setItem('listView', 'mapTab');
+	});
+	
 });
+
+
+
+// 갤러리형 리스트에서 가게 클릭 시 상세 페이지 이동
+function clickRest(restId) {
+	location.href = '${contextPath}/restaurant/information?rest=' + restId;
+}
 
 </script>
 
@@ -128,9 +278,10 @@ $(document).ready(function() {
 	<a href="/main">
 		<img src="${pageContext.request.contextPath}/resources/img/logo.png" width="200px" height="200px">
 	</a>
-	<h1>FOOEATING_Admin</h1>
+	<h1>FOOEATING_Restaurant_List</h1>
 </div>
 <!-- 헤더 -->
+
 
 
 <!-- 검색 -->
@@ -138,7 +289,7 @@ $(document).ready(function() {
 	<div class="tabs">
 		<div class="tab-nav">
 			<div class="tab">업종
-				<select name="category">
+				<select id="category" name="category">
 					<option value="">업종을 선택해주세요.</option>
 					<option value="한식">한식</option>
 					<option value="중식">중식</option>
@@ -176,7 +327,7 @@ $(document).ready(function() {
 				</select>
 			</div>
 			<div class="tab"> 
-				<input type="text" name="query" placeholder="상호명 또는 메뉴를 입력하세요.">
+				<input type="text" id="query" name="query" placeholder="상호명 또는 메뉴를 입력하세요.">
 			</div>
 			<div>
 				<input type="submit" id="btnSearch" value="검색">
@@ -188,7 +339,169 @@ $(document).ready(function() {
 
 
 
-${restList}
+<!-- 갤러리형 / 지도형 선택 탭 -->
+<div class="space">
+	<img src="${pageContext.request.contextPath}/resources/img/menu.png" id="galleryTab">
+	<img src="${pageContext.request.contextPath}/resources/img/map.png" id="mapTab">
+</div>
+<!-- 갤러리형 / 지도형 선택 탭 -->
+
+
+
+<!-- 갤러리형 리스트 -->
+<div class="listDiv" id="gallery">
+	
+	<c:forEach var="gall" items="${restList}">
+		<div class="galleryDiv" onclick="clickRest('${gall.restId}');">
+			<c:if test="${gall.restFile != null}">
+				<c:set var="gallFile" value="${fn:split(gall.restFile, '/')}"/>
+				<img src="/business/showImg?img=${gallFile[0]}" width="200px" height="200px"> 
+			</c:if>
+			<br>
+			${gall.restName}
+		</div>
+	</c:forEach>
+	
+</div>
+<!-- 갤러리형 리스트 -->
+
+
+
+<!-- 지도형 리스트 -->
+<div class="listDiv" id="map">
+	<div id="map" style="width:100%; height:500px;"></div>
+</div>
+<!-- 지도형 리스트 -->
+
+
+
+<!-- 카카오맵 api -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=02702b58782cdab139188ebec921d82e&libraries=services,clusterer,drawing"></script>
+<script>
+
+var mapContainer = document.getElementById('map'),	// 지도를 표시할 div  
+	mapOption = {
+		center : new kakao.maps.LatLng(35.1795543, 129.0756416),	// 지도의 중심좌표 (부산시청)
+		level : 8		// 지도의 확대 레벨
+	};
+
+var map = new kakao.maps.Map(mapContainer, mapOption);	// 지도 생성
+
+// 가게 데이터
+var listData = [];
+
+<c:forEach var="rlist" items="${restList}" varStatus="no">
+	var data = {};
+	data.id = "${rlist.restId}";
+	data.name = "${rlist.restName}";
+	data.addr1 = "${fn:split(rlist.restAddr, '/')[0]}";
+	data.addr2 = "${fn:split(rlist.restAddr, '/')[1]}";
+	data.addr3 = "${fn:split(rlist.restAddr, '/')[2]}";
+	data.file = "${fn:split(rlist.restFile, '/')[0]}";
+	listData.push(data);
+</c:forEach>
+
+// 주소-좌표 변환 객체 생성
+var geocoder = new kakao.maps.services.Geocoder();
+
+for (let i = 0; i < listData.length; i++) {
+	// 주소로 좌표 검색
+	geocoder.addressSearch(listData[i].addr2, function(result, status) {
+		// 검색 성공
+// 		if (status === kakao.maps.service.Status.OK) {								// Status -> undefined 되어 에러 발생 (주석 처리)
+			var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+			listData[i].coder = coords.Ma + "," + coords.La;
+			
+			// 마커 생성
+			var marker = new kakao.maps.Marker({
+				map : map,						// 마커를 표시할 지도
+				position : coords	// 마커의 위치
+			});
+			
+			// 마커에 커스텀 오버레이 표시
+			var overlay = new kakao.maps.CustomOverlay({
+				position : marker.getPosition()
+			});
+			
+			// 커스텀 오버레이 컨텐츠
+			let customContent = document.createElement("div");									// 오버레이 컨텐츠 시작
+			customContent.className = "wrap";
+			
+			let customInfo = document.createElement("div");										// 오버레이 컨텐츠 내용
+			customInfo.className = "info";
+			customContent.appendChild(customInfo);
+			
+			let customTitle = document.createElement("div");									// 오버레이 컨텐츠 타이틀
+			customTitle.className = "title";
+			customInfo.appendChild(customTitle);
+			
+			let customLink1 = document.createElement("a");
+			customLink1.setAttribute("href", "${contextPath}/restaurant/information?rest=" + listData[i].id);
+			customLink1.className = "link";
+			customLink1.appendChild(document.createTextNode(listData[i].name));
+			customTitle.appendChild(customLink1);
+			
+			let customClose = document.createElement("div");									// 오버레이 컨텐츠 닫기
+			customClose.className = "close";
+			customClose.setAttribute("title", "닫기");
+			customClose.appendChild(document.createTextNode("✖️"));
+			customClose.onclick = function() { overlay.setMap(null); };
+			customTitle.appendChild(customClose);
+			
+			let customBody = document.createElement("div");										// 오버레이 컨텐츠 바디 시작
+			customBody.className = "body";
+			customInfo.appendChild(customBody);
+			
+			let customImgDiv = document.createElement("div");									// 오버레이 컨텐츠 이미지 div
+			customImgDiv.className = "img";
+			customBody.appendChild(customImgDiv);
+			
+			let customImg = document.createElement("img");										// 오버레이 컨텐츠 이미지 출력
+			customImg.setAttribute("src", "/business/showImg?img=" + listData[i].file);
+			customImg.setAttribute("width", "73");
+			customImg.setAttribute("heigth", "70");
+			customImgDiv.appendChild(customImg);
+			
+			let customDesc = document.createElement("div");										// 오버레이 컨텐츠 주소 시작
+			customDesc.className = "desc";
+			customBody.appendChild(customDesc);
+			
+			let customAddr = document.createElement("div");										// 오버레이 컨텐츠 주소 출력
+			customAddr.className = "ellipsis";
+			customAddr.appendChild(document.createTextNode(listData[i].addr1));
+			customAddr.appendChild(document.createElement("br"));
+			customAddr.appendChild(document.createTextNode(listData[i].addr2));
+			customAddr.appendChild(document.createElement("br"));
+			customAddr.appendChild(document.createTextNode(listData[i].addr3));
+			customDesc.appendChild(customAddr);
+			
+			let customLink2Div = document.createElement("div");									// 오버레이 컨텐츠 길찾기
+			customDesc.appendChild(customLink2Div);
+			
+			let customLink2 = document.createElement("a");										// 오버레이 컨텐츠 길찾기 링크
+			customLink2.setAttribute("href", "https://map.kakao.com/link/to/" + listData[i].name + "," + listData[i].coder);
+			customLink2.setAttribute("target", "_blank");
+			customLink2.className = "link";
+			customLink2.appendChild(document.createTextNode("길찾기"));
+			customLink2Div.appendChild(customLink2);
+			
+			overlay.setContent(customContent);
+			
+			// 마커 클릭 시 해당 가게 오버레이
+		 	kakao.maps.event.addListener(marker, 'click', function() {
+		 		if (this.clickedOveray) {
+		 			this.clickedOveray.setMap(null);
+		 		}
+		 		overlay.setMap(map);
+		 		this.clickedOveray = overlay;
+			});
+			
+		 	overlay.setMap(null);
+// 		}																			// Status -> undefined 되어 에러 발생 (주석 처리)
+	});
+}
+
+</script>
 
 
 

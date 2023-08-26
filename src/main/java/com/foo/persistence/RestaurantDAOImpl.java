@@ -51,4 +51,13 @@ public class RestaurantDAOImpl implements RestaurantDAO {
 		return sqlSession.selectList(NAMESPACE + ".getRestaurantList", paramMap);
 	}
 	
+	
+	
+	// 2. 가게 상세 페이지
+	@Override
+	public RestaurantsVO getRestaurantInfo(String restId) throws Exception {
+		logger.debug("############### getRestaurantInfo 호출");
+		return sqlSession.selectOne(NAMESPACE + ".getRestaurantInfo", restId);
+	}
+	
 }
