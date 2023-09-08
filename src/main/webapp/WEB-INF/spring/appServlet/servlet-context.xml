@@ -15,6 +15,8 @@
 
 	<!-- Handles HTTP GET requests for /resources/** by efficiently serving up static resources in the ${webappRoot}/resources directory -->
 	<resources mapping="/resources/**" location="/resources/" />
+	<resources mapping="/assets/**" location="/resources/assets/" /> 
+	<resources mapping="/ad_assets/**" location="/resources/ad_assets/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -33,9 +35,11 @@
 	<!-- 파일업로드 설정 -->
 	
 	
+	
 	<!-- 외부 객체 등록 -->
 	<context:component-scan base-package="com.foo.controller" />
 	<!-- 외부 객체 등록 -->
+	
 	
 	
 </beans:beans>

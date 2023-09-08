@@ -33,4 +33,12 @@ public interface UserDAO {
 	public UserVO getKUserInfo(String userName) throws Exception;
 	
 	
+	
+	// 5. ID & PW 찾기
+	public UserVO searchIDPW(String userEmail) throws Exception;
+	
+	
+	
+	
+	
 }

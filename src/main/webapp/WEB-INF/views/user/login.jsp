@@ -201,9 +201,13 @@ function getCookie(cookieName) {
 	
 	
 	<!-- 아이디 / 비밀번호 찾기 -->
-	<a href="/user/searchInfo" class="searchInfo"
-	   onclick="window.open(this.href, '_blank', 'width=500, height=300, left=510, top=365'); return false;">
-	   아이디 / 비밀번호 찾기</a> <br><br>
+	<a href="/user/searchID" class="searchInfo"
+	   onclick="window.open(this.href, '_blank', 'width=700, height=470, left=510, top=365'); return false;">
+	   아이디 찾기 &nbsp;</a>
+	   |
+	<a href="/user/searchPW" class="searchInfo"
+  	   onclick="window.open(this.href, '_blank', 'width=700, height=550, left=510, top=365'); return false;">
+       &nbsp; 비밀번호 찾기</a> <br><br>
 	
 	
 	

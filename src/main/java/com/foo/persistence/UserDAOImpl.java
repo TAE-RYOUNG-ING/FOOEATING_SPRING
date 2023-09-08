@@ -82,8 +82,18 @@ public class UserDAOImpl implements UserDAO {
 		logger.debug("############### getKUserInfo_호출");
 		return sqlSession.selectOne(NAMESPACE + ".getKUserInfo", userName);
 	}
+
+
+
+	// 5. ID & PW 찾기
+	@Override
+	public UserVO searchIDPW(String userEmail) throws Exception {
+		return sqlSession.selectOne(NAMESPACE+".searchIDPW", userEmail);
+	}
 	
 
-
-
+	
+	
+	
+	
 }

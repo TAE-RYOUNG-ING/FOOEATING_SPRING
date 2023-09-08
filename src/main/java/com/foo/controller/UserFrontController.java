@@ -6,6 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -195,11 +197,25 @@ public class UserFrontController {
 	
 	
 	
-	// 4. 아이디 & 비밀번호 찾기
-	@RequestMapping(value = "/searchInfo", method = RequestMethod.GET)
-	public void searchInfoGET() {
+	// 4-1. 아이디 찾기
+	@RequestMapping(value = "/searchID", method = RequestMethod.GET)
+	public void searchIdGET() {
 		
-		logger.debug("@@@@@@@@@@@@@@@ searchInfoGET_호출");
+		logger.debug("@@@@@@@@@@@@@@@ searchIdGET_호출");
+	}
+	
+	// 4-2. 비밀번호 찾기
+	@RequestMapping(value = "/searchPW", method = RequestMethod.GET)
+	public void searchPwGET() {
+		
+		logger.debug("@@@@@@@@@@@@@@@ searchPwGET_호출");
+	}
+	
+	// 4-3. 이메일 인증
+	@RequestMapping(value = "/noticeInfo", method = RequestMethod.GET)
+	public void noticeInfoGET() {
+		
+		logger.debug("@@@@@@@@@@@@@@@ noticeInfoGET_호출");
 	}
 	
 	
@@ -214,6 +230,10 @@ public class UserFrontController {
 		
 		return "redirect:/main";
 	}
+	
+	
+	
+	
 	
 
 	
