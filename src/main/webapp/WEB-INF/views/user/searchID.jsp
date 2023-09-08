@@ -183,10 +183,29 @@ $(function(){
 				},
 				success: function(data){
 					alert("이메일 인증 성공!");
-					alert("data = " + data);
-					// 자식창 닫으면서 부모창 이동
-					opener.document.location.href="/user/noticeInfo?data=" + data;
+					alert("data : " + data);
+					
+					// form 동적으로 추가하기
+					let objs;
+					let form = document.createElement('form');
+
+					objs = document.createElement('input');
+					objs.setAttribute('type', 'hidden');
+					objs.setAttribute('name', 'data');
+					objs.setAttribute('value', data);
+
+					form.appendChild(objs);
+					form.setAttribute('method', 'post');
+					form.setAttribute('action', "/user/noticeInfo");
+					document.body.appendChild(form);
+
+					form.submit();
 					self.close();
+					
+					// 자식창 닫으면서 부모창 이동
+					// -> 팝업 말고 새창열기로 구현하기
+// 					opener.document.location.href="/user/noticeInfo";
+// 					self.close();
 				},
 				error: function(){
 					alert("ajax Error");
